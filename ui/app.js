@@ -2,11 +2,11 @@
  * Hub-Securite shell — Dashboard boot + lazy modules + sidebar collapsible.
  */
 const TITLES = {
-  dashboard: "L'Atelier PC — Sécurité",
-  fileguard: "L'Atelier PC — Sécurité [FileGuard]",
-  certview: "L'Atelier PC — Sécurité [CertView]",
-  reporadar: "L'Atelier PC — Sécurité [RepoRadar]",
-  winaudit: "L'Atelier PC — Sécurité [WinAudit]",
+  dashboard: "L'Atelier PC Command — Sécurité",
+  fileguard: "L'Atelier PC Command — Sécurité [FileGuard]",
+  certview: "L'Atelier PC Command — Sécurité [CertView]",
+  reporadar: "L'Atelier PC Command — Sécurité [RepoRadar]",
+  winaudit: "L'Atelier PC Command — Sécurité [WinAudit]",
 };
 
 const cache = Object.create(null);

@@ -28,7 +28,7 @@ from suite_launch import (  # noqa: E402
 )
 from window_chrome import WindowChromeMixin, create_tool_window  # noqa: E402
 
-HUB_TITLE = "L'Atelier PC — Sécurité"
+HUB_TITLE = "L'Atelier PC Command — Sécurité"
 DEFAULT_WIDTH = 1120
 DEFAULT_HEIGHT = 740
 
