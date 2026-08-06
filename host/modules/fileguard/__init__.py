@@ -1,0 +1,1 @@
+﻿"""FileGuard module — locks + ACL."""

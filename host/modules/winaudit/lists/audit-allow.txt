@@ -1,0 +1,53 @@
+# Chemins / éditeurs / process à ignorer (un motif par ligne, * = wildcard)
+# Commentaires avec #
+
+C:\Windows\*
+C:\Program Files\*
+C:\Program Files (x86)\*
+*\Microsoft\*
+*\Windows Defender\*
+*\WindowsApps\*
+*\Microsoft Visual Studio\*
+*\Google\Chrome\*
+*\Microsoft\Edge\*
+*\Mozilla Firefox\*
+*\Discord\*
+*\Steam\*
+*\NVIDIA\*
+*\AMD\*
+*\Intel\*
+*\Realtek\*
+*\Cursor\*
+*\WinAudit\*
+*\WinClean\*
+
+# Processus système connus (nom|chemin)
+svchost.exe|C:\Windows\System32\*
+RuntimeBroker.exe|C:\Windows\System32\*
+SearchHost.exe|*
+StartMenuExperienceHost.exe|*
+ShellExperienceHost.exe|*
+dwm.exe|C:\Windows\System32\*
+csrss.exe|C:\Windows\System32\*
+lsass.exe|C:\Windows\System32\*
+services.exe|C:\Windows\System32\*
+winlogon.exe|C:\Windows\System32\*
+explorer.exe|C:\Windows\*
+MsMpEng.exe|*
+NisSrv.exe|*
+SecurityHealthService.exe|*
+OneDrive.exe|*
+Widgets.exe|*
+ApplicationFrameHost.exe|*
+SystemSettings.exe|*
+Taskmgr.exe|*
+conhost.exe|*
+sihost.exe|*
+fontdrvhost.exe|*
+ctfmon.exe|*
+dllhost.exe|*
+WmiPrvSE.exe|*
+spoolsv.exe|*
+SearchIndexer.exe|*
+smartscreen.exe|*
+TextInputHost.exe|*

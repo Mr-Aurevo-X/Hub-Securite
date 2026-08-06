@@ -7,3 +7,6 @@ dist/
 *.exe
 .DS_Store
 Thumbs.db
+
+host/modules/winaudit/logs/*.json
+

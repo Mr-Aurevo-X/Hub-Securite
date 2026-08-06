@@ -1,18 +1,22 @@
 # Hub-Securite — L'Atelier PC Command
 
-Hub catégorie **Sécurité** (Vague H1 / Couche A).
+Hub catégorie **Sécurité** — **Vague H6-A Couche B** (fusion in-process).
 
-- Dashboard d'accueil (KPIs lecture seule, zéro mutator)
-- Sidebar collapsible + Accueil persistant
-- Modules lazy-load Couche A (launch apps Atelier/Lab)
+## Modules
 
-- **FileGuard** : FileGuard
-- **CertView** : CertView
-- **RepoRadar** : RepoRadar
-- **WinAudit** : WinAudit
+| Module | Source fusionnée | ConfirmGate |
+|--------|------------------|-------------|
+| FileGuard | FileGuard | take_ownership |
+| CertView | CertView | — (lecture seule) |
+| RepoRadar | RepoRadar | — (fetch git local) |
+| WinAudit | WinAudit | — (audit lecture seule) |
+
+Dashboard = KPIs lecture seule. Fallback « Fenêtre dédiée » via `suite_launch`.
 
 ## Lancer
 
 ```bat
 Lancer.cmd
 ```
+
+Nécessite `pywebview`.

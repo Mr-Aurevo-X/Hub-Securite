@@ -1,0 +1,1 @@
+﻿"""WinAudit PowerShell bridge assets."""

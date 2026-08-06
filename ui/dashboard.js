@@ -81,10 +81,10 @@ export async function mount(root) {
     }
     grid.setAttribute("aria-busy", "false");
     grid.innerHTML = `
-      <div class="hub-kpi"><span class="label">Statut</span><span class="value">${esc(fmt(kpis.status))}</span></div>
-      <div class="hub-kpi"><span class="label">Audit</span><span class="value">${esc(fmt(kpis.note))}</span></div>
+      <div class="hub-kpi"><span class="label">Statut</span><span class="value">${esc(fmt(kpis.status || "ready"))}</span></div>
+      <div class="hub-kpi"><span class="label">Modules</span><span class="value">${esc(fmt(kpis.modules || 4))}</span></div>
       <div class="hub-kpi"><span class="label">Admin</span><span class="value">${kpis.admin ? "Oui" : "Non"}</span></div>
-      <div class="hub-kpi"><span class="label">Hub</span><span class="value">OK</span></div>
+      <div class="hub-kpi"><span class="label">Couche</span><span class="value">B H6-A</span></div>
     `;
     if (kpis.partial && kpis.error) {
       status.textContent = "KPIs partiels : " + kpis.error;

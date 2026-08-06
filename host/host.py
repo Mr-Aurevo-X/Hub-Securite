@@ -1,4 +1,4 @@
-"""Hub-Securite — host WebView2 (Vague H1 / Couche A)."""
+"""Hub-Securite — host WebView2 (Vague H6-A Couche B)."""
 
 from __future__ import annotations
 
@@ -14,6 +14,13 @@ _HOST_DIR = Path(__file__).resolve().parent
 if str(_HOST_DIR) not in sys.path:
     sys.path.insert(0, str(_HOST_DIR))
 
+from api_modules import (  # noqa: E402
+    CertViewApi,
+    FileGuardApi,
+    RepoRadarApi,
+    WinAuditApi,
+)
+from security import ConfirmGate  # noqa: E402
 from suite_launch import (  # noqa: E402
     launch_suite_app,
     resolve_suite_accent,
@@ -79,9 +86,12 @@ class DashboardApi:
         self._hub = hub
 
     def get_kpis(self) -> dict:
-        base = {"ok": True, "admin": is_admin(), "partial": False}
+        base = {"ok": True, "admin": is_admin(), "partial": False, "modules": 4, "status": "ready"}
         try:
-            data = _ps_json("$ErrorActionPreference='SilentlyContinue'\n[pscustomobject]@{\n  status = 'idle'\n  note = 'Findings cache H2+'\n} | ConvertTo-Json -Compress\n")
+            data = _ps_json(
+                "$ErrorActionPreference='SilentlyContinue'\n"
+                "[pscustomobject]@{ status = 'ready'; modules = 4 } | ConvertTo-Json -Compress\n"
+            )
             if isinstance(data, dict):
                 base.update(data)
         except Exception as exc:  # noqa: BLE001
@@ -93,63 +103,47 @@ class DashboardApi:
         return {"ok": True, "modules": self._hub.module_catalog()}
 
 
-class LaunchModuleApi:
-    """Couche A — lance les apps Atelier/Lab siblings."""
-
-    def __init__(self, hub: "Api", module_id: str, apps: list[str]) -> None:
-        self._hub = hub
-        self.module_id = module_id
-        self.apps = list(apps)
-
-    def list_apps(self) -> dict:
-        return {"ok": True, "module": self.module_id, "apps": self.apps}
-
-    def open_app(self, name: str = "") -> dict:
-        name = (name or "").strip()
-        if name not in self.apps:
-            return {"ok": False, "error": f"App hors module {self.module_id}: {name}"}
-        return launch_suite_app(name)
-
-
 class Api(WindowChromeMixin):
     def __init__(self) -> None:
         self._window: Any = None
         self._maximized = False
+        self._confirm = ConfirmGate(ttl_seconds=90.0)
         self.dashboard = DashboardApi(self)
-        self.fileguard = LaunchModuleApi(self, "fileguard", ["FileGuard"])
-        self.certview = LaunchModuleApi(self, "certview", ["CertView"])
-        self.reporadar = LaunchModuleApi(self, "reporadar", ["RepoRadar"])
-        self.winaudit = LaunchModuleApi(self, "winaudit", ["WinAudit"])
+        self.fileguard = FileGuardApi(self._confirm)
+        self.certview = CertViewApi()
+        self.reporadar = RepoRadarApi()
+        self.winaudit = WinAuditApi()
 
     def set_window(self, window: Any) -> None:
         WindowChromeMixin.set_window(self, window)
+        self.fileguard.set_window(window)
 
     def module_catalog(self) -> list[dict]:
         return [
-{
-    "id": "fileguard",
-    "label": "FileGuard",
-    "desc": "Ownership / garde fichiers",
-    "apps": self.fileguard.apps,
-},
-{
-    "id": "certview",
-    "label": "CertView",
-    "desc": "Certificats locaux",
-    "apps": self.certview.apps,
-},
-{
-    "id": "reporadar",
-    "label": "RepoRadar",
-    "desc": "Scan repos",
-    "apps": self.reporadar.apps,
-},
-{
-    "id": "winaudit",
-    "label": "WinAudit",
-    "desc": "Audit OS lecture seule",
-    "apps": self.winaudit.apps,
-},
+            {
+                "id": "fileguard",
+                "label": "FileGuard",
+                "desc": "Ownership / garde fichiers",
+                "apps": ["FileGuard"],
+            },
+            {
+                "id": "certview",
+                "label": "CertView",
+                "desc": "Certificats locaux",
+                "apps": ["CertView"],
+            },
+            {
+                "id": "reporadar",
+                "label": "RepoRadar",
+                "desc": "Scan repos",
+                "apps": ["RepoRadar"],
+            },
+            {
+                "id": "winaudit",
+                "label": "WinAudit",
+                "desc": "Audit OS lecture seule",
+                "apps": ["WinAudit"],
+            },
         ]
 
     def get_suite_accent(self) -> dict:
