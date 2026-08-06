@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>WinAudit - Rapport A4</title>
+<style>
+@page { size: A4; margin: 14mm 12mm; }
+:root {
+  --fg: #1a1d24;
+  --muted: #5a6474;
+  --accent: #0d7a62;
+  --line: #d0d5de;
+  --crit: #b91c1c;
+  --high: #c2410c;
+  --med: #a16207;
+  --low: #0f766e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--fg);
+  font-family: "Segoe UI", Calibri, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  background: #fff;
+}
+.sheet { max-width: 190mm; margin: 0 auto; padding: 8mm 0; }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+.brand { font-size: 22pt; font-weight: 700; letter-spacing: -0.02em; }
+.brand span { color: var(--accent); }
+.meta { text-align: right; color: var(--muted); font-size: 9pt; }
+.score {
+  font-size: 28pt; font-weight: 700; color: var(--accent); line-height: 1;
+}
+h2 {
+  font-size: 11pt;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 3px;
+  margin: 16px 0 8px;
+}
+.verdict { font-weight: 600; margin: 0 0 6px; }
+ul.check { margin: 0; padding-left: 18px; }
+ul.check li { margin: 3px 0; }
+.chain {
+  border-left: 3px solid var(--accent);
+  padding: 4px 0 4px 10px;
+  margin: 8px 0;
+  page-break-inside: avoid;
+}
+.chain h3 { margin: 0 0 2px; font-size: 11pt; }
+.chain p { margin: 0; color: var(--muted); font-size: 9.5pt; }
+table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+th, td {
+  border-bottom: 1px solid var(--line);
+  padding: 5px 4px;
+  text-align: left;
+  vertical-align: top;
+}
+th { color: var(--muted); font-weight: 600; font-size: 8pt; text-transform: uppercase; }
+.sev { font-weight: 700; }
+.sev-Critical { color: var(--crit); }
+.sev-High { color: var(--high); }
+.sev-Medium { color: var(--med); }
+.sev-Low, .sev-Info { color: var(--low); }
+.foot {
+  margin-top: 18px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 8pt;
+  color: var(--muted);
+}
+.toolbar {
+  position: sticky; top: 0; background: #f4f6f8; padding: 8px 12px;
+  border-bottom: 1px solid var(--line); display: flex; gap: 8px; align-items: center;
+}
+.toolbar button {
+  background: var(--accent); color: #fff; border: 0; padding: 8px 14px;
+  border-radius: 6px; font-weight: 600; cursor: pointer;
+}
+@media print {
+  .toolbar { display: none !important; }
+  .sheet { padding: 0; max-width: none; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button onclick="window.print()">Imprimer / PDF A4</button>
+  <span style="color:#5a6474;font-size:12px">Optimise pour format A4 — Ctrl+P</span>
+</div>
+<div class="sheet">
+  <header>
+    <div>
+      <div class="brand">Win<span>Audit</span> Pro</div>
+      <div style="color:var(--muted);font-size:9pt">Rapport A4 — lecture seule, heuristique locale</div>
+    </div>
+    <div class="meta">
+      <div class="score" id="scoreNum">-</div>
+      <div id="scoreLbl">Score</div>
+      <div id="when" style="margin-top:4px"></div>
+      <div id="host"></div>
+    </div>
+  </header>
+
+  <h2>Checklist espionnage</h2>
+  <p class="verdict" id="verdict"></p>
+  <ul class="check" id="checklist"></ul>
+
+  <h2>Chaines prioritaires</h2>
+  <div id="chains"></div>
+
+  <h2>Top findings</h2>
+  <table>
+    <thead><tr><th>Sev.</th><th>Cat.</th><th>Titre</th><th>Chemin / preuve</th></tr></thead>
+    <tbody id="findings"></tbody>
+  </table>
+
+  <h2>Diff baseline</h2>
+  <p id="diff" style="color:var(--muted);margin:0"></p>
+
+  <p class="foot">
+    WinAudit n'est pas un antivirus/EDR. Verifiez chaque signal avant toute action manuelle.
+    Genere localement — aucune collecte Mr-Aurevo-X ; aucun envoi de resultats.
+    (EN: Local report — no Mr-Aurevo-X collection; results stay on this PC.)
+    &copy; 2026 Mr-Aurevo-X
+  </p>
+</div>
+<script>
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function escapeAttr(s) { return escapeHtml(s).replace(/'/g, '&#39;'); }
+const DATA = /*__WINAUDIT_DATA__*/;
+const sevOrder = { Critical:0, High:1, Medium:2, Low:3, Info:4 };
+document.getElementById('scoreNum').textContent = DATA.Score.Score;
+document.getElementById('scoreLbl').textContent = DATA.Score.Label + ' / 100';
+document.getElementById('when').textContent = DATA.GeneratedAt || '';
+document.getElementById('host').textContent = (DATA.ComputerName || '') + ' / ' + (DATA.UserName || '');
+document.getElementById('diff').textContent = (DATA.Diff && DATA.Diff.Summary) ? DATA.Diff.Summary : 'Premier scan / pas de baseline.';
+
+const ck = document.getElementById('checklist');
+if (DATA.Checklist) {
+  document.getElementById('verdict').textContent = DATA.Checklist.Verdict || '';
+  (DATA.Checklist.Items || []).forEach(it => {
+    const li = document.createElement('li');
+    li.innerHTML = '<strong>[' + escapeHtml(it.Status) + ']</strong> ' + escapeHtml(it.Question) +
+      (it.Detail ? ' — <span style="color:#5a6474">' + escapeHtml(it.Detail) + '</span>' : '');
+    ck.appendChild(li);
+  });
+}
+
+const ch = document.getElementById('chains');
+(DATA.Chains || []).slice(0, 8).forEach(c => {
+  const d = document.createElement('div');
+  d.className = 'chain';
+  d.innerHTML = '<h3><span class="sev sev-' + escapeAttr(c.Severity) + '">[' + escapeHtml(c.Severity) + ']</span> ' +
+    escapeHtml(c.Title) + ' <span style="color:#5a6474;font-weight:400">(' + escapeHtml(c.Confidence) + '%)</span></h3>' +
+    '<p>' + escapeHtml(c.Narrative || '') + '</p>';
+  ch.appendChild(d);
+});
+if (!(DATA.Chains || []).length) {
+  ch.innerHTML = '<p style="color:#5a6474">Aucune chaine deduite.</p>';
+}
+
+const tb = document.getElementById('findings');
+const sorted = (DATA.Findings || []).slice().sort((a,b) =>
+  (sevOrder[a.Severity] ?? 9) - (sevOrder[b.Severity] ?? 9));
+sorted.slice(0, 25).forEach(f => {
+  const tr = document.createElement('tr');
+  const proof = f.Path || f.Evidence || '';
+  tr.innerHTML = '<td class="sev sev-' + escapeAttr(f.Severity) + '">' + escapeHtml(f.Severity) + '</td>' +
+    '<td>' + escapeHtml(f.Category) + '</td><td>' + escapeHtml(f.Title) + '</td>' +
+    '<td style="word-break:break-all;font-size:8pt;color:#5a6474">' + escapeHtml(proof) + '</td>';
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>
