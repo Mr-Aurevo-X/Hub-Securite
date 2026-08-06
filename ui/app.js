@@ -1,15 +1,19 @@
 /**
  * Hub-Securite shell — Dashboard boot + lazy modules + sidebar collapsible.
  */
+const HUB_NAME = "L'Atelier PC Command — Sécurité";
+
 const TITLES = {
-  dashboard: "L'Atelier PC Command — Sécurité",
-  fileguard: "L'Atelier PC Command — Sécurité [FileGuard]",
-  certview: "L'Atelier PC Command — Sécurité [CertView]",
-  reporadar: "L'Atelier PC Command — Sécurité [RepoRadar]",
-  winaudit: "L'Atelier PC Command — Sécurité [WinAudit]",
+  dashboard: HUB_NAME,
+  fileguard: `${HUB_NAME} [FileGuard]`,
+  certview:  `${HUB_NAME} [CertView]`,
+  reporadar: `${HUB_NAME} [RepoRadar]`,
+  winaudit:  `${HUB_NAME} [WinAudit]`,
 };
 
 const cache = Object.create(null);
+let currentView    = "dashboard";
+let currentSegment = "";
 
 function apiRoot() {
   return window.pywebview && window.pywebview.api;
@@ -25,8 +29,7 @@ async function waitApi(timeoutMs = 8000) {
   return apiRoot();
 }
 
-async function setTitle(viewId) {
-  const title = TITLES[viewId] || TITLES.dashboard;
+async function applyTitle(title) {
   document.title = title;
   const a = apiRoot();
   try {
@@ -34,6 +37,15 @@ async function setTitle(viewId) {
       await a.set_window_title(title);
     }
   } catch (_) {}
+}
+
+async function setTitle(viewId, segmentLabel) {
+  currentSegment = segmentLabel || "";
+  let title = TITLES[viewId] || TITLES.dashboard;
+  if (segmentLabel && viewId !== "dashboard") {
+    title = `${HUB_NAME} [${segmentLabel}]`;
+  }
+  await applyTitle(title);
 }
 
 function setActiveNav(viewId) {
@@ -55,6 +67,8 @@ async function showView(viewId) {
   const root = document.getElementById("hubView");
   if (!root) return;
 
+  currentView    = id;
+  currentSegment = "";
   setActiveNav(id);
   await setTitle(id);
   root.dataset.view = id;
@@ -74,7 +88,7 @@ async function showView(viewId) {
 
 function wireSidebar() {
   const shell = document.getElementById("hubShell");
-  const btn = document.getElementById("btnCollapse");
+  const btn   = document.getElementById("btnCollapse");
 
   document.getElementById("hubNav")?.addEventListener("click", (ev) => {
     const btnNav = ev.target.closest(".hub-nav-item");
@@ -107,3 +121,10 @@ if (document.readyState === "loading") {
 }
 
 window.HubShell = { showView };
+
+window.HubSecurite = {
+  showView,
+  setSegmentTitle(label) {
+    setTitle(currentView, label);
+  },
+};

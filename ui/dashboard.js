@@ -1,6 +1,33 @@
 /**
- * Dashboard home — KPIs lecture seule + tuiles modules (zéro mutator).
+ * Hub-Securite Dashboard — KPIs lecture seule + tuiles modules (zéro mutator).
  */
+
+const MODULES = [
+  {
+    id: "fileguard",
+    label: "FileGuard",
+    icon: "🔒",
+    desc: "Verrous de fichiers, audit ACL NTFS, prise de possession.",
+  },
+  {
+    id: "certview",
+    label: "CertView",
+    icon: "📋",
+    desc: "Certificats CurrentUser\\My — sujets, émetteurs, expirations.",
+  },
+  {
+    id: "reporadar",
+    label: "RepoRadar",
+    icon: "📡",
+    desc: "Scan repos Git locaux : branches, dirty, ahead/behind.",
+  },
+  {
+    id: "winaudit",
+    label: "WinAudit",
+    icon: "🔍",
+    desc: "Audit OS heuristique lecture seule — score, findings, réseau, chaînes.",
+  },
+];
 
 function esc(s) {
   return String(s == null ? "" : s)
@@ -23,7 +50,7 @@ export async function mount(root) {
   root.innerHTML = `
     <header class="hub-page-header">
       <h1>Sécurité</h1>
-      <p>Dashboard lecture seule · hub sécurité</p>
+      <p>Hub sécurité — lecture seule · L'Atelier PC Command</p>
     </header>
     <div class="hub-kpi-grid" id="kpiGrid" aria-busy="true">
       <div class="hub-skel kpi"></div>
@@ -37,33 +64,17 @@ export async function mount(root) {
   `;
 
   const a = api();
-  let modules = [];
-  try {
-    if (a?.dashboard?.list_modules) {
-      const res = await a.dashboard.list_modules();
-      modules = (res && res.modules) || [];
-    }
-  } catch (_) {}
 
-  if (!modules.length) {
-    modules = [
-      { id: "fileguard", label: "FileGuard", desc: "Ownership / garde fichiers" },
-      { id: "certview", label: "CertView", desc: "Certificats locaux" },
-      { id: "reporadar", label: "RepoRadar", desc: "Scan repos" },
-      { id: "winaudit", label: "WinAudit", desc: "Audit OS lecture seule" }
-    ];
-  }
-
+  // ── Tiles ──────────────────────────────────────────────────────────────────
   const tiles = document.getElementById("tileGrid");
-  tiles.innerHTML = modules
-    .map(
-      (m) => `
+  tiles.innerHTML = MODULES.map(
+    (m) => `
       <button type="button" class="hub-tile" data-open="${esc(m.id)}">
+        <span style="font-size:1.5rem;margin-bottom:.15rem">${m.icon}</span>
         <strong>${esc(m.label)}</strong>
-        <span>${esc(m.desc || "")}</span>
+        <span>${esc(m.desc)}</span>
       </button>`
-    )
-    .join("");
+  ).join("");
 
   tiles.addEventListener("click", (ev) => {
     const btn = ev.target.closest("[data-open]");
@@ -72,28 +83,47 @@ export async function mount(root) {
     if (id && window.HubShell?.showView) window.HubShell.showView(id);
   });
 
-  const grid = document.getElementById("kpiGrid");
+  // ── KPIs ───────────────────────────────────────────────────────────────────
+  const grid   = document.getElementById("kpiGrid");
   const status = document.getElementById("dashStatus");
+
   try {
-    let kpis = { ok: true, admin: false };
+    let kpis = { ok: true, admin: false, modules: 4, status: "ready" };
     if (a?.dashboard?.get_kpis) {
       kpis = await a.dashboard.get_kpis();
     }
+
+    const adminLabel = kpis.admin ? "✓ Admin" : "Limité";
+    const lastAudit  = kpis.last_audit || kpis.lastAudit || null;
+    const findings   = kpis.findings_count ?? kpis.findingsCount ?? null;
+
     grid.setAttribute("aria-busy", "false");
     grid.innerHTML = `
-      <div class="hub-kpi"><span class="label">Statut</span><span class="value">${esc(fmt(kpis.status || "ready"))}</span></div>
-      <div class="hub-kpi"><span class="label">Modules</span><span class="value">${esc(fmt(kpis.modules || 4))}</span></div>
-      <div class="hub-kpi"><span class="label">Admin</span><span class="value">${kpis.admin ? "Oui" : "Non"}</span></div>
-      <div class="hub-kpi"><span class="label">Couche</span><span class="value">B H6-A</span></div>
+      <div class="hub-kpi">
+        <span class="label">Statut</span>
+        <span class="value" style="font-size:.95rem">${esc(fmt(kpis.status || "ready"))}</span>
+      </div>
+      <div class="hub-kpi">
+        <span class="label">Modules</span>
+        <span class="value">${esc(fmt(kpis.modules || 4))}</span>
+      </div>
+      <div class="hub-kpi">
+        <span class="label">Droits</span>
+        <span class="value" style="font-size:.95rem;color:${kpis.admin ? "var(--ok,#3dd68c)" : "var(--muted)"}">${esc(adminLabel)}</span>
+      </div>
+      <div class="hub-kpi">
+        <span class="label">${lastAudit ? "Dernier audit" : findings != null ? "Findings" : "Couche"}</span>
+        <span class="value" style="font-size:.95rem">${esc(lastAudit ? fmt(lastAudit) : findings != null ? fmt(findings) : "H7")}</span>
+      </div>
     `;
+
     if (kpis.partial && kpis.error) {
       status.textContent = "KPIs partiels : " + kpis.error;
-    } else {
-      status.textContent = "";
     }
   } catch (e) {
     grid.setAttribute("aria-busy", "false");
-    grid.innerHTML = `<div class="hub-kpi"><span class="label">KPIs</span><span class="value">—</span></div>`;
-    status.textContent = "KPIs indisponibles (API ou bridge).";
+    grid.innerHTML = `
+      <div class="hub-kpi"><span class="label">Sécurité</span><span class="value">—</span></div>`;
+    status.textContent = "KPIs indisponibles.";
   }
 }
