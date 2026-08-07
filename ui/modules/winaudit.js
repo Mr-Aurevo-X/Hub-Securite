@@ -2,6 +2,9 @@
  * WinAudit — native in-hub (no iframe).
  * Bridge: pywebview.api.winaudit.*
  * Segments: Aperçu OS / Heuristique / Réseau / Chaînes / Logs
+ *
+ * Action bar lives OUTSIDE hub-inhub-body so segment swaps never wipe
+ * Lancer le scan / Exporter / Rapport A4 / Whitelist (SoT parity).
  */
 import { mountModuleShell, waitNs, esc, unwrapData, pollUntil } from "./_in_hub.js";
 
@@ -19,7 +22,14 @@ export async function mount(root) {
     { id: "logs",      label: "Logs" },
   ];
 
-  const { body, setStatus, setProgress: setShellProgress, setSegment, getSegment } = mountModuleShell(root, {
+  const {
+    shell,
+    body,
+    setStatus,
+    setProgress: setShellProgress,
+    setSegment,
+    getSegment,
+  } = mountModuleShell(root, {
     title: "WinAudit",
     subtitle: "Audit OS heuristique — lecture seule",
     segments: SEGS,
@@ -36,29 +46,21 @@ export async function mount(root) {
   let busy        = false;
   let logLines    = [];
 
-  // ── Persistent toolbar (injected before body content) ───────────────────────
+  // Persistent action bar — sibling ABOVE body (survives body.innerHTML clears)
   const toolbar = document.createElement("div");
-  toolbar.className = "panel";
-  toolbar.style.flexShrink = "0";
+  toolbar.className = "panel hub-inhub-actions";
+  toolbar.setAttribute("data-role", "wa-actions");
   toolbar.innerHTML = `
     <div class="toolbar-row">
       <button type="button" class="btn accent" id="waScan">Lancer le scan</button>
-      <button type="button" class="btn ghost" id="waCancel" hidden>Annuler</button>
-      <button type="button" class="btn ghost" id="waExport" disabled>Exporter rapport</button>
+      <button type="button" class="btn danger" id="waCancel" hidden>Annuler le scan</button>
+      <button type="button" class="btn ghost" id="waExport" disabled title="JSON · TXT · HTML">Exporter rapport</button>
       <button type="button" class="btn ghost" id="waPrint" disabled>Rapport A4</button>
       <button type="button" class="btn ghost" id="waWl">Whitelist</button>
     </div>
     <div class="progress-bar" id="waProgress" style="margin-top:8px"><i id="waProgressBar" style="width:0%"></i></div>
     <p class="meta" id="waProgressLabel" style="margin-top:4px"></p>`;
-
-  // Segment content area
-  const segArea = document.createElement("div");
-  segArea.style.cssText = "flex:1;min-height:0;display:flex;flex-direction:column;gap:.65rem;overflow:hidden";
-  segArea.id = "waSegArea";
-
-  body.style.overflow = "hidden";
-  body.appendChild(toolbar);
-  body.appendChild(segArea);
+  body.parentNode.insertBefore(toolbar, body);
 
   // Whitelist modal
   const wlModal = document.createElement("div");
@@ -67,14 +69,14 @@ export async function mount(root) {
   wlModal.innerHTML = `
     <div class="wl-box">
       <h3 style="font-size:.95rem;font-weight:650">Whitelist</h3>
-      <p class="meta">Un motif par ligne. Ex: *\\Chrome\\* ou chrome|*\\chrome.exe</p>
+      <p class="meta">Un motif par ligne. Ex: *\\Chrome\\* ou chrome|*\\chrome.exe — actif au prochain scan.</p>
       <textarea id="waWlText" rows="8"></textarea>
       <div class="btn-row">
         <button type="button" class="btn ghost" id="waWlClose">Fermer</button>
-        <button type="button" class="btn accent" id="waWlSave">Sauvegarder</button>
+        <button type="button" class="btn accent" id="waWlSave">Sauver</button>
       </div>
     </div>`;
-  root.querySelector(".hub-inhub").appendChild(wlModal);
+  shell.appendChild(wlModal);
 
   // ── DOM refs ────────────────────────────────────────────────────────────────
   const btnScan    = toolbar.querySelector("#waScan");
@@ -89,14 +91,17 @@ export async function mount(root) {
   function addLog(msg, level) {
     const ts = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
     logLines.push({ ts, msg, level });
-    if (getSegment() === "logs") renderLogsContent(segArea);
+    if (getSegment() === "logs") renderLogsContent(body);
   }
 
   function setProgress(pct, label) {
     const n = Math.max(0, Math.min(100, Number(pct) || 0));
     progressBar.style.width = n + "%";
     progressLabel.textContent = label || "";
-    if (setShellProgress) setShellProgress(n, label || "");
+    if (setShellProgress) {
+      if (!label && n <= 0) setShellProgress(0, "");
+      else setShellProgress(n, label || "");
+    }
   }
 
   function scoreOf(res) {
@@ -105,12 +110,19 @@ export async function mount(root) {
     return Number(s.Score ?? s.score ?? res.scoreValue ?? 0) || 0;
   }
 
+  function syncExportButtons() {
+    const has = !!result && !busy;
+    btnExport.disabled = !has;
+    btnPrint.disabled = !has;
+  }
+
   function setBusy(on) {
     busy = on;
     btnScan.disabled   = on;
     btnCancel.hidden   = !on;
-    btnExport.disabled = on || !result;
-    btnPrint.disabled  = on || !result;
+    btnCancel.disabled = false;
+    btnWl.disabled     = on;
+    syncExportButtons();
   }
 
   // ── API helpers ─────────────────────────────────────────────────────────────
@@ -271,7 +283,8 @@ export async function mount(root) {
           <div class="search-wrap">
             <input type="search" id="waNetSearch" placeholder="Processus / IP / estimation…" autocomplete="off" />
           </div>
-          <button type="button" class="btn ghost" id="waRefreshNet">Actualiser</button>
+          <button type="button" class="btn ghost" id="waRefreshNet">Actualiser connexions</button>
+          <button type="button" class="btn ghost" id="waOpenNetMap">Voir en live (NetMap)</button>
         </div>
         <p class="meta" id="waNetStats"></p>
       </div>
@@ -288,6 +301,7 @@ export async function mount(root) {
     const dirSel  = el.querySelector("#waNetDir");
     const search  = el.querySelector("#waNetSearch");
     const btnRef  = el.querySelector("#waRefreshNet");
+    const btnNetMap = el.querySelector("#waOpenNetMap");
     const tbody   = el.querySelector("#waNetBody");
     const empty   = el.querySelector("#waNetEmpty");
     const stats   = el.querySelector("#waNetStats");
@@ -344,6 +358,27 @@ export async function mount(root) {
     dirSel.addEventListener("change", render);
     search.addEventListener("input", render);
     btnRef.addEventListener("click", refreshNet);
+    if (btnNetMap) {
+      btnNetMap.addEventListener("click", async () => {
+        try {
+          const bridge = window.pywebview && window.pywebview.api;
+          if (!bridge || typeof bridge.open_suite_app !== "function") {
+            addLog("API open_suite_app indisponible.", "err");
+            setStatus("Impossible d'ouvrir NetMap", "error");
+            return;
+          }
+          const res = await bridge.open_suite_app("NetMap");
+          if (!res || !res.ok) {
+            addLog((res && res.error) || "Échec ouverture NetMap", "err");
+            setStatus("NetMap indisponible", "error");
+          } else {
+            addLog("NetMap lancé.", "ok");
+          }
+        } catch (e) {
+          addLog(String(e.message || e), "err");
+        }
+      });
+    }
     render();
   }
 
@@ -386,16 +421,18 @@ export async function mount(root) {
   }
 
   async function renderSegment(segId, el) {
-    el.innerHTML = "";
-    if (segId === "overview")  renderOverviewContent(el);
-    else if (segId === "findings") renderFindingsContent(el);
-    else if (segId === "reseau")   renderReseauContent(el);
-    else if (segId === "chains")   renderChainsContent(el);
-    else if (segId === "logs")     renderLogsContent(el);
+    // Segment content only — action bar is outside body and must not be cleared.
+    const host = el || body;
+    host.innerHTML = "";
+    if (segId === "overview")  renderOverviewContent(host);
+    else if (segId === "findings") renderFindingsContent(host);
+    else if (segId === "reseau")   renderReseauContent(host);
+    else if (segId === "chains")   renderChainsContent(host);
+    else if (segId === "logs")     renderLogsContent(host);
   }
 
   function refreshCurrentSeg() {
-    renderSegment(getSegment(), segArea);
+    renderSegment(getSegment(), body);
   }
 
   // ── Scan lifecycle ──────────────────────────────────────────────────────────
@@ -465,15 +502,40 @@ export async function mount(root) {
     }
   }
 
-  // ── Export ──────────────────────────────────────────────────────────────────
+  // ── Export (read-only — JSON / TXT / HTML via bridge.run) ───────────────────
+  async function openExportedPath(path) {
+    if (!path) return;
+    try {
+      if (api?.open_path) {
+        await api.open_path(path);
+        return;
+      }
+      const bridge = window.pywebview && window.pywebview.api;
+      if (bridge?.open_path) await bridge.open_path(path);
+    } catch (_) { /* log path only */ }
+  }
+
   async function exportReport(print) {
-    if (!api?.run) return;
+    if (!api?.run || !result) {
+      setStatus("Aucun scan à exporter", "error");
+      return;
+    }
+    setStatus(print ? "Génération rapport A4…" : "Export rapport…");
     try {
       const data = await apiRun(print ? "exportPrint" : "exportReport");
-      addLog((print ? "A4: " : "Export: ") + data.Html, "ok");
-      if (api.open_path) await api.open_path(data.Html);
+      if (print) {
+        addLog("Rapport A4: " + (data.Html || ""), "ok");
+        await openExportedPath(data.Html);
+      } else {
+        if (data.Html) addLog("Export HTML: " + data.Html, "ok");
+        if (data.Json) addLog("Export JSON: " + data.Json, "ok");
+        if (data.Txt)  addLog("Export TXT: " + data.Txt, "ok");
+        await openExportedPath(data.Html || data.Json || data.Txt);
+      }
+      setStatus("Prêt — rapport généré", "ok");
     } catch (e) {
-      addLog(String(e), "err");
+      addLog(String(e.message || e), "err");
+      setStatus("Export échoué", "error");
     }
   }
 
@@ -507,6 +569,9 @@ export async function mount(root) {
   wlModal.addEventListener("click", (e) => { if (e.target === wlModal) wlModal.hidden = true; });
 
   // ── Initial boot ────────────────────────────────────────────────────────────
+  setStatus("Prêt — lecture seule");
+  syncExportButtons();
+
   if (api) {
     try {
       const ping = await apiRun("ping");
@@ -520,6 +585,7 @@ export async function mount(root) {
           const sc = scoreOf(result);
           addLog(sc ? `Dernier scan rechargé — score ${sc}/100.` : "Dernier scan rechargé.", "ok");
           setStatus(sc ? `Dernier scan — score ${sc}/100` : "Dernier scan chargé");
+          syncExportButtons();
         } catch (_) {}
       }
     } catch (e) {
@@ -527,6 +593,8 @@ export async function mount(root) {
     }
   } else {
     addLog("API winaudit indisponible.", "err");
+    setStatus("API winaudit indisponible", "error");
+    btnScan.disabled = true;
   }
 
   await setSegment("overview", { silent: false });

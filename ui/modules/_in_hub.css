@@ -34,6 +34,14 @@
   flex-shrink: 0;
 }
 
+/* Persistent module action bar (above body — survives segment swaps) */
+.hub-inhub .hub-inhub-actions {
+  flex-shrink: 0;
+  position: sticky;
+  top: 2.6rem;
+  z-index: 4;
+}
+
 .hub-inhub .hub-inhub-body {
   display: flex;
   flex-direction: column;
