@@ -1,7 +1,7 @@
 /**
  * WinAudit — native in-hub (no iframe).
  * Bridge: pywebview.api.winaudit.*
- * Segments: Aperçu OS / Heuristique / Réseau / Chaînes / Logs
+ * Segments: Aperçu OS / Heuristique / Réseau / Chaînes / Timeline / Logs
  *
  * Action bar lives OUTSIDE hub-inhub-body so segment swaps never wipe
  * Lancer le scan / Exporter / Rapport A4 / Whitelist (SoT parity).
@@ -13,12 +13,28 @@ const SEV_COLORS = {
   Critical: "#e03545", High: "#fb923c", Medium: "#e0a84a", Low: "#3dd68c", Info: "#9a9aa3",
 };
 
+let chartJsPromise = null;
+function ensureChartJs() {
+  if (typeof window.Chart !== "undefined") return Promise.resolve(window.Chart);
+  if (chartJsPromise) return chartJsPromise;
+  chartJsPromise = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "./vendor/chart.umd.min.js";
+    s.async = true;
+    s.onload = () => (window.Chart ? resolve(window.Chart) : reject(new Error("Chart.js load failed")));
+    s.onerror = () => reject(new Error("Chart.js introuvable (ui/vendor/chart.umd.min.js)"));
+    document.head.appendChild(s);
+  });
+  return chartJsPromise;
+}
+
 export async function mount(root) {
   const SEGS = [
     { id: "overview",  label: "Aperçu OS" },
     { id: "findings",  label: "Heuristique" },
     { id: "reseau",    label: "Réseau" },
     { id: "chains",    label: "Chaînes" },
+    { id: "timeline",  label: "Timeline" },
     { id: "logs",      label: "Logs" },
   ];
 
@@ -45,6 +61,8 @@ export async function mount(root) {
   let connections = [];
   let busy        = false;
   let logLines    = [];
+  let chartSev    = null;
+  let chartCat    = null;
 
   // Persistent action bar — sibling ABOVE body (survives body.innerHTML clears)
   const toolbar = document.createElement("div");
@@ -62,7 +80,7 @@ export async function mount(root) {
     <p class="meta" id="waProgressLabel" style="margin-top:4px"></p>`;
   body.parentNode.insertBefore(toolbar, body);
 
-  // Whitelist modal
+  // Whitelist modal (local allow-list config — not a system mutator / no ConfirmGate)
   const wlModal = document.createElement("div");
   wlModal.className = "wl-modal";
   wlModal.hidden = true;
@@ -87,6 +105,13 @@ export async function mount(root) {
   const progressBar = toolbar.querySelector("#waProgressBar");
   const progressLabel = toolbar.querySelector("#waProgressLabel");
 
+  function destroyCharts() {
+    try { if (chartSev) chartSev.destroy(); } catch (_) {}
+    try { if (chartCat) chartCat.destroy(); } catch (_) {}
+    chartSev = null;
+    chartCat = null;
+  }
+
   // ── Log helper ──────────────────────────────────────────────────────────────
   function addLog(msg, level) {
     const ts = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -108,6 +133,15 @@ export async function mount(root) {
     if (!res) return 0;
     const s = res.Score || res.score || {};
     return Number(s.Score ?? s.score ?? res.scoreValue ?? 0) || 0;
+  }
+
+  function countSev(findings) {
+    const c = { Critical: 0, High: 0, Medium: 0, Low: 0, Info: 0 };
+    (findings || []).forEach((f) => {
+      if (c[f.Severity] != null) c[f.Severity]++;
+      else c.Info++;
+    });
+    return c;
   }
 
   function syncExportButtons() {
@@ -133,16 +167,75 @@ export async function mount(root) {
     return res.data;
   }
 
+  async function paintOverviewCharts(el, findings) {
+    const sevCanvas = el.querySelector("#waChartSev");
+    const catCanvas = el.querySelector("#waChartCat");
+    if (!sevCanvas || !catCanvas) return;
+    try {
+      const Chart = await ensureChartJs();
+      Chart.defaults.color = "#9a9aa3";
+      Chart.defaults.borderColor = "rgba(255,255,255,0.07)";
+      destroyCharts();
+
+      const sev = countSev(findings);
+      const sevLabels = Object.keys(sev);
+      chartSev = new Chart(sevCanvas, {
+        type: "doughnut",
+        data: {
+          labels: sevLabels,
+          datasets: [{
+            data: sevLabels.map((k) => sev[k]),
+            backgroundColor: sevLabels.map((k) => SEV_COLORS[k] || "#9a9aa3"),
+            borderWidth: 0,
+          }],
+        },
+        options: {
+          plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 11 } } } },
+          cutout: "62%",
+        },
+      });
+
+      const cats = {};
+      (findings || []).forEach((f) => {
+        const k = f.Category || "Autre";
+        cats[k] = (cats[k] || 0) + 1;
+      });
+      const catEntries = Object.entries(cats).sort((a, b) => b[1] - a[1]).slice(0, 8);
+      chartCat = new Chart(catCanvas, {
+        type: "bar",
+        data: {
+          labels: catEntries.map((e) => e[0]),
+          datasets: [{
+            label: "Findings",
+            data: catEntries.map((e) => e[1]),
+            backgroundColor: "rgba(61,214,198,0.55)",
+            borderRadius: 6,
+          }],
+        },
+        options: {
+          indexAxis: "y",
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { precision: 0 } },
+            y: { grid: { display: false } },
+          },
+        },
+      });
+    } catch (e) {
+      addLog(String(e.message || e), "warn");
+    }
+  }
+
   // ── Segment renderers ───────────────────────────────────────────────────────
   function renderOverviewContent(el) {
+    destroyCharts();
     if (!result) {
       el.innerHTML = `<div class="panel"><p class="empty-state">Lancez un scan pour cartographier les anomalies.</p></div>`;
       return;
     }
     const score = result.Score || result.score || {};
     const pct   = Math.max(0, Math.min(100, scoreOf(result)));
-    const sev   = { Critical: 0, High: 0, Medium: 0, Low: 0, Info: 0 };
-    (result.Findings || []).forEach((f) => { if (sev[f.Severity] != null) sev[f.Severity]++; else sev.Info++; });
+    const sev   = countSev(result.Findings);
 
     el.innerHTML = `
       <div class="panel">
@@ -150,7 +243,7 @@ export async function mount(root) {
           <div class="score-ring" style="--pct:${pct}">
             <span class="score-num">${pct}</span>
           </div>
-          <div>
+          <div style="flex:1;min-width:180px">
             <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem">${esc(score.Label || "Santé machine")}</div>
             <div class="card-grid" style="grid-template-columns:repeat(4,minmax(90px,1fr))">
               <div class="card"><span class="label">Score</span><span class="value">${pct}/100</span></div>
@@ -158,7 +251,12 @@ export async function mount(root) {
               <div class="card"><span class="label">Chaînes</span><span class="value">${(result.Chains || []).length}</span></div>
               <div class="card"><span class="label">Durée</span><span class="value">${result.DurationSec != null ? result.DurationSec + "s" : "—"}</span></div>
             </div>
+            <p class="meta" style="margin-top:8px">${esc((result.Diff && result.Diff.Summary) || "Premier scan / pas de baseline.")}</p>
           </div>
+        </div>
+        <div class="wa-charts">
+          <div class="wa-chart-box"><h4>Sévérité</h4><canvas id="waChartSev" height="140"></canvas></div>
+          <div class="wa-chart-box"><h4>Catégories</h4><canvas id="waChartCat" height="200"></canvas></div>
         </div>
       </div>
       <div class="panel" style="flex-shrink:0">
@@ -167,7 +265,6 @@ export async function mount(root) {
             `<span class="sev sev-${esc(k)}">${esc(k)}: ${v}</span>`
           ).join("")}
         </div>
-        ${result.Diff ? `<p class="meta" style="margin-top:8px">${esc(result.Diff.Summary || "Premier scan / pas de baseline.")}</p>` : ""}
       </div>
       <div class="panel" style="flex:1;min-height:0;overflow:auto">
         <h4 style="font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:.6rem">Checklist espionnage</h4>
@@ -175,6 +272,8 @@ export async function mount(root) {
         <h4 style="font-size:.8rem;font-weight:700;color:var(--muted);margin:.9rem 0 .5rem">Priorités</h4>
         <ul id="waPrioList" style="list-style:none;display:flex;flex-direction:column;gap:.35rem"></ul>
       </div>`;
+
+    void paintOverviewCharts(el, result.Findings);
 
     const ck = el.querySelector("#waChecklist");
     if (result.Checklist) {
@@ -400,6 +499,40 @@ export async function mount(root) {
     });
   }
 
+  function renderTimelineContent(el) {
+    el.innerHTML = `
+      <div class="panel" style="flex:1;min-height:0;overflow:auto">
+        <h4 style="font-size:.85rem;font-weight:700;margin:0 0 .65rem">Timeline / diff baseline</h4>
+        <p class="meta" style="margin:0 0 .75rem">Comparatif depuis le dernier scan (baseline).</p>
+        <ul id="waTimelineList" style="list-style:none;display:flex;flex-direction:column;gap:.4rem;margin:0;padding:0"></ul>
+      </div>`;
+    const ul = el.querySelector("#waTimelineList");
+    if (!result) {
+      ul.innerHTML = `<li class="meta">Le comparatif apparaîtra après un scan.</li>`;
+      return;
+    }
+    const diff = result.Diff || {};
+    const li0 = document.createElement("li");
+    li0.style.cssText = "font-size:.85rem";
+    li0.textContent = diff.Summary || "Pas de résumé diff.";
+    ul.appendChild(li0);
+
+    (diff.NewFindings || []).slice(0, 40).forEach((f) => {
+      const li = document.createElement("li");
+      li.style.cssText = "font-size:.82rem";
+      li.innerHTML =
+        `<span class="sev sev-${esc(f.Severity || "Info")}">NEW</span> [` +
+        `${esc(f.Severity || "")}] ${esc(f.Title || "")}`;
+      ul.appendChild(li);
+    });
+    if (!(diff.NewFindings || []).length && diff.HasPrevious) {
+      const li = document.createElement("li");
+      li.className = "meta";
+      li.textContent = "Aucun nouveau finding depuis la baseline.";
+      ul.appendChild(li);
+    }
+  }
+
   function renderLogsContent(el) {
     el.innerHTML = `
       <div style="display:flex;gap:8px;flex-shrink:0">
@@ -423,11 +556,13 @@ export async function mount(root) {
   async function renderSegment(segId, el) {
     // Segment content only — action bar is outside body and must not be cleared.
     const host = el || body;
+    if (segId !== "overview") destroyCharts();
     host.innerHTML = "";
     if (segId === "overview")  renderOverviewContent(host);
     else if (segId === "findings") renderFindingsContent(host);
     else if (segId === "reseau")   renderReseauContent(host);
     else if (segId === "chains")   renderChainsContent(host);
+    else if (segId === "timeline") renderTimelineContent(host);
     else if (segId === "logs")     renderLogsContent(host);
   }
 
@@ -571,6 +706,7 @@ export async function mount(root) {
   // ── Initial boot ────────────────────────────────────────────────────────────
   setStatus("Prêt — lecture seule");
   syncExportButtons();
+  void ensureChartJs().catch(() => {});
 
   if (api) {
     try {

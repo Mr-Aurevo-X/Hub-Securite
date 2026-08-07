@@ -8,5 +8,10 @@ dist/
 .DS_Store
 Thumbs.db
 
+# WinAudit runtime exports / scan state (flatten path)
+backend/tools/winaudit/logs/*
+!backend/tools/winaudit/logs/.gitkeep
+
+# Legacy pre-flatten path
 host/modules/winaudit/logs/*
 !host/modules/winaudit/logs/.gitkeep

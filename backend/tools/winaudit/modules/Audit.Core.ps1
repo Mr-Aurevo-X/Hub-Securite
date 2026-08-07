@@ -385,6 +385,20 @@ function Export-AuditReport {
     $html = Build-AuditHtmlReport -Result $Result
     Set-Content -LiteralPath $htmlPath -Value $html -Encoding UTF8
 
+    # Chart.js is referenced as vendor/chart.umd.min.js from the HTML file location (logs/).
+    $chartSrc = $null
+    if ($script:AuditRoot) { $chartSrc = Join-Path $script:AuditRoot 'ui\vendor\chart.umd.min.js' }
+    if (-not $chartSrc -or -not (Test-Path -LiteralPath $chartSrc)) {
+        $chartSrc = Join-Path $PSScriptRoot '..\ui\vendor\chart.umd.min.js'
+    }
+    if (Test-Path -LiteralPath $chartSrc) {
+        $vendorDir = Join-Path $LogsDir 'vendor'
+        if (-not (Test-Path -LiteralPath $vendorDir)) {
+            New-Item -ItemType Directory -Path $vendorDir -Force | Out-Null
+        }
+        Copy-Item -LiteralPath $chartSrc -Destination (Join-Path $vendorDir 'chart.umd.min.js') -Force
+    }
+
     [pscustomobject]@{ Json = $jsonPath; Txt = $txtPath; Html = $htmlPath }
 }
 

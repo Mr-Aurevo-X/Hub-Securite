@@ -371,3 +371,133 @@
   background: var(--accent);
   transition: width 0.2s ease;
 }
+
+/* WinAudit / severity badges */
+.hub-inhub .sev {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.hub-inhub .sev-Critical { background: rgba(240, 113, 120, 0.15); color: #e03545; }
+.hub-inhub .sev-High { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+.hub-inhub .sev-Medium { background: rgba(240, 180, 41, 0.15); color: #e0a84a; }
+.hub-inhub .sev-Low { background: rgba(61, 214, 140, 0.12); color: #3dd68c; }
+.hub-inhub .sev-Info { background: rgba(255, 255, 255, 0.06); color: var(--muted); }
+
+.hub-inhub .score-ring-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+.hub-inhub .score-ring {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) calc(var(--pct, 0) * 1%), rgba(255, 255, 255, 0.08) 0);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.hub-inhub .score-ring .score-num,
+.hub-inhub .score-ring > span {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--bg1);
+  display: grid;
+  place-items: center;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.hub-inhub .wa-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+@media (max-width: 900px) {
+  .hub-inhub .wa-charts { grid-template-columns: 1fr; }
+}
+.hub-inhub .wa-chart-box {
+  min-height: 160px;
+  background: rgba(12, 15, 20, 0.35);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.hub-inhub .wa-chart-box h4 {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.hub-inhub .chain-card {
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  margin: 0 0 10px;
+  border-radius: 0 12px 12px 0;
+  background: rgba(12, 15, 20, 0.45);
+}
+.hub-inhub .chain-card h4 { margin: 0 0 4px; font-size: 0.95rem; }
+.hub-inhub .chain-card p { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
+
+.hub-inhub .log-area {
+  flex: 1;
+  min-height: 180px;
+  overflow: auto;
+  font-family: var(--mono, Consolas, monospace);
+  font-size: 0.78rem;
+  background: rgba(12, 15, 20, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+}
+.hub-inhub .log-area .ok { color: #3dd68c; }
+.hub-inhub .log-area .err { color: #e03545; }
+.hub-inhub .log-area .warn { color: #e0a84a; }
+
+.hub-inhub .wl-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+.hub-inhub .wl-modal[hidden] { display: none !important; }
+.hub-inhub .wl-box {
+  width: min(520px, 100%);
+  max-height: 80vh;
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(165deg, rgba(24, 30, 41, 0.98), rgba(12, 15, 20, 0.98));
+  padding: 20px;
+}
+.hub-inhub .wl-box textarea {
+  width: 100%;
+  min-height: 160px;
+  margin: 10px 0 14px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(12, 15, 20, 0.6);
+  color: var(--text);
+  font-family: var(--mono, Consolas, monospace);
+  font-size: 0.82rem;
+  padding: 12px;
+  outline: 0;
+}
