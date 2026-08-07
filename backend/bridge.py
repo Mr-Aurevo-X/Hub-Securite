@@ -200,7 +200,7 @@ class WinAuditApi:
         return launch_suite_app("WinAudit")
 
 
-HUB_TITLE = "L'Atelier PC Command — Sécurité"
+HUB_TITLE = "PC Command | Security"
 from window_chrome import WindowChromeMixin  # noqa: E402
 
 def is_admin() -> bool:
