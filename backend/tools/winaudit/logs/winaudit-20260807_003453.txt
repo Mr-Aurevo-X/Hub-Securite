@@ -1,0 +1,1736 @@
+﻿WinAudit Pro - Rapport (lecture seule)
+Date: 2026-08-07T00:34:53.1651368+02:00
+Score: 0/100 (Critique)
+Findings: 335 | Chaines: 9 | Connexions: 218
+Diff: Premier scan - aucune baseline precedente.
+
+=== CHECKLIST ESPIONNAGE ===
+Risque eleve - investiguer les points Critiques.
+[OK] Outils de prise de controle a distance ? - Aucun outil remote-access detecte.
+[OK] Bureau a distance (RDP) ouvert ? - RDP non signale comme actif.
+[Attention] Trafic web detourne (hosts / proxy) ? - 3 signal(s)
+[Attention] Ports en ecoute inhabituels ? - Findings=0, connexions risque=68
+[Critique] Executable sensible + connexion reseau ? - Chaines=1, findings=4
+[Attention] Exclusions Windows Defender douteuses ? - 2 exclusion(s)
+[Attention] Persistence WMI furtive ? - 1 finding(s) WMI
+[OK] Hijack IFEO / AppInit_DLLs ? - Pas de debugger IFEO / AppInit detecte.
+
+=== CONNEXIONS (suspectes / resume) ===
+[High] Outbound node local=2a02:a03f:aed9:9401:d45f:8d0b:cdd4:f73:53562 remote=2606:4700:10::6814:16b3:443 est=HTTPS
+[High] Outbound Cursor local=2a02:a03f:aed9:9401:d45f:8d0b:cdd4:f73:52205 remote=2606:4700::6812:127d:443 est=HTTPS
+[High] Outbound Discord local=2a02:a03f:aed9:9401:d45f:8d0b:cdd4:f73:51301 remote=2600:1901:1:292:::443 est=HTTPS
+[Medium] Listen services local=:::49671 remote=- est=Port ephemere / dynamique
+[Medium] Listen spoolsv local=:::49669 remote=- est=Port ephemere / dynamique
+[Medium] Listen svchost local=:::49668 remote=- est=Port ephemere / dynamique
+[Medium] Listen svchost local=:::49666 remote=- est=Port ephemere / dynamique
+[Medium] Listen wininit local=:::49665 remote=- est=Port ephemere / dynamique
+[Medium] Listen lsass local=:::49664 remote=- est=Port ephemere / dynamique
+[High] Outbound node local=2a02:a03f:aed9:9401:d45f:8d0b:cdd4:f73:49403 remote=2606:4700:10::6814:16b3:443 est=HTTPS
+[Medium] Listen System local=:::8085 remote=- est=Service inconnu / custom
+[Medium] Listen postgres local=:::5432 remote=- est=PostgreSQL
+[Medium] Listen vmms local=:::2179 remote=- est=Service inconnu / custom
+[Medium] Listen System local=:::445 remote=- est=SMB
+[Medium] Listen svchost local=:::135 remote=- est=RPC/EPMap
+[High] Outbound Cursor local=192.168.129.2:64006 remote=44.216.24.86:443 est=HTTPS | ec2-44-216-24-86.compute-1.amazonaws.com
+[High] Outbound Cursor local=192.168.129.2:63741 remote=18.213.149.252:443 est=HTTPS | ec2-18-213-149-252.compute-1.amazonaws.com
+[High] Outbound ProtonDrive local=192.168.129.2:63278 remote=185.70.42.43:443 est=HTTPS | 185-70-42-43.protonmail.ch
+[High] Outbound Cursor local=192.168.129.2:62897 remote=35.180.16.12:443 est=HTTPS | ec2-35-180-16-12.eu-west-3.compute.amazonaws.com
+[High] Outbound Cursor local=192.168.129.2:61625 remote=34.207.31.172:443 est=HTTPS | ec2-34-207-31-172.compute-1.amazonaws.com
+[High] Outbound ProtonDrive local=192.168.129.2:59503 remote=185.70.42.43:443 est=HTTPS | 185-70-42-43.protonmail.ch
+[High] Outbound Cursor local=192.168.129.2:55510 remote=104.18.18.125:443 est=HTTPS
+[High] Outbound Cursor local=192.168.129.2:53883 remote=100.49.208.132:443 est=HTTPS | ec2-100-49-208-132.compute-1.amazonaws.com
+[High] Outbound Cursor local=192.168.129.2:53567 remote=18.213.149.252:443 est=HTTPS | ec2-18-213-149-252.compute-1.amazonaws.com
+[High] Outbound Cursor local=192.168.129.2:52782 remote=104.18.18.125:443 est=HTTPS
+[High] Outbound Cursor local=192.168.129.2:52200 remote=107.23.145.140:443 est=HTTPS | ec2-107-23-145-140.compute-1.amazonaws.com
+[High] Outbound Discord local=192.168.129.2:50764 remote=162.159.135.234:443 est=HTTPS
+[Medium] Listen services local=0.0.0.0:49671 remote=- est=Port ephemere / dynamique
+[Medium] Listen spoolsv local=0.0.0.0:49669 remote=- est=Port ephemere / dynamique
+[Medium] Listen svchost local=0.0.0.0:49668 remote=- est=Port ephemere / dynamique
+[Medium] Listen svchost local=0.0.0.0:49666 remote=- est=Port ephemere / dynamique
+[Medium] Listen wininit local=0.0.0.0:49665 remote=- est=Port ephemere / dynamique
+[Medium] Listen lsass local=0.0.0.0:49664 remote=- est=Port ephemere / dynamique
+[High] Outbound Cursor local=192.168.129.2:49397 remote=32.195.248.182:443 est=HTTPS | ec2-32-195-248-182.compute-1.amazonaws.com
+[High] Outbound Cursor local=192.168.129.2:49396 remote=32.195.248.182:443 est=HTTPS | ec2-32-195-248-182.compute-1.amazonaws.com
+[High] Outbound Cursor local=192.168.129.2:49390 remote=98.90.70.215:443 est=HTTPS | ec2-98-90-70-215.compute-1.amazonaws.com
+[Medium] Listen pantaChannelService local=0.0.0.0:46999 remote=- est=Service inconnu / custom
+[Medium] Listen devicespace local=0.0.0.0:10152 remote=- est=Service inconnu / custom
+[High] Listen Cursor local=127.0.0.1:7857 remote=- est=Service inconnu / custom
+[High] Listen Discord local=127.0.0.1:6463 remote=- est=Service inconnu / custom
+
+=== CHAINES ===
+[Critical] Implant potentiel actif (confiance 88%)
+  Un executable depuis un emplacement inhabituel (C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe) etablit des connexions reseau. Combine processus suspect + trafic sortant = priorite haute d'investigation.
+  -> Identifier la destination IP/domaine dans le finding reseau
+  -> Couper la connexion (airplane / firewall) puis analyser le fichier
+  -> Scanner ce fichier avec Windows Defender / un AV a jour
+
+[Critical] Living-off-the-land (LOLBin) (confiance 78%)
+  Des outils Windows legitimes (PowerShell, cmd, mshta, rundll32...) sont utilises avec des arguments typiques d'attaque. Cela permet d'executer du code sans deposer un gros malware.
+  -> Lire la ligne de commande complete dans les findings
+  -> Verifier le parent process (Office, navigateur, explorer)
+  -> Consulter l'historique PowerShell / ScriptBlock logging si active
+
+[High] Persistence WMI (confiance 85%)
+  Des abonnements WMI (Filter/Consumer) peuvent relancer du code a chaque evenement systeme, souvent invisibles dans les dossiers Startup classiques.
+  -> Inspecter root\subscription (Filter, Consumer, Binding) en lecture
+  -> Noter le chemin du script/commande consumer
+
+[High] Persistence multi-vecteur (confiance 82%)
+  Le meme binaire apparait dans plusieurs mecanismes de demarrage (Startup, COM). C'est un schema classique de malware qui veut survivre a un nettoyage partiel.
+  -> Verifier le fichier: c:\users\aurel\appdata\local\programs\proton\drive\protondrive.exe
+  -> Inspecter les entrees Run / Taches / Services liees a ce chemin
+  -> Ne pas supprimer sans backup / point de restauration
+
+[High] Detournement DNS / proxy (confiance 75%)
+  La resolution DNS (hosts) ou le proxy systeme a ete modifie. Le trafic web peut etre redirige vers des serveurs malveillants (phishing, vol de sessions).
+  -> Comparer C:\Windows\System32\drivers\etc\hosts aux entrees attendues
+  -> Verifier Parametres -> Reseau -> Proxy
+  -> Tester la navigation apres correction manuelle
+
+[Medium] Hijack COM / extension shell (confiance 76%)
+  Des serveurs COM ou extensions shell pointent vers des zones sensibles ou des editeurs inhabituels. Technique de persistence discrete.
+  -> Noter le CLSID et le chemin InprocServer32/LocalServer32
+  -> Verifier la signature du DLL/EXE cible
+
+[Medium] USB + activite comptes (confiance 62%)
+  Plusieurs peripheriques USB notables coexistent avec des signaux comptes (recent, admin, echecs). Scenario possible: cle USB + creation de compte local.
+  -> Comparer les USBSTOR a vos cles connues
+  -> Verifier les membres du groupe Administrateurs
+
+[Medium] Possible anti-forensics (confiance 60%)
+  Les copies d'ombre / restauration semblent absentes ou purgees, alors que d'autres changements recents sont visibles. Peut etre legitime (disque plein) ou tentative d'effacer des traces.
+  -> Verifier l'espace disque et l'historique Protection du systeme
+  -> Croiser avec les installs recentes dans les findings Software
+
+[Low] Surface Wi-Fi / DNS (confiance 68%)
+  Profils Wi-Fi nombreux ou DNS non standard detectes. Un hotspot malveillant ou un DNS pirate peut detourner le trafic.
+  -> Parametres -> Reseau -> Wi-Fi -> reseaux connus
+  -> ipconfig /all pour confirmer les serveurs DNS
+
+=== FINDINGS ===
+[Critical][Process] F0044 - PowerShell encode / bypass: powershell.exe
+  Path: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+  SHA256: 7600FFE12DA441FE89D035B13801E8E91D064BC544A27B19A5CF49F6AB8B18F5
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Users\aurel\Documents\Dev Central Tree\L'Atelier Windows\Hub-Securite\host\modules\winaudit\api\Invoke-WinAuditApi.ps1" -InFile C:\Users\aurel\AppData\Local\Temp\winaudit-in-gmzcys_b.json -OutFile C:\Users\aurel\AppData\Local\Temp\winaudit-out-bf2k8xe7.json
+  Pourquoi: Ligne de commande PowerShell typique d'attaque.
+
+[Critical][Process] F0042 - PowerShell encode / bypass: powershell.exe
+  Path: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+  SHA256: 7600FFE12DA441FE89D035B13801E8E91D064BC544A27B19A5CF49F6AB8B18F5
+  powershell.exe  -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\Users\aurel\.config\yasb-watchdog.ps1"
+  Pourquoi: Ligne de commande PowerShell typique d'attaque.
+
+[High][Defender] F0115 - Exclusion Defender (process): N/A: Must be an administrator to view exclusions
+  N/A: Must be an administrator to view exclusions
+  Pourquoi: Processus exclus de Defender.
+
+[High][EventLog] F0166 - ScriptBlock PowerShell suspect (4104)
+  Création du texte Scriptblock (19 sur 22) : 
+tization_methodParameter = [Microsoft.PowerShell.Cmdletization.MethodParameter]@{Name = 'ControlledFolderAccessProtectedFolders'; ParameterType = 'System.String[]'; Bindings = 'In'; Value = $__cmdletization_value; IsValuePresent = $true}
+        } else {
+          $__cmdletization_methodParameter = [Microsoft.PowerShell.Cmdletization.MethodParameter]
+  Pourquoi: Journal PowerShell avec motifs d'attaque.
+
+[High][Network] F0053 - Sortante: ProtonDrive -> 185.70.42.43:443 (HTTPS | 185-70-42-43.protonmail.ch)
+  Path: C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe
+  SHA256: 5A12F225DF49F344AD24239279326FE2945A3CE304232C28EF927E7AB6EC3888
+  PID=23472 Path=C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe DNS=185-70-42-43.protonmail.ch
+  Pourquoi: Executable en zone sensible (Temp/AppData/Downloads)
+
+[High][Network] F0054 - Sortante: ProtonDrive -> 185.70.42.43:443 (HTTPS | 185-70-42-43.protonmail.ch)
+  Path: C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe
+  SHA256: 5A12F225DF49F344AD24239279326FE2945A3CE304232C28EF927E7AB6EC3888
+  PID=23472 Path=C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe DNS=185-70-42-43.protonmail.ch
+  Pourquoi: Executable en zone sensible (Temp/AppData/Downloads)
+
+[High][Network] F0050 - Sortante: node -> 2606:4700:10::6814:16b3:443 (HTTPS)
+  Path: c:\Users\aurel\AppData\Local\Programs\cursor\resources\app\resources\helpers\node.exe
+  SHA256: 6E8CCDEC5D37310242AF5FA3E464D6D2E48FE1B72E2B76DECAD222A0AA01BC0D
+  PID=7140 Path=c:\Users\aurel\AppData\Local\Programs\cursor\resources\app\resources\helpers\node.exe DNS=
+  Pourquoi: Executable en zone sensible (Temp/AppData/Downloads)
+
+[High][Network] F0052 - Sortante: node -> 2606:4700:10::6814:16b3:443 (HTTPS)
+  Path: c:\Users\aurel\AppData\Local\Programs\cursor\resources\app\resources\helpers\node.exe
+  SHA256: 6E8CCDEC5D37310242AF5FA3E464D6D2E48FE1B72E2B76DECAD222A0AA01BC0D
+  PID=7140 Path=c:\Users\aurel\AppData\Local\Programs\cursor\resources\app\resources\helpers\node.exe DNS=
+  Pourquoi: Executable en zone sensible (Temp/AppData/Downloads)
+
+[High][Process] F0040 - Nom proche d'un binaire systeme: LsaIso.exe
+  Pourquoi: Typosquatting possible de nom de processus.
+
+[High][Service] F0015 - Service: battlenet_helpersvc
+  Path: C:\ProgramData\Battle.net_components\battlenet_helpersvc\AgentHelper.exe
+  SHA256: 2858B3A3B2C0331A5490BA49DF94997829788999197133D8BEFB2A3C66ACF13F
+  State=Stopped Start=Manual Path=C:\ProgramData\Battle.net_components\battlenet_helpersvc\AgentHelper.exe
+  Pourquoi: Binaire de service dans un dossier utilisateur / temp.
+
+[High][Startup] F0004 - Run: Proton Drive
+  Path: C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe
+  SHA256: 5A12F225DF49F344AD24239279326FE2945A3CE304232C28EF927E7AB6EC3888
+  "C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe" -quiet
+  Pourquoi: Chemin dans Temp/AppData/Downloads - persistence suspecte.
+
+[High][Startup] F0001 - Run: Discord
+  Path: C:\Users\aurel\AppData\Local\Discord\Update.exe
+  SHA256: 42CA4B766B957346631C88EAC22B6FC7450EC6EC61320CF06A1A23714F434C5D
+  "C:\Users\aurel\AppData\Local\Discord\Update.exe" --processStart Discord.exe --process-start-args "--start-inactive"
+  Pourquoi: Chemin dans Temp/AppData/Downloads - persistence suspecte.
+
+[High][Winlogon] F0019 - Winlogon Userinit multi-valeurs
+  C:\WINDOWS\system32\userinit.exe,
+  Pourquoi: Userinit contient plusieurs entrees (souvent persistence).
+
+[Medium][Account] F0049 - Compte sans mot de passe: FlowUP
+  Pourquoi: Compte local actif sans mot de passe requis.
+
+[Medium][Certificate] F0127 - Certificat racine expire: DST Root CA X3
+  CN=DST Root CA X3, O=Digital Signature Trust Co.
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0118 - Certificat racine expire: Microsoft Root Certificate Authority
+  CN=Microsoft Root Certificate Authority, DC=microsoft, DC=com
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0119 - Certificat racine expire: Thawte Timestamping CA
+  CN=Thawte Timestamping CA, OU=Thawte Certification, O=Thawte, L=Durbanville, S=Western Cape, C=ZA
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0120 - Certificat racine expire: Microsoft Root Authority
+  CN=Microsoft Root Authority, OU=Microsoft Corporation, OU=Copyright (c) 1997 Microsoft Corp.
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0135 - Certificat racine expire: AddTrust External CA Root
+  CN=AddTrust External CA Root, OU=AddTrust External TTP Network, O=AddTrust AB, C=SE
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0126 - Certificat racine expire: UTN-USERFirst-Object
+  CN=UTN-USERFirst-Object, OU=http://www.usertrust.com, O=The USERTRUST Network, L=Salt Lake City, S=UT, C=US
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0125 - Certificat racine expire: NO LIABILITY ACCEPTED, (c)97 VeriSign, Inc.
+  OU="NO LIABILITY ACCEPTED, (c)97 VeriSign, Inc.", OU=VeriSign Time Stamping Service Root, OU="VeriSign, Inc.", O=VeriSign Trust Network
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0128 - Certificat racine expire: Equifax Secure Certificate Authority
+  OU=Equifax Secure Certificate Authority, O=Equifax, C=US
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0122 - Certificat racine expire: Microsoft Authenticode(tm) Root Authority
+  CN=Microsoft Authenticode(tm) Root Authority, O=MSFT, C=US
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][Certificate] F0124 - Certificat racine expire: Copyright (c) 1997 Microsoft Corp.
+  OU=Copyright (c) 1997 Microsoft Corp., OU=Microsoft Time Stamping Service Root, OU=Microsoft Corporation, O=Microsoft Trust Network
+  Pourquoi: Certificat racine expire encore present.
+
+[Medium][COM] F0020 - COM LocalServer32 -> zone sensible
+  Path: C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe" -ToastActivated
+  C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe" -ToastActivated
+  Pourquoi: Serveur COM pointant vers Temp/AppData/Downloads - technique de hijack COM classique.
+
+[Medium][COM] F0021 - COM LocalServer32 -> zone sensible
+  Path: C:\Users\aurel\AppData\Local\Programs\TeamSpeak\notification_helper.exe
+  C:\Users\aurel\AppData\Local\Programs\TeamSpeak\notification_helper.exe
+  Pourquoi: Serveur COM pointant vers Temp/AppData/Downloads - technique de hijack COM classique.
+
+[Medium][COM] F0022 - COM LocalServer32 -> zone sensible
+  Path: C:\Users\aurel\AppData\Local\WeMod\app-12.30.1\Wand.exe
+  C:\Users\aurel\AppData\Local\WeMod\app-12.30.1\Wand.exe
+  Pourquoi: Serveur COM pointant vers Temp/AppData/Downloads - technique de hijack COM classique.
+
+[Medium][COM] F0023 - COM LocalServer32 -> zone sensible
+  Path: C:\Users\aurel\AppData\Local\proton_mail\app-1.13.3\Proton Mail.exe
+  C:\Users\aurel\AppData\Local\proton_mail\app-1.13.3\Proton Mail.exe
+  Pourquoi: Serveur COM pointant vers Temp/AppData/Downloads - technique de hijack COM classique.
+
+[Medium][COM] F0024 - COM LocalServer32 -> zone sensible
+  Path: C:\Users\aurel\AppData\Local\Stoat\app-1.4.1\stoat-desktop.exe
+  C:\Users\aurel\AppData\Local\Stoat\app-1.4.1\stoat-desktop.exe
+  Pourquoi: Serveur COM pointant vers Temp/AppData/Downloads - technique de hijack COM classique.
+
+[Medium][Defender] F0114 - Exclusion Defender (chemin): N/A: Must be an administrator to view exclusions
+  Path: N/A: Must be an administrator to view exclusions
+  Pourquoi: Dossier exclus du scan - utile aux malware s'ils controlent les exclusions.
+
+[Medium][Disk] F0180 - Fichier recent: sample.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_decompile_angr_smoke0\sample.exe
+  Size=1024 Modified=04/08/2026 04:50:21
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0179 - Fichier recent: lazarus-2.2.2-fpc-3.2.2-win64.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\lazarus-ce-build\lazarus-2.2.2-fpc-3.2.2-win64.exe
+  Size=201950698 Modified=01/08/2026 04:17:44
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0182 - Fichier recent: upxish.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_detect_upx_section0\upxish.exe
+  Size=1024 Modified=04/08/2026 04:50:16
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0181 - Fichier recent: setupish.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_detect_inno_markers0\setupish.exe
+  Size=2067 Modified=04/08/2026 04:50:18
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0178 - Fichier recent: lazarus-2.2.2-fpc-3.2.2-cross-i386-win32-win64.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\lazarus-ce-build\lazarus-2.2.2-fpc-3.2.2-cross-i386-win32-win64.exe
+  Size=55128126 Modified=01/08/2026 04:18:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0175 - Fichier recent: protaudit_smoke.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\protaudit_smoke.exe
+  Size=1024 Modified=03/08/2026 18:06:07
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0174 - Fichier recent: gfw-install-ZAumP01y.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-ZAumP01y.exe
+  Size=0 Modified=02/08/2026 22:00:07
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0177 - Fichier recent: InstallEasy.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\InstallEasy-motw-test\InstallEasy.exe
+  Size=40381938 Modified=04/08/2026 18:03:49
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0176 - Fichier recent: InstallEasy.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\InstallEasy-diag\InstallEasy.exe
+  Size=40381938 Modified=04/08/2026 18:03:22
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0183 - Fichier recent: setup.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_inno_extract_skip_without0\setup.exe
+  Size=1024 Modified=04/08/2026 04:50:18
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0190 - Fichier recent: upxish.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-14\test_detect_upx_section0\upxish.exe
+  Size=1024 Modified=04/08/2026 05:06:33
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0189 - Fichier recent: setupish.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-14\test_detect_inno_markers0\setupish.exe
+  Size=2067 Modified=04/08/2026 05:06:54
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0192 - Fichier recent: av_libglesv2.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\.net\MelonLoader.Installer\RxHvaxYTQ7BH\av_libglesv2.dll
+  Size=5426176 Modified=04/08/2026 22:17:05
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0191 - Fichier recent: setup.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-14\test_inno_extract_skip_without0\setup.exe
+  Size=1024 Modified=04/08/2026 05:06:55
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0188 - Fichier recent: sample.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-14\test_decompile_angr_smoke0\sample.exe
+  Size=1024 Modified=04/08/2026 05:06:58
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0185 - Fichier recent: sample.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_run_audit_smoke0\sample.exe
+  Size=1024 Modified=04/08/2026 04:50:18
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0184 - Fichier recent: sample.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_run_audit_progress_callba0\sample.exe
+  Size=1024 Modified=04/08/2026 04:50:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0187 - Fichier recent: innounp.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-14\test_bootstrap_install_from_zi0\tools\innounp\innounp.exe
+  Size=202 Modified=04/08/2026 05:06:55
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0186 - Fichier recent: t.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\pytest-of-Mr-Aurevo-X\pytest-13\test_triage_minimal_pe0\t.exe
+  Size=1024 Modified=04/08/2026 04:50:16
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0173 - Fichier recent: gfw-install-l0RLptqc.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-l0RLptqc.exe
+  Size=0 Modified=01/08/2026 22:00:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0254 - Fichier recent: state.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\webview\js\state.js
+  Size=1828 Modified=04/08/2026 18:05:31
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0256 - Fichier recent: Lancer.cmd
+  Path: C:\Users\aurel\AppData\Local\Temp\tmpv62e6l0c\Apps\Track\Lancer.cmd
+  Size=11 Modified=04/08/2026 20:55:14
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0252 - Fichier recent: customize.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\webview\js\customize.js
+  Size=4443 Modified=04/08/2026 18:05:31
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0253 - Fichier recent: finish.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\webview\js\finish.js
+  Size=357 Modified=04/08/2026 18:05:31
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0257 - Fichier recent: InstallEasy .exe
+  Path: C:\Users\aurel\Downloads\InstallEasy .exe
+  Size=40386234 Modified=04/08/2026 19:58:35
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0260 - Fichier recent: cursorsandbox.exe
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\cursorsandbox.exe
+  Size=3500544 Modified=04/08/2026 16:43:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0208 - Fichier recent: api-ms-win-core-libraryloader-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-libraryloader-l1-1-0.dll
+  Size=22056 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0258 - Fichier recent: InstallEasy.exe
+  Path: C:\Users\aurel\Downloads\InstallEasy.exe
+  Size=31787121 Modified=04/08/2026 16:08:50
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0259 - Fichier recent: crepectl.exe
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\crepectl.exe
+  Size=5564416 Modified=04/08/2026 16:43:46
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0251 - Fichier recent: api.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\webview\js\api.js
+  Size=8612 Modified=04/08/2026 18:05:31
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0170 - Fichier recent: gfw-install-K8266vvH.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-K8266vvH.exe
+  Size=0 Modified=03/08/2026 22:00:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0169 - Fichier recent: gfw-install-8Uo4OYvj.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-8Uo4OYvj.exe
+  Size=0 Modified=05/08/2026 23:44:33
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0172 - Fichier recent: gfw-install-KN7qZm5X.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-KN7qZm5X.exe
+  Size=0 Modified=31/07/2026 22:36:59
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0171 - Fichier recent: gfw-install-KDUAdsgS.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-KDUAdsgS.exe
+  Size=0 Modified=04/08/2026 22:00:39
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0168 - Fichier recent: gfw-install-5rLNsLlV.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\gfw-install-5rLNsLlV.exe
+  Size=0 Modified=06/08/2026 22:00:07
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0249 - Fichier recent: settings-panel.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\ui\vendor\pc-command-kit\components\settings-panel.js
+  Size=8416 Modified=04/08/2026 18:05:30
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0250 - Fichier recent: tool-chrome.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\ui\vendor\pc-command-kit\components\tool-chrome.js
+  Size=9074 Modified=04/08/2026 18:05:30
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0167 - Fichier recent: angr_t.exe
+  Path: C:\Users\aurel\AppData\Local\Temp\angr_t.exe
+  Size=1024 Modified=03/08/2026 18:12:59
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0248 - Fichier recent: dashboard.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\ui\vendor\pc-command-kit\components\dashboard.js
+  Size=13265 Modified=04/08/2026 18:05:30
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0193 - Fichier recent: libHarfBuzzSharp.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\.net\MelonLoader.Installer\RxHvaxYTQ7BH\libHarfBuzzSharp.dll
+  Size=1804872 Modified=04/08/2026 22:17:05
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0214 - Fichier recent: api-ms-win-core-processthreads-l1-1-1.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-processthreads-l1-1-1.dll
+  Size=22072 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0241 - Fichier recent: finish.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\webview\js\finish.js
+  Size=357 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0215 - Fichier recent: api-ms-win-core-profile-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-profile-l1-1-0.dll
+  Size=22080 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0240 - Fichier recent: customize.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\webview\js\customize.js
+  Size=4443 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0213 - Fichier recent: api-ms-win-core-processthreads-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-processthreads-l1-1-0.dll
+  Size=22096 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0210 - Fichier recent: api-ms-win-core-memory-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-memory-l1-1-0.dll
+  Size=22056 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0242 - Fichier recent: state.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\webview\js\state.js
+  Size=1828 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0212 - Fichier recent: api-ms-win-core-processenvironment-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-processenvironment-l1-1-0.dll
+  Size=21968 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0211 - Fichier recent: api-ms-win-core-namedpipe-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-namedpipe-l1-1-0.dll
+  Size=22096 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0239 - Fichier recent: api.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\webview\js\api.js
+  Size=8612 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0236 - Fichier recent: dashboard.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\vendor\pc-command-kit\components\dashboard.js
+  Size=13265 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0235 - Fichier recent: catalog.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\vendor\pc-command-kit\components\catalog.js
+  Size=4202 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0238 - Fichier recent: tool-chrome.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\vendor\pc-command-kit\components\tool-chrome.js
+  Size=9102 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0237 - Fichier recent: settings-panel.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\vendor\pc-command-kit\components\settings-panel.js
+  Size=8416 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0234 - Fichier recent: apps-shell.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\vendor\pc-command-kit\components\apps-shell.js
+  Size=9600 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0231 - Fichier recent: app.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\app.js
+  Size=15502 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0216 - Fichier recent: api-ms-win-core-rtlsupport-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-rtlsupport-l1-1-0.dll
+  Size=21960 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0233 - Fichier recent: suite-boot.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\suite-boot.js
+  Size=5415 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0232 - Fichier recent: hub-chrome.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\ui\hub-chrome.js
+  Size=7535 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0243 - Fichier recent: dom_json.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\webview\js\lib\dom_json.js
+  Size=26097 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0200 - Fichier recent: api-ms-win-core-fibers-l1-1-1.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-fibers-l1-1-1.dll
+  Size=22072 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0199 - Fichier recent: api-ms-win-core-fibers-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-fibers-l1-1-0.dll
+  Size=22072 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0202 - Fichier recent: api-ms-win-core-file-l1-2-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-file-l1-2-0.dll
+  Size=22056 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0201 - Fichier recent: api-ms-win-core-file-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-file-l1-1-0.dll
+  Size=26152 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0198 - Fichier recent: api-ms-win-core-errorhandling-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-errorhandling-l1-1-0.dll
+  Size=22096 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0195 - Fichier recent: api-ms-win-core-console-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-console-l1-1-0.dll
+  Size=22072 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0194 - Fichier recent: libSkiaSharp.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\.net\MelonLoader.Installer\RxHvaxYTQ7BH\libSkiaSharp.dll
+  Size=9414216 Modified=04/08/2026 22:17:05
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0197 - Fichier recent: api-ms-win-core-debug-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-debug-l1-1-0.dll
+  Size=21944 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0196 - Fichier recent: api-ms-win-core-datetime-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-datetime-l1-1-0.dll
+  Size=22056 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0203 - Fichier recent: api-ms-win-core-file-l2-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-file-l2-1-0.dll
+  Size=21960 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0245 - Fichier recent: app.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\ui\app.js
+  Size=16125 Modified=04/08/2026 18:05:30
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0246 - Fichier recent: apps-shell.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\ui\vendor\pc-command-kit\components\apps-shell.js
+  Size=9600 Modified=04/08/2026 18:05:30
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0209 - Fichier recent: api-ms-win-core-localization-l1-2-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-localization-l1-2-0.dll
+  Size=22080 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0244 - Fichier recent: polyfill.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\webview\js\lib\polyfill.js
+  Size=27434 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0247 - Fichier recent: catalog.js
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI102362\ui\vendor\pc-command-kit\components\catalog.js
+  Size=4202 Modified=04/08/2026 18:05:30
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0205 - Fichier recent: api-ms-win-core-heap-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-heap-l1-1-0.dll
+  Size=22072 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0204 - Fichier recent: api-ms-win-core-handle-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-handle-l1-1-0.dll
+  Size=21944 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0207 - Fichier recent: api-ms-win-core-kernel32-legacy-l1-1-1.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-kernel32-legacy-l1-1-1.dll
+  Size=22080 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][Disk] F0206 - Fichier recent: api-ms-win-core-interlocked-l1-1-0.dll
+  Path: C:\Users\aurel\AppData\Local\Temp\_MEI100402\api-ms-win-core-interlocked-l1-1-0.dll
+  Size=22072 Modified=04/08/2026 15:21:17
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Medium][EventLog] F0163 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  NTIOLib_CC_COMM
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SYS\NTIOLib_X64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service :  
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0162 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  GENERICDRV
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SCEWIN\5.05.01.0002\amigendrv64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service : 
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0164 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  GENERICDRV
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SCEWIN\5.05.01.0002\amigendrv64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service : 
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0157 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  NTIOLib_CC_COMM
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SYS\NTIOLib_X64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service :  
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0165 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  NTIOLib_CC_COMM
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SYS\NTIOLib_X64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service :  
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0159 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  KslD
+Nom du fichier de service :  system32\drivers\wd\KslD.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service :  
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0158 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  NTIOLib_CC_COMM
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SYS\NTIOLib_X64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service :  
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0160 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  GENERICDRV
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SCEWIN\5.05.01.0002\amigendrv64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service : 
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0156 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  GENERICDRV
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SCEWIN\5.05.01.0002\amigendrv64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service : 
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][EventLog] F0161 - Nouveau service installe (7045)
+  Un service a été installé sur le système.
+
+Nom du service :  NTIOLib_CC_COMM
+Nom du fichier de service :  C:\Program Files (x86)\MSI\MSI Center\Lib\SYS\NTIOLib_X64.sys
+Type de service :  pilote en mode noyau
+Type de démarrage du service :  Démarrage à la demande
+Compte de service :  
+  Pourquoi: Installation de service recente - verifier le binaire.
+
+[Medium][Hosts] F0056 - Entree hosts non standard: host.docker.internal
+  Path: C:\WINDOWS\System32\drivers\etc\hosts
+  192.168.129.12 host.docker.internal
+  Pourquoi: Redirection DNS locale - peut detourner un site legible.
+
+[Medium][Hosts] F0057 - Entree hosts non standard: gateway.docker.internal
+  Path: C:\WINDOWS\System32\drivers\etc\hosts
+  192.168.129.12 gateway.docker.internal
+  Pourquoi: Redirection DNS locale - peut detourner un site legible.
+
+[Medium][Hosts] F0058 - Entree hosts non standard: kubernetes.docker.internal
+  Path: C:\WINDOWS\System32\drivers\etc\hosts
+  127.0.0.1 kubernetes.docker.internal
+  Pourquoi: Redirection DNS locale - peut detourner un site legible.
+
+[Medium][Hygiene] F0155 - Aucune copie d'ombre (VSS) detectee
+  Pourquoi: Pas de shadow copy - restauration / forensics limites (peut etre normal).
+
+[Medium][Process] F0043 - Processus depuis emplacement sensible: pythonw.exe
+  Path: C:\Users\aurel\AppData\Local\Programs\Python\Python313\pythonw.exe
+  pythonw  host\host.py
+  Pourquoi: Executable lance depuis Temp/AppData/Downloads.
+
+[Medium][Process] F0045 - Processus depuis emplacement sensible: pythonw.exe
+  Path: C:\Users\aurel\AppData\Local\Programs\Python\Python313\pythonw.exe
+  pythonw  host\winaudit_host.py
+  Pourquoi: Executable lance depuis Temp/AppData/Downloads.
+
+[Medium][Process] F0041 - Processus depuis emplacement sensible: ProtonDrive.exe
+  Path: C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe
+  "C:\Users\aurel\AppData\Local\Programs\Proton\Drive\ProtonDrive.exe" -quiet
+  Pourquoi: Executable lance depuis Temp/AppData/Downloads.
+
+[Medium][ScheduledTask] F0010 - Tache: MSIAfterburner
+  Path: C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe
+  C:\Program Files (x86)\MSI Afterburner\MSIAfterburner.exe /s
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Medium][ScheduledTask] F0008 - Tache: DiskMapTempCleanup
+  Path: cmd
+  cmd /c rmdir /s /q C:\Users\aurel\AppData\Local\Temp\DiskMap-build & rmdir /s /q C:\Users\aurel\AppData\Local\Temp\DiskMap-build-old-191855486
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Medium][ScheduledTask] F0009 - Tache: Login Auto Start Dubbing Task
+  Path: C:\Program Files\DubbingAI\DubbingAI.exe
+  C:\Program Files\DubbingAI\DubbingAI.exe -AutoStart
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Medium][ScheduledTask] F0011 - Tache: RTSS
+  Path: C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe
+  C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe /s
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Medium][Service] F0016 - Service: postgresql-x64-17
+  Path: C:\Program Files\PostgreSQL\17\bin\pg_ctl.exe
+  State=Running Start=Auto Path="C:\Program Files\PostgreSQL\17\bin\pg_ctl.exe" runservice -N "postgresql-x64-17" -D "C:\Program Files\PostgreSQL\17\data" -w
+  Pourquoi: Service hors emplacements systeme classiques ou signature douteuse. Non signe.
+
+[Medium][Service] F0017 - Service: SignalRgb.Service
+  Path: C:/Users/aurel/AppData/Local/WhirlwindFX/SignalRgb/service/SignalRgbService.exe
+  State=Running Start=Auto Path=C:/Users/aurel/AppData/Local/WhirlwindFX/SignalRgb/service/SignalRgbService.exe
+  Pourquoi: Service hors emplacements systeme classiques ou signature douteuse. Non signe.
+
+[Medium][Software] F0146 - Install recent: Element
+  Path: C:\Users\aurel\AppData\Local\element-desktop
+  InstallDate=20260801 Publisher=Element
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Medium][Software] F0148 - Install recent: Stoat
+  Path: C:\Users\aurel\AppData\Local\Stoat
+  InstallDate=20260801 Publisher=Revolt Platforms LTD
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Medium][Software] F0147 - Install recent: Detect It Easy
+  Path: C:\Users\aurel\AppData\Local\Microsoft\WinGet\Packages\horsicq.DIE-engine_Microsoft.Winget.Source_8wekyb3d8bbwe
+  InstallDate=20260803 Publisher=horsicq
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Medium][Software] F0151 - Install recent: Cursor (User)
+  Path: C:\Users\aurel\AppData\Local\Programs\cursor\
+  InstallDate=20260805 Publisher=Anysphere
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Medium][Software] F0149 - Install recent: UPX
+  Path: C:\Users\aurel\AppData\Local\Microsoft\WinGet\Packages\UPX.UPX_Microsoft.Winget.Source_8wekyb3d8bbwe
+  InstallDate=20260803 Publisher=UPX
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Medium][Startup] F0006 - Startup: CustomRP.lnk.disabled
+  Path: C:\Users\aurel\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\CustomRP.lnk.disabled
+  Target=C:\Users\aurel\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\CustomRP.lnk.disabled Args=
+  Pourquoi: Cible Startup dans un dossier utilisateur sensible.
+
+[Medium][Startup] F0007 - Startup: YASB-Watchdog.lnk
+  Path: C:\Users\aurel\.config\yasb-watchdog.cmd
+  Target=C:\Users\aurel\.config\yasb-watchdog.cmd Args=
+  Pourquoi: Raccourci / fichier dans le dossier Startup.
+
+[Medium][Startup] F0005 - Startup: CustomRP.lnk
+  Path: C:\Users\aurel\Desktop\RPC\CustomRP.exe
+  Target=C:\Users\aurel\Desktop\RPC\CustomRP.exe Args=
+  Pourquoi: Raccourci / fichier dans le dossier Startup.
+
+[Medium][Startup] F0003 - Run: RiotClient
+  Path: C:\Riot Games\Riot Client\RiotClientServices.exe
+  C:\Riot Games\Riot Client\RiotClientServices.exe --launch-background-mode
+  Pourquoi: Entree de demarrage automatique (HKCU:\Software\Microsoft\Windows\CurrentVersion\Run). Binaire non signe / introuvable.
+
+[Medium][Startup] F0002 - Run: com.gunslol.imagehost
+  Path: C:\Users\aurel\Desktop\Installer\guns.lol Image Host-0.2.0.exe
+  C:\Users\aurel\Desktop\Installer\guns.lol Image Host-0.2.0.exe
+  Pourquoi: Entree de demarrage automatique (HKCU:\Software\Microsoft\Windows\CurrentVersion\Run). Binaire non signe / introuvable.
+
+[Medium][WMI] F0018 - WMI Filter-Consumer Binding
+  __EventFilter (Name = "SCM Event Log Filter") -> NTEventLogEventConsumer (Name = "SCM Event Log Consumer")
+  Pourquoi: Liaison WMI active (verifier legitimite).
+
+[Low][Disk] F0275 - Fichier recent: 3VSu.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\1cfd2a96\3VSu.ps1
+  Size=1710 Modified=31/07/2026 00:34:28
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0281 - Fichier recent: bCuh.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\30c49216\bCuh.ps1
+  Size=2411 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0280 - Fichier recent: kHDd.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\28326329\kHDd.ps1
+  Size=1900 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0283 - Fichier recent: j5RR.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\4c3e2d53\j5RR.ps1
+  Size=3589 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0282 - Fichier recent: TMlN.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\3d55356e\TMlN.ps1
+  Size=3453 Modified=04/08/2026 20:32:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0279 - Fichier recent: TqTs.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\25c62357\TqTs.ps1
+  Size=5103 Modified=04/08/2026 20:32:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0277 - Fichier recent: kKZY.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\1cfd2a96\kKZY.ps1
+  Size=1710 Modified=01/08/2026 04:06:40
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0276 - Fichier recent: ig3f.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\1cfd2a96\ig3f.ps1
+  Size=1710 Modified=04/08/2026 13:29:22
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0278 - Fichier recent: 0Eff.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\227112de\0Eff.ps1
+  Size=2566 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0284 - Fichier recent: 0T1o.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\4d44f3ec\0T1o.ps1
+  Size=10370 Modified=04/08/2026 14:05:21
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0255 - Fichier recent: ProtAudit-Lancer.cmd
+  Path: C:\Users\aurel\AppData\Local\Temp\ProtAudit-Lancer.cmd
+  Size=74 Modified=04/08/2026 13:06:18
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0230 - Fichier recent: 8285476a-b409-4acc-883e-1b5d72323b9d.tmp.js
+  Path: C:\Users\aurel\AppData\Local\Temp\8285476a-b409-4acc-883e-1b5d72323b9d.tmp.js
+  Size=562076 Modified=01/08/2026 17:51:16
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0261 - Fichier recent: cursor-agent.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\cursor-agent.ps1
+  Size=2237 Modified=04/08/2026 16:35:24
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0263 - Fichier recent: jFQi.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-11f20102\jFQi.ps1
+  Size=3336 Modified=04/08/2026 13:53:48
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0262 - Fichier recent: d9sd.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-11f20102\d9sd.ps1
+  Size=4265 Modified=04/08/2026 16:19:44
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0226 - Fichier recent: ps-script-a30e5cf2-ace8-4608-99db-d44fe2d1f21f.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-a30e5cf2-ace8-4608-99db-d44fe2d1f21f.ps1
+  Size=2215 Modified=04/08/2026 12:35:37
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0225 - Fichier recent: ps-script-90b0d002-b386-411b-94b1-620817a8f621.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-90b0d002-b386-411b-94b1-620817a8f621.ps1
+  Size=16670 Modified=04/08/2026 13:00:52
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0227 - Fichier recent: ps-script-d24488bf-d773-4c70-a728-c88ebf3b6faf.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-d24488bf-d773-4c70-a728-c88ebf3b6faf.ps1
+  Size=2216 Modified=04/08/2026 12:35:37
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0229 - Fichier recent: ps-script-feca4450-378f-4f4d-a480-6986d9ca67cf.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-feca4450-378f-4f4d-a480-6986d9ca67cf.ps1
+  Size=2216 Modified=04/08/2026 12:35:37
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0228 - Fichier recent: ps-script-f8d00b81-bc9b-4bd6-a50f-9ca8f3ed1d1c.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-f8d00b81-bc9b-4bd6-a50f-9ca8f3ed1d1c.ps1
+  Size=16834 Modified=04/08/2026 23:13:53
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0264 - Fichier recent: 0XCp.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-1cd8ee9\0XCp.ps1
+  Size=2453 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0271 - Fichier recent: xFVD.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-690d016\xFVD.ps1
+  Size=4269 Modified=04/08/2026 16:19:44
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0270 - Fichier recent: rsPY.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-690d016\rsPY.ps1
+  Size=3340 Modified=04/08/2026 13:53:48
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0272 - Fichier recent: fI5P.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\167e6f82\fI5P.ps1
+  Size=3327 Modified=04/08/2026 13:53:48
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0274 - Fichier recent: TTRV.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\17e627d3\TTRV.ps1
+  Size=670 Modified=04/08/2026 20:32:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0273 - Fichier recent: W2WB.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\167e6f82\W2WB.ps1
+  Size=4256 Modified=04/08/2026 16:19:44
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0266 - Fichier recent: sE38.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2c661a90\sE38.ps1
+  Size=1189 Modified=04/08/2026 20:32:06
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0265 - Fichier recent: SInB.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-217809f7\SInB.ps1
+  Size=7600 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0267 - Fichier recent: XjOo.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-33b3f4b\XjOo.ps1
+  Size=4344 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0269 - Fichier recent: EHjR.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-6405c49\EHjR.ps1
+  Size=13442 Modified=06/08/2026 18:07:13
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0268 - Fichier recent: 7IHS.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-59f6459f\7IHS.ps1
+  Size=1994 Modified=04/08/2026 17:58:43
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0285 - Fichier recent: 2tfG.ps1
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\4d44f3ec\2tfG.ps1
+  Size=10370 Modified=05/08/2026 23:47:26
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0319 - Fichier recent: 3mvk.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\3mvk.bat
+  Size=652 Modified=04/08/2026 13:27:50
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0318 - Fichier recent: R7h3.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-14f6b6c1\R7h3.bat
+  Size=679 Modified=04/08/2026 22:54:50
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0317 - Fichier recent: O0uR.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-14f6b6c1\O0uR.bat
+  Size=679 Modified=06/08/2026 00:11:46
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0322 - Fichier recent: d1oW.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\d1oW.bat
+  Size=652 Modified=04/08/2026 12:37:40
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0321 - Fichier recent: 9uZ9.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\9uZ9.bat
+  Size=652 Modified=04/08/2026 14:20:31
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0320 - Fichier recent: 4XUe.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\4XUe.bat
+  Size=652 Modified=04/08/2026 13:57:50
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0313 - Fichier recent: xlag.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-11e7508d\xlag.bat
+  Size=663 Modified=04/08/2026 22:54:50
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0312 - Fichier recent: tSgM.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-11e7508d\tSgM.bat
+  Size=663 Modified=05/08/2026 23:47:26
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0311 - Fichier recent: fIV4.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-11e7508d\fIV4.bat
+  Size=663 Modified=04/08/2026 17:58:43
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0316 - Fichier recent: IJCO.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-14f6b6c1\IJCO.bat
+  Size=679 Modified=04/08/2026 17:58:43
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0315 - Fichier recent: fZAl.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-14f6b6c1\fZAl.bat
+  Size=679 Modified=05/08/2026 23:47:26
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0314 - Fichier recent: YGyA.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-11e7508d\YGyA.bat
+  Size=663 Modified=06/08/2026 00:11:46
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0331 - Fichier recent: KXjF.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\KXjF.bat
+  Size=652 Modified=04/08/2026 14:30:34
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0330 - Fichier recent: kKez.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\kKez.bat
+  Size=652 Modified=04/08/2026 14:12:51
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0329 - Fichier recent: ICY3.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\ICY3.bat
+  Size=652 Modified=04/08/2026 14:15:25
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0334 - Fichier recent: sNOm.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\sNOm.bat
+  Size=652 Modified=04/08/2026 14:10:22
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0333 - Fichier recent: R9bB.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\R9bB.bat
+  Size=652 Modified=04/08/2026 13:32:51
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0332 - Fichier recent: OndR.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\OndR.bat
+  Size=652 Modified=04/08/2026 13:54:00
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0325 - Fichier recent: FnjS.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\FnjS.bat
+  Size=652 Modified=04/08/2026 22:54:50
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0324 - Fichier recent: fdmc.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\fdmc.bat
+  Size=652 Modified=04/08/2026 17:58:43
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0323 - Fichier recent: ENtZ.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\ENtZ.bat
+  Size=652 Modified=04/08/2026 14:07:56
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0328 - Fichier recent: htBE.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\htBE.bat
+  Size=652 Modified=04/08/2026 14:05:21
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0327 - Fichier recent: hJqB.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\hJqB.bat
+  Size=652 Modified=04/08/2026 14:02:52
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0326 - Fichier recent: HI5Q.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\HI5Q.bat
+  Size=652 Modified=04/08/2026 13:47:51
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0310 - Fichier recent: 4000.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\4000.index.js
+  Size=2701 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0294 - Fichier recent: 2057.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\2057.index.js
+  Size=1566 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0293 - Fichier recent: 190.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\190.index.js
+  Size=124602 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0292 - Fichier recent: 1787.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\1787.index.js
+  Size=5629 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0297 - Fichier recent: 2359.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\2359.index.js
+  Size=2175 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0296 - Fichier recent: 229.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\229.index.js
+  Size=5213 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0295 - Fichier recent: 2240.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\2240.index.js
+  Size=223011 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0288 - Fichier recent: 1583.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\1583.index.js
+  Size=7464 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0287 - Fichier recent: 1058.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\1058.index.js
+  Size=2785 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0286 - Fichier recent: 1001.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\1001.index.js
+  Size=666 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0291 - Fichier recent: 1669.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\1669.index.js
+  Size=28629 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0290 - Fichier recent: 1637.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\1637.index.js
+  Size=11946 Modified=04/08/2026 16:50:08
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0289 - Fichier recent: 159.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\159.index.js
+  Size=584060 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0306 - Fichier recent: 3467.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3467.index.js
+  Size=51905 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0305 - Fichier recent: 3384.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3384.index.js
+  Size=22973 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0304 - Fichier recent: 3343.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3343.index.js
+  Size=7661 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0309 - Fichier recent: 3709.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3709.index.js
+  Size=10030 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0308 - Fichier recent: 3681.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3681.index.js
+  Size=28724 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0307 - Fichier recent: 3602.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3602.index.js
+  Size=20766 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0300 - Fichier recent: 2951.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\2951.index.js
+  Size=3340 Modified=04/08/2026 16:50:08
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0299 - Fichier recent: 2775.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\2775.index.js
+  Size=124860 Modified=04/08/2026 16:50:08
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0298 - Fichier recent: 2370.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\2370.index.js
+  Size=42228 Modified=04/08/2026 16:50:08
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0303 - Fichier recent: 3324.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3324.index.js
+  Size=11850 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0302 - Fichier recent: 330.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\330.index.js
+  Size=50744 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0301 - Fichier recent: 3009.index.js
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\globalStorage\anysphere.cursor-agent-worker\agent-cli\.local\share\cursor-agent\versions\2026.08.04-aaa8809\3009.index.js
+  Size=3871 Modified=04/08/2026 16:49:38
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0218 - Fichier recent: ps-script-0afaed28-283c-49a3-bcba-4af44d2dce89.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-0afaed28-283c-49a3-bcba-4af44d2dce89.ps1
+  Size=16671 Modified=04/08/2026 19:29:15
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0219 - Fichier recent: ps-script-3d1cfb19-3516-430b-9834-77743f337e64.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-3d1cfb19-3516-430b-9834-77743f337e64.ps1
+  Size=16568 Modified=03/08/2026 15:00:39
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0217 - Fichier recent: ps-script-067adaa6-43fa-4872-acf3-99ae71b142e2.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-067adaa6-43fa-4872-acf3-99ae71b142e2.ps1
+  Size=18459 Modified=04/08/2026 20:36:58
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0222 - Fichier recent: ps-script-629d6151-26ed-4ec7-b939-18f49038d20a.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-629d6151-26ed-4ec7-b939-18f49038d20a.ps1
+  Size=16647 Modified=04/08/2026 23:50:53
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0220 - Fichier recent: ps-script-4e03b7a1-b5a6-404b-b33d-743c60e74f9b.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-4e03b7a1-b5a6-404b-b33d-743c60e74f9b.ps1
+  Size=18123 Modified=04/08/2026 23:13:53
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0223 - Fichier recent: ps-script-7185bce5-e311-44a6-8564-18f48dcd718d.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-7185bce5-e311-44a6-8564-18f48dcd718d.ps1
+  Size=16893 Modified=04/08/2026 21:24:10
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0224 - Fichier recent: ps-script-8cf3978f-24e3-49cf-87c8-eb36fb293bc9.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-8cf3978f-24e3-49cf-87c8-eb36fb293bc9.ps1
+  Size=2380 Modified=04/08/2026 12:59:02
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0335 - Fichier recent: Ssiy.bat
+  Path: C:\Users\aurel\AppData\Roaming\Cursor\User\History\-2b83b7a3\Ssiy.bat
+  Size=652 Modified=04/08/2026 14:25:33
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Disk] F0221 - Fichier recent: ps-script-59b59d31-60b0-4549-83b4-e3661a8aa1dc.ps1
+  Path: C:\Users\aurel\AppData\Local\Temp\ps-script-59b59d31-60b0-4549-83b4-e3661a8aa1dc.ps1
+  Size=17013 Modified=04/08/2026 19:58:45
+  Pourquoi: Artefact executable/script recent dans zone a risque.
+
+[Low][Dns] F0060 - DNS local: 192.168.128.1 (Ethernet)
+  192.168.128.1
+  Pourquoi: DNS sur IP privee - router ou filtre local, verifier legitimite.
+
+[Low][Network] F0059 - Partage SMB: D$
+  Path: D:\
+  D:\
+  Pourquoi: Partage reseau non administratif - verifier les permissions.
+
+[Low][Network] F0055 - Sortante: MsMpEng -> 4.208.166.198:443 (HTTPS)
+  PID=4804 Path= DNS=
+  Pourquoi: Connexion sortante vers IP publique.
+
+[Low][Network] F0051 - Sortante: svchost -> 2603:1020:705:8::402:443 (HTTPS)
+  PID=4696 Path= DNS=
+  Pourquoi: Connexion sortante vers IP publique.
+
+[Low][ScheduledTask] F0012 - Tache: UninstallDeviceTask
+  Path: BthUdTask.exe
+  BthUdTask.exe $(Arg0)
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Low][ScheduledTask] F0013 - Tache: UPnPHostConfig
+  Path: sc.exe
+  sc.exe config upnphost start= auto
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Low][ScheduledTask] F0014 - Tache: Ubisoft Connect Background Update
+  Path: C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/upc.exe
+  C:/Program Files (x86)/Ubisoft/Ubisoft Game Launcher/upc.exe -upc_scheduled_task update
+  Pourquoi: Tache planifiee hors profil Microsoft classique ou chemin inhabituel.
+
+[Low][Shell] F0034 - Shell extension: NvAppDesktopContext
+  {F2E8B4A1-9C7D-4F6E-B3A5-8D2C1F4E9B7A}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0033 - Shell extension: New
+  {D969A300-E7FF-11d0-A93B-00A0C90F2719}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0032 - Shell extension: {596AB062-B4D2-4215-9F74-E9109B0A8153}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0035 - Shell extension: NvCplDesktopContext
+  {3D1975AF-48C6-4f8e-A182-BE0E08FA86A9}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0038 - Shell extension: OpenGLShExt
+  {E97DEC16-A50D-49bb-AE24-CF682282E08D}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0037 - Shell extension: NvAppShExt
+  {A929C4CE-FD36-4270-B4F5-34ECAC5BD63C}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0036 - Shell extension: Compatibility
+  {1d27f844-3a1f-4410-85ac-14651078412d}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0031 - Shell extension: EPP
+  {09A47860-11B0-4DA5-AFA5-26D86198A780}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0026 - Shell extension: Open With
+  {09799AFB-AD67-11d1-ABCD-00C04FC30936}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0025 - Shell extension: EPP
+  {09A47860-11B0-4DA5-AFA5-26D86198A780}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0028 - Shell extension: {90AA3A4E-1CBA-4233-B8BB-535773D48449}
+  Taskband Pin
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0027 - Shell extension: Open With EncryptionMenu
+  {A470F8CF-A1E8-4f65-8335-227475AA5C46}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0029 - Shell extension: {a2a9545d-a0c2-42b4-9708-a0b2badd77c8}
+  Start Menu Pin
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0030 - Shell extension: EncryptionMenu
+  {A470F8CF-A1E8-4f65-8335-227475AA5C46}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Shell] F0039 - Shell extension: PintoStartScreen
+  {470C0EBD-5D73-4d58-9CED-E91E22E23282}
+  Pourquoi: Extension shell / overlay hors editeurs courants - verifier legitimite.
+
+[Low][Trace] F0109 - Recent suspect: Downloads.lnk
+  Path: C:\Users\aurel\AppData\Roaming\Microsoft\Windows\Recent\Downloads.lnk
+  Pourquoi: Raccourci Recent vers executable ou zone sensible.
+
+[Low][USB] F0087 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0086 - USB: Périphérique USB composite
+  Status=OK
+  Pourquoi: Nom generique - verifier si peripherique attendu (HID/clavier/souris).
+
+[Low][USB] F0088 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0090 - USB: Prise en charge d’impression USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0089 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0082 - USB: Concentrateur USB SuperSpeed générique
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0081 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0083 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0085 - USB: Prise en charge d’impression USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0084 - USB: Périphérique USB composite
+  Status=OK
+  Pourquoi: Nom generique - verifier si peripherique attendu (HID/clavier/souris).
+
+[Low][USB] F0098 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0097 - USB: Prise en charge d’impression USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0099 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0101 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0100 - USB: Périphérique USB composite
+  Status=OK
+  Pourquoi: Nom generique - verifier si peripherique attendu (HID/clavier/souris).
+
+[Low][USB] F0092 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0091 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0094 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0096 - USB: Dispositif de stockage de masse USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0095 - USB: Concentrateur USB générique
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0080 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0068 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0067 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0070 - USB: Dispositif de stockage de masse USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0069 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0061 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0062 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0066 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0063 - USB: Dispositif de stockage de masse USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0071 - USB: Dispositif de stockage de masse USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0076 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0075 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0077 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0078 - USB: Dispositif de stockage de masse USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0072 - USB: Prise en charge d’impression USB
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0074 - USB: Périphérique USB composite
+  Status=Unknown
+  Pourquoi: Peripherique USB en etat inhabituel.
+
+[Low][USB] F0064 - USB: Périphérique USB composite
+  Status=OK
+  Pourquoi: Nom generique - verifier si peripherique attendu (HID/clavier/souris).
+
+[Info][Account] F0047 - Membre Administrateurs: Mr-Aurevo-X\FlowUP
+  Local
+  Pourquoi: Inventaire des admins - a valider manuellement.
+
+[Info][Account] F0048 - Membre Administrateurs: Mr-Aurevo-X\Mr-Aurevo-X
+  Local
+  Pourquoi: Inventaire des admins - a valider manuellement.
+
+[Info][Account] F0046 - Membre Administrateurs: Mr-Aurevo-X\Administrateur
+  Local
+  Pourquoi: Inventaire des admins - a valider manuellement.
+
+[Info][Browser] F0152 - Edge extension: __MSG_extName__
+  Path: C:\Users\aurel\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\ghbmnnjooekpmoecnnnilnnbdlolhkhi
+  ghbmnnjooekpmoecnnnilnnbdlolhkhi
+  Pourquoi: Extension navigateur presente - controler la legitimite.
+
+[Info][Browser] F0154 - Firefox extensions (8) - 4nsuiwvy.default-release
+  Path: C:\Users\aurel\AppData\Roaming\Mozilla\Firefox\Profiles\4nsuiwvy.default-release\extensions
+  Pourquoi: Inventaire extensions - verifier manuellement les add-ons inconnus.
+
+[Info][Browser] F0153 - Edge extension: Edge relevant text changes
+  Path: C:\Users\aurel\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\jmjflgjpcpepeafmmgdpfkogkghcpiha
+  jmjflgjpcpepeafmmgdpfkogkghcpiha
+  Pourquoi: Extension navigateur presente - controler la legitimite.
+
+[Info][Certificate] F0137 - Certificat racine tiers: Hellenic Academic and Research Institutions RootCA 2015
+  CN=Hellenic Academic and Research Institutions RootCA 2015, O=Hellenic Academic and Research Institutions Cert. Authority, L=Athens, C=GR
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0132 - Certificat racine tiers: Security Communication RootCA2
+  OU=Security Communication RootCA2, O="SECOM Trust Systems CO.,LTD.", C=JP
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0133 - Certificat racine tiers: GLOBALTRUST 2015
+  CN=GLOBALTRUST 2015, OU=GLOBALTRUST Certification Service, O=e-commerce monitoring GmbH, L=Wien, S=Wien, C=AT
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0136 - Certificat racine tiers: HARICA TLS RSA Root CA 2021
+  CN=HARICA TLS RSA Root CA 2021, O=Hellenic Academic and Research Institutions CA, C=GR
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0134 - Certificat racine tiers: Trustwave Global Certification Authority
+  CN=Trustwave Global Certification Authority, O="Trustwave Holdings, Inc.", L=Chicago, S=Illinois, C=US
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0131 - Certificat racine tiers: SSL.com EV Root Certification Authority RSA R2
+  CN=SSL.com EV Root Certification Authority RSA R2, O=SSL Corporation, L=Houston, S=Texas, C=US
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0117 - Certificat racine tiers: Electronic Arts, Inc.
+  CN="Electronic Arts, Inc.", OU=EA SPEAR AntiCheat Engineering, O="Electronic Arts, Inc.", L=Redwood City, S=California, C=US, SERIALNUMBER=2262497, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0116 - Certificat racine tiers: Mr-Aurevo-X
+  CN=Mr-Aurevo-X
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0121 - Certificat racine tiers: AutoHotkey
+  CN=AutoHotkey
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0130 - Certificat racine tiers: SSL.com Root Certification Authority RSA
+  CN=SSL.com Root Certification Authority RSA, O=SSL Corporation, L=Houston, S=Texas, C=US
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0129 - Certificat racine tiers: SSL.com Root Certification Authority ECC
+  CN=SSL.com Root Certification Authority ECC, O=SSL Corporation, L=Houston, S=Texas, C=US
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Certificate] F0123 - Certificat racine tiers: Blizzard Battle.net Local Cert
+  CN=Blizzard Battle.net Local Cert, OU=Battle.net, O=Blizzard Entertainment, L=Irvine, S=California, C=US
+  Pourquoi: Inventaire - verifier si editeur attendu.
+
+[Info][Software] F0145 - Install recent: Java 8 Update 501
+  Path: C:\Program Files (x86)\Java\jre1.8.0_501\
+  InstallDate=20260803 Publisher=Oracle Corporation
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0143 - Install recent: Microsoft Edge WebView2 Runtime
+  Path: C:\Program Files (x86)\Microsoft\EdgeWebView\Application
+  InstallDate=20260804 Publisher=Microsoft Corporation
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0150 - Install recent: Proton Drive
+  InstallDate=20260806 Publisher=Proton AG
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0138 - Install recent: Lazarus 2.2.2
+  Path: C:\lazarus\
+  InstallDate=20260801 Publisher=Lazarus Team
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0142 - Install recent: Brave
+  Path: C:\Program Files\BraveSoftware\Brave-Browser\Application
+  InstallDate=20260805 Publisher=Auteurs de Brave
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0139 - Install recent: Proton VPN
+  Path: C:\Program Files\Proton\VPN\
+  InstallDate=20260726 Publisher=Proton AG
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0144 - Install recent: Java Auto Updater
+  InstallDate=20260803 Publisher=Oracle Corporation
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0140 - Install recent: Proton Drive
+  InstallDate=20260806 Publisher=Proton AG
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Software] F0141 - Install recent: Java(TM) SE Development Kit 25.0.4 (64-bit)
+  Path: C:\Program Files\Java\jdk-25.0.4\
+  InstallDate=20260803 Publisher=Oracle Corporation
+  Pourquoi: Logiciel installe dans les 14 derniers jours.
+
+[Info][Trace] F0111 - UserAssist: UbisoftConnect.exe
+  {7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}\Ubisoft\Ubisoft Game Launcher\UbisoftConnect.exe
+  Pourquoi: Programme execute recemment (inventaire UserAssist).
+
+[Info][Trace] F0107 - RunMRU: %appdata%
+  %appdata%
+  Pourquoi: Commande recente via Win+R.
+
+[Info][Trace] F0113 - UserAssist: msinfo32.exe
+  {1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\msinfo32.exe
+  Pourquoi: Programme execute recemment (inventaire UserAssist).
+
+[Info][Trace] F0108 - Fichiers Recent: 186
+  C:\Users\aurel\AppData\Roaming\Microsoft\Windows\Recent
+  Pourquoi: Compte des raccourcis Recent - trace d'activite locale.
+
+[Info][Trace] F0112 - UserAssist: Steam.exe
+  {7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}\Steam\Steam.exe
+  Pourquoi: Programme execute recemment (inventaire UserAssist).
+
+[Info][Trace] F0110 - UserAssist: SteelSeriesGGClient.exe
+  {6D809377-6AF0-444B-8957-A3773F02200E}\SteelSeries\GG\SteelSeriesGGClient.exe
+  Pourquoi: Programme execute recemment (inventaire UserAssist).
+
+[Info][USB] F0065 - USB: Contrôleur hôte AMD USB 3.10 eXtensible - 1.10 (Microsoft)
+  Status=OK
+  Pourquoi: Peripherique USB inventorie.
+
+[Info][USB] F0079 - USB: Hub USB racine (USB 3.0)
+  Status=OK
+  Pourquoi: Peripherique USB inventorie.
+
+[Info][USB] F0073 - USB: Contrôleur hôte AMD USB 3.10 eXtensible - 1.10 (Microsoft)
+  Status=OK
+  Pourquoi: Peripherique USB inventorie.
+
+[Info][USB] F0093 - USB: Hub USB racine (USB 3.0)
+  Status=OK
+  Pourquoi: Peripherique USB inventorie.
+
+[Info][USB] F0105 - USBSTOR: General UDisk USB Device
+  Instance=7&34b0750&0
+  Pourquoi: Stockage de masse USB deja branche sur cette machine (historique registre).
+
+[Info][USB] F0106 - USBSTOR: Kingston DataTraveler 3.0 USB Device
+  Instance=E0D55E62C79918318877012A&0
+  Pourquoi: Stockage de masse USB deja branche sur cette machine (historique registre).
+
+[Info][USB] F0104 - USBSTOR: General UDisk USB Device
+  Instance=7&28be689a&0
+  Pourquoi: Stockage de masse USB deja branche sur cette machine (historique registre).
+
+[Info][USB] F0102 - USBSTOR: PHILIPS USB Device
+  Instance=3363321243693795621&0
+  Pourquoi: Stockage de masse USB deja branche sur cette machine (historique registre).
+
+[Info][USB] F0103 - USBSTOR: USB Flash Memory USB Device
+  Instance=C03FD5F7A876E5A14311B444&0
+  Pourquoi: Stockage de masse USB deja branche sur cette machine (historique registre).
+
+

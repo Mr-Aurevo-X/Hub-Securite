@@ -1,7 +1,7 @@
 /**
  * Hub-Securite shell — Dashboard boot + lazy modules + sidebar collapsible.
  */
-const HUB_NAME = "PC Command | Security";
+const HUB_NAME = "L'Atelier PC Command — Sécurité";
 
 const TITLES = {
   dashboard: HUB_NAME,
