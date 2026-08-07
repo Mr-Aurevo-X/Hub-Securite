@@ -26,10 +26,7 @@ from tools.winaudit.bridge import WinAuditBridge
 from security import ConfirmGate
 from suite_launch import launch_suite_app
 
-_HOST = Path(__file__).resolve().parent
-_MOD = _HOST / "modules"
-if str(_HOST) not in sys.path:
-    sys.path.insert(0, str(_HOST))
+# _BACKEND already on sys.path (tools.* imports). No legacy modules/ path.
 
 
 def _is_admin() -> bool:
