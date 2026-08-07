@@ -3,7 +3,7 @@
  * Bridge: pywebview.api.winaudit.*
  * Segments: Aperçu OS / Heuristique / Réseau / Chaînes / Logs
  */
-import { mountModuleShell, waitNs, esc } from "./_in_hub.js";
+import { mountModuleShell, waitNs, esc, unwrapData, pollUntil } from "./_in_hub.js";
 
 const SEV_ORDER  = { Critical: 0, High: 1, Medium: 2, Low: 3, Info: 4 };
 const SEV_COLORS = {
@@ -19,7 +19,7 @@ export async function mount(root) {
     { id: "logs",      label: "Logs" },
   ];
 
-  const { body, setStatus, setSegment, getSegment } = mountModuleShell(root, {
+  const { body, setStatus, setProgress: setShellProgress, setSegment, getSegment } = mountModuleShell(root, {
     title: "WinAudit",
     subtitle: "Audit OS heuristique — lecture seule",
     segments: SEGS,
@@ -93,8 +93,16 @@ export async function mount(root) {
   }
 
   function setProgress(pct, label) {
-    progressBar.style.width = Math.max(0, Math.min(100, pct)) + "%";
+    const n = Math.max(0, Math.min(100, Number(pct) || 0));
+    progressBar.style.width = n + "%";
     progressLabel.textContent = label || "";
+    if (setShellProgress) setShellProgress(n, label || "");
+  }
+
+  function scoreOf(res) {
+    if (!res) return 0;
+    const s = res.Score || res.score || {};
+    return Number(s.Score ?? s.score ?? res.scoreValue ?? 0) || 0;
   }
 
   function setBusy(on) {
@@ -119,8 +127,8 @@ export async function mount(root) {
       el.innerHTML = `<div class="panel"><p class="empty-state">Lancez un scan pour cartographier les anomalies.</p></div>`;
       return;
     }
-    const score = result.Score || {};
-    const pct   = Math.max(0, Math.min(100, Number(score.Score) || 0));
+    const score = result.Score || result.score || {};
+    const pct   = Math.max(0, Math.min(100, scoreOf(result)));
     const sev   = { Critical: 0, High: 0, Medium: 0, Low: 0, Info: 0 };
     (result.Findings || []).forEach((f) => { if (sev[f.Severity] != null) sev[f.Severity]++; else sev.Info++; });
 
@@ -393,37 +401,54 @@ export async function mount(root) {
   // ── Scan lifecycle ──────────────────────────────────────────────────────────
   async function runScan() {
     if (busy || !api) return;
+    if (typeof api.start_scan !== "function") {
+      setStatus("API winaudit.start_scan indisponible", "error");
+      return;
+    }
     setBusy(true);
-    setProgress(0, "Démarrage…");
+    setProgress(2, "Démarrage…");
     addLog("Démarrage du scan complet…");
     setStatus("Scan en cours…");
     try {
-      await api.start_scan();
-      let cancelled = false;
-      for (;;) {
-        await new Promise((r) => setTimeout(r, 300));
-        const p = await api.get_scan_progress();
-        setProgress(p.percent || 0, `${p.percent || 0}% · ${p.phase || ""}${p.detail ? " — " + p.detail : ""}`);
-        if (p.cancelled && (p.done || !p.running)) { cancelled = true; break; }
-        if (p.error && (p.done || !p.running)) throw new Error(p.error);
-        if (p.done && !p.running) break;
-      }
-      if (cancelled) {
+      const started = await api.start_scan();
+      if (started && started.ok === false) throw new Error(started.error || "Démarrage refusé");
+      const prog = await pollUntil(
+        () => api.get_scan_progress(),
+        {
+          intervalMs: 350,
+          timeoutMs: 600000,
+          onTick: ({ percent, phase, detail }) => {
+            const pct = Math.max(percent || 0, 2);
+            setProgress(pct, `${pct}% · ${phase || ""}${detail ? " — " + detail : ""}`);
+          },
+        }
+      );
+      if (prog.cancelled) {
         addLog("Scan annulé — dernier scan conservé.", "warn");
         setStatus("Annulé");
         return;
       }
+      if (prog.error) throw new Error(prog.error);
       setProgress(100, "Chargement du résultat…");
-      const data = await api.get_scan_result();
-      result      = data.result || data;
-      connections = (result.Connections) || [];
-      addLog(`Scan OK — score ${result.Score?.Score}/100 · ${(result.Findings || []).length} findings · ${result.DurationSec || "?"}s`, "ok");
-      if (data.export?.Html) addLog("Rapport HTML: " + data.export.Html);
-      setStatus("Prêt — lecture seule");
+      const raw = unwrapData(await api.get_scan_result());
+      if (!raw || raw.ok === false) throw new Error(raw?.error || "Résultat indisponible");
+      result = raw.result || raw.data || raw;
+      if (result && result.result) result = result.result;
+      connections = result.Connections || result.connections || [];
+      const sc = scoreOf(result);
+      addLog(
+        `Scan OK — score ${sc}/100 · ${(result.Findings || result.findings || []).length} findings · ${
+          result.DurationSec ?? result.durationSec ?? "?"
+        }s`,
+        "ok"
+      );
+      const exp = raw.export || result.export;
+      if (exp?.Html) addLog("Rapport HTML: " + exp.Html);
+      setStatus(sc ? `Prêt — score ${sc}/100` : "Prêt — lecture seule", "ok");
       refreshCurrentSeg();
     } catch (e) {
       addLog(String(e.message || e), "err");
-      setStatus("Erreur", "error");
+      setStatus("Erreur : " + String(e.message || e), "error");
     } finally {
       setBusy(false);
       setProgress(0, "");
@@ -490,9 +515,11 @@ export async function mount(root) {
       if (ping.hasLast) {
         try {
           const last = await apiRun("getLastResult");
-          result      = last.result;
+          result = last?.result || last;
           connections = (result?.Connections) || [];
-          addLog("Dernier scan rechargé.", "ok");
+          const sc = scoreOf(result);
+          addLog(sc ? `Dernier scan rechargé — score ${sc}/100.` : "Dernier scan rechargé.", "ok");
+          setStatus(sc ? `Dernier scan — score ${sc}/100` : "Dernier scan chargé");
         } catch (_) {}
       }
     } catch (e) {
