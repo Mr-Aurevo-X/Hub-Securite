@@ -190,7 +190,9 @@ export async function mount(root) {
           }],
         },
         options: {
-          plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 11 } } } },
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom", labels: { boxWidth: 8, font: { size: 10 }, padding: 8 } } },
           cutout: "62%",
         },
       });
@@ -213,11 +215,13 @@ export async function mount(root) {
           }],
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           indexAxis: "y",
           plugins: { legend: { display: false } },
           scales: {
-            x: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { precision: 0 } },
-            y: { grid: { display: false } },
+            x: { grid: { color: "rgba(255,255,255,0.05)" }, ticks: { precision: 0, font: { size: 10 } } },
+            y: { grid: { display: false }, ticks: { font: { size: 10 } } },
           },
         },
       });
@@ -255,8 +259,8 @@ export async function mount(root) {
           </div>
         </div>
         <div class="wa-charts">
-          <div class="wa-chart-box"><h4>Sévérité</h4><canvas id="waChartSev" height="140"></canvas></div>
-          <div class="wa-chart-box"><h4>Catégories</h4><canvas id="waChartCat" height="200"></canvas></div>
+          <div class="wa-chart-box"><h4>Sévérité</h4><div class="wa-chart-canvas"><canvas id="waChartSev"></canvas></div></div>
+          <div class="wa-chart-box"><h4>Catégories</h4><div class="wa-chart-canvas"><canvas id="waChartCat"></canvas></div></div>
         </div>
       </div>
       <div class="panel" style="flex-shrink:0">

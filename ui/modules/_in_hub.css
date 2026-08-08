@@ -419,26 +419,31 @@
 .hub-inhub .wa-charts {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 8px;
 }
 @media (max-width: 900px) {
   .hub-inhub .wa-charts { grid-template-columns: 1fr; }
 }
 .hub-inhub .wa-chart-box {
-  min-height: 160px;
+  min-height: 0;
   background: rgba(12, 15, 20, 0.35);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 .hub-inhub .wa-chart-box h4 {
-  margin: 0 0 6px;
-  font-size: 0.72rem;
+  margin: 0 0 4px;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--muted);
+}
+.hub-inhub .wa-chart-canvas {
+  position: relative;
+  height: 120px;
+  max-height: 120px;
 }
 
 .hub-inhub .chain-card {
