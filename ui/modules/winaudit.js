@@ -129,10 +129,53 @@ export async function mount(root) {
     }
   }
 
+  /** Mirror Get-AuditScore (capped penalties) so Overview stays meaningful on noisy scans. */
+  function computeScore(res) {
+    const findings = res?.Findings || res?.findings || [];
+    const chains = res?.Chains || res?.chains || [];
+    const bySev = { Critical: 0, High: 0, Medium: 0, Low: 0, Info: 0 };
+    findings.forEach((f) => {
+      const k = f?.Severity || f?.severity || "Info";
+      if (bySev[k] != null) bySev[k]++;
+      else bySev.Info++;
+    });
+    let penalty =
+      Math.min(35, bySev.Critical * 7) +
+      Math.min(22, bySev.High * 2) +
+      Math.min(14, bySev.Medium * 0.4) +
+      Math.min(5, bySev.Low * 0.05);
+    let chainPenalty = 0;
+    chains.forEach((c) => {
+      const conf = Number(c?.Confidence ?? c?.confidence) || 0;
+      if (conf >= 70) chainPenalty += Math.min(6, conf / 15);
+    });
+    penalty += Math.min(10, chainPenalty);
+    const score = Math.max(0, Math.min(100, Math.round(100 - penalty)));
+    const label =
+      score >= 85 ? "Sain" : score >= 65 ? "Acceptable" : score >= 40 ? "Suspect" : "Critique";
+    return { Score: score, Label: label, BySeverity: bySev, Total: findings.length, Penalty: Math.round(penalty * 10) / 10 };
+  }
+
   function scoreOf(res) {
     if (!res) return 0;
+    const findings = res.Findings || res.findings || [];
+    if (findings.length) return computeScore(res).Score;
     const s = res.Score || res.score || {};
-    return Number(s.Score ?? s.score ?? res.scoreValue ?? 0) || 0;
+    const n = Number(s.Score ?? s.score ?? res.scoreValue);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function scoreMeta(res) {
+    if (!res) return { Score: 0, Label: "—" };
+    const findings = res.Findings || res.findings || [];
+    if (findings.length) return computeScore(res);
+    const s = res.Score || res.score || {};
+    return {
+      Score: scoreOf(res),
+      Label: s.Label || s.label || "Santé machine",
+      BySeverity: s.BySeverity || {},
+      Total: s.Total || 0,
+    };
   }
 
   function countSev(findings) {
@@ -237,8 +280,8 @@ export async function mount(root) {
       el.innerHTML = `<div class="panel"><p class="empty-state">Lancez un scan pour cartographier les anomalies.</p></div>`;
       return;
     }
-    const score = result.Score || result.score || {};
-    const pct   = Math.max(0, Math.min(100, scoreOf(result)));
+    const score = scoreMeta(result);
+    const pct   = Math.max(0, Math.min(100, Number(score.Score) || 0));
     const sev   = countSev(result.Findings);
 
     el.innerHTML = `
@@ -611,16 +654,18 @@ export async function mount(root) {
       result = raw.result || raw.data || raw;
       if (result && result.result) result = result.result;
       connections = result.Connections || result.connections || [];
-      const sc = scoreOf(result);
+      const meta = scoreMeta(result);
+      if (result && typeof result === "object") result.Score = meta;
+      const sc = meta.Score;
       addLog(
-        `Scan OK — score ${sc}/100 · ${(result.Findings || result.findings || []).length} findings · ${
+        `Scan OK — score ${sc}/100 (${meta.Label}) · ${(result.Findings || result.findings || []).length} findings · ${
           result.DurationSec ?? result.durationSec ?? "?"
         }s`,
         "ok"
       );
       const exp = raw.export || result.export;
       if (exp?.Html) addLog("Rapport HTML: " + exp.Html);
-      setStatus(sc ? `Prêt — score ${sc}/100` : "Prêt — lecture seule", "ok");
+      setStatus(`Prêt — score ${sc}/100`, "ok");
       refreshCurrentSeg();
     } catch (e) {
       addLog(String(e.message || e), "err");
@@ -722,9 +767,11 @@ export async function mount(root) {
           const last = await apiRun("getLastResult");
           result = last?.result || last;
           connections = (result?.Connections) || [];
-          const sc = scoreOf(result);
-          addLog(sc ? `Dernier scan rechargé — score ${sc}/100.` : "Dernier scan rechargé.", "ok");
-          setStatus(sc ? `Dernier scan — score ${sc}/100` : "Dernier scan chargé");
+          const meta = scoreMeta(result);
+          if (result && typeof result === "object") result.Score = meta;
+          const sc = meta.Score;
+          addLog(`Dernier scan rechargé — score ${sc}/100 (${meta.Label}).`, "ok");
+          setStatus(`Dernier scan — score ${sc}/100`);
           syncExportButtons();
         } catch (_) {}
       }

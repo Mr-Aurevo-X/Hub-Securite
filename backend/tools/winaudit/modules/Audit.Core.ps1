@@ -135,11 +135,12 @@ function Test-AuditMicrosoftPublisher {
 
 function Get-AuditSeverityWeight {
     param([string]$Severity)
+    # Per-finding weights (used with caps in Get-AuditScore — uncapped sum hits 0 on noisy scans).
     switch ($Severity) {
-        'Critical' { 25 }
-        'High'     { 12 }
-        'Medium'   { 5 }
-        'Low'      { 2 }
+        'Critical' { 8 }
+        'High'     { 3 }
+        'Medium'   { 0.6 }
+        'Low'      { 0.08 }
         default    { 0 }
     }
 }
@@ -149,17 +150,26 @@ function Get-AuditScore {
         [object[]]$Findings,
         [object[]]$Chains = @()
     )
-    $score = 100
+    # Capped penalties so hundreds of Low/Info findings don't force Score=0
+    # while Critical/High still dominate the health ring.
     $bySev = @{ Critical = 0; High = 0; Medium = 0; Low = 0; Info = 0 }
     foreach ($f in @($Findings)) {
-        if ($bySev.ContainsKey([string]$f.Severity)) { $bySev[[string]$f.Severity]++ }
-        $score -= (Get-AuditSeverityWeight $f.Severity)
+        $sev = [string]$f.Severity
+        if ($bySev.ContainsKey($sev)) { $bySev[$sev]++ }
     }
+    $penalty = 0.0
+    $penalty += [Math]::Min(35.0, [double]$bySev.Critical * 7.0)
+    $penalty += [Math]::Min(22.0, [double]$bySev.High * 2.0)
+    $penalty += [Math]::Min(14.0, [double]$bySev.Medium * 0.4)
+    $penalty += [Math]::Min(5.0,  [double]$bySev.Low * 0.05)
+    $chainPenalty = 0.0
     foreach ($c in @($Chains)) {
         if ([int]$c.Confidence -ge 70) {
-            $score -= [Math]::Min(15, [int]([int]$c.Confidence / 10))
+            $chainPenalty += [Math]::Min(6.0, [double]([int]$c.Confidence) / 15.0)
         }
     }
+    $penalty += [Math]::Min(10.0, $chainPenalty)
+    $score = [int][Math]::Round(100.0 - $penalty)
     if ($score -lt 0) { $score = 0 }
     if ($score -gt 100) { $score = 100 }
     $label = if ($score -ge 85) { 'Sain' }
@@ -171,6 +181,7 @@ function Get-AuditScore {
         Label      = $label
         BySeverity = $bySev
         Total      = @($Findings).Count
+        Penalty    = [Math]::Round($penalty, 1)
     }
 }
 
