@@ -140,8 +140,8 @@ export async function mount(root) {
       else bySev.Info++;
     });
     let penalty =
-      Math.min(35, bySev.Critical * 7) +
-      Math.min(22, bySev.High * 2) +
+      Math.min(55, bySev.Critical * 20) +
+      Math.min(30, bySev.High * 5) +
       Math.min(14, bySev.Medium * 0.4) +
       Math.min(5, bySev.Low * 0.05);
     let chainPenalty = 0;
@@ -151,8 +151,11 @@ export async function mount(root) {
     });
     penalty += Math.min(10, chainPenalty);
     const score = Math.max(0, Math.min(100, Math.round(100 - penalty)));
-    const label =
+    let label =
       score >= 85 ? "Sain" : score >= 65 ? "Acceptable" : score >= 40 ? "Suspect" : "Critique";
+    if (bySev.Critical >= 3) label = "Critique";
+    else if (bySev.Critical >= 1 && (label === "Sain" || label === "Acceptable")) label = "Suspect";
+    else if (bySev.High >= 5 && label === "Sain") label = "Acceptable";
     return { Score: score, Label: label, BySeverity: bySev, Total: findings.length, Penalty: Math.round(penalty * 10) / 10 };
   }
 

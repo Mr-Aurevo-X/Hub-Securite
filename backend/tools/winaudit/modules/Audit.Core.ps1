@@ -150,16 +150,17 @@ function Get-AuditScore {
         [object[]]$Findings,
         [object[]]$Chains = @()
     )
-    # Capped penalties so hundreds of Low/Info findings don't force Score=0
-    # while Critical/High still dominate the health ring.
+    # Capped penalties so hundreds of Low/Info findings don't force Score=0,
+    # while Critical/High still dominate the health ring / label.
     $bySev = @{ Critical = 0; High = 0; Medium = 0; Low = 0; Info = 0 }
     foreach ($f in @($Findings)) {
         $sev = [string]$f.Severity
         if ($bySev.ContainsKey($sev)) { $bySev[$sev]++ }
     }
     $penalty = 0.0
-    $penalty += [Math]::Min(35.0, [double]$bySev.Critical * 7.0)
-    $penalty += [Math]::Min(22.0, [double]$bySev.High * 2.0)
+    # 1 Critical → −20 (never "Sain"); 2 → −40; cap 55.
+    $penalty += [Math]::Min(55.0, [double]$bySev.Critical * 20.0)
+    $penalty += [Math]::Min(30.0, [double]$bySev.High * 5.0)
     $penalty += [Math]::Min(14.0, [double]$bySev.Medium * 0.4)
     $penalty += [Math]::Min(5.0,  [double]$bySev.Low * 0.05)
     $chainPenalty = 0.0
@@ -176,6 +177,12 @@ function Get-AuditScore {
         elseif ($score -ge 65) { 'Acceptable' }
         elseif ($score -ge 40) { 'Suspect' }
         else { 'Critique' }
+    # Severity floors — Critical must dominate the health label.
+    if ([int]$bySev.Critical -ge 3) { $label = 'Critique' }
+    elseif ([int]$bySev.Critical -ge 1) {
+        if ($label -in @('Sain', 'Acceptable')) { $label = 'Suspect' }
+    }
+    elseif ([int]$bySev.High -ge 5 -and $label -eq 'Sain') { $label = 'Acceptable' }
     [pscustomobject]@{
         Score      = $score
         Label      = $label
