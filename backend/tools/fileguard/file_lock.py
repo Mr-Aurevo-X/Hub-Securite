@@ -1,3 +1,7 @@
+# Copyright (c) 2026 Mr-Aurevo-X. All rights reserved.
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+# Author: Mr-Aurevo-X | https://github.com/Mr-Aurevo-X
+
 """FileLock logic — find processes locking a file (Restart Manager + openfiles)."""
 from __future__ import annotations
 

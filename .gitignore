@@ -7,6 +7,12 @@ dist/
 *.exe
 .DS_Store
 Thumbs.db
+.env
+.env.*
+secrets.json
+*.pem
+*.key
+installer.token
 
 # WinAudit runtime exports / scan state (flatten path)
 backend/tools/winaudit/logs/*
