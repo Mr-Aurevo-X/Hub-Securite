@@ -5,7 +5,7 @@
 const HUB_LABEL = "Security";
 const HUB_BLURB = "PC Command — live metrics (read-only) · no mutators";
 const SHOW_VIEW =
-  () => window.HubShell?.showView || window.HubSysteme?.showView;
+  () => window.HubSecurite?.showView || window.HubShell?.showView;
 
 const FALLBACK_MODULES = [
   { id: "fileguard", label: "FileGuard", desc: "Verrous de fichiers, audit ACL NTFS, prise de possession", ico: "FG" },
