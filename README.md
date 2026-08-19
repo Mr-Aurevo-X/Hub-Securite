@@ -2,6 +2,12 @@
 
 Hub catégorie — Couche B + H7 native + flatten `host.py` / `backend/`.
 
+## Aperçu
+
+| Accueil | Module |
+|---------|--------|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![WinAudit](docs/screenshots/winaudit.png) |
+
 ## Modules
 
 | Module | Rôle |
