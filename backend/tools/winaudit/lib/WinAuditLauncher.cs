@@ -1,4 +1,3 @@
-// WinAuditLauncher.cs - thin GUI exe that elevates and runs WinAudit.ps1
 using System;
 using System.Diagnostics;
 using System.IO;
