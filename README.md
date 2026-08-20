@@ -21,6 +21,17 @@ Hub **Sécurité**. Licence PolyForm Noncommercial 1.0.0. Éditeur : **Mr-Aurevo
 | RepoRadar | Scan repos locaux |
 | WinAudit | Audit OS lecture seule |
 
+## Où s’installe
+
+| Mode | Emplacement |
+|------|-------------|
+| **Release** (`Launch-Hub-Securite.zip`) | Dossier **portable** : extrayez le zip où vous voulez, lancez `Launch-Hub-Securite.exe` depuis ce dossier. |
+| **Métadonnées / version** | `%LOCALAPPDATA%\PCCommand\` |
+| **Préférences accent / langue** | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (si présent) |
+| **Dev (sources)** | Clone du repo + `Lancer.cmd` |
+
+Téléchargement : [Releases Hub-Securite](https://github.com/Mr-Aurevo-X/Hub-Securite/releases).
+
 ```bat
 Lancer.cmd
 ```

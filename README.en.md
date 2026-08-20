@@ -21,6 +21,17 @@
 | RepoRadar | Local repo scan |
 | WinAudit | Read-only OS audit |
 
+## Where it installs
+
+| Mode | Location |
+|------|----------|
+| **Release** (`Launch-Hub-Securite.zip`) | **Portable** folder: extract anywhere, run `Launch-Hub-Securite.exe` from that folder. |
+| **Version / stamp** | `%LOCALAPPDATA%\PCCommand\` |
+| **Accent / language prefs** | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (if present) |
+| **Dev (sources)** | Repo clone + `Lancer.cmd` |
+
+Download: [Hub-Securite Releases](https://github.com/Mr-Aurevo-X/Hub-Securite/releases).
+
 ```bat
 Lancer.cmd
 ```
