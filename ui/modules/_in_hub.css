@@ -1,9 +1,9 @@
-/**
+﻿/**
  * Copyright (c) 2026 Mr-Aurevo-X. All rights reserved.
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * Author: Mr-Aurevo-X | https://github.com/Mr-Aurevo-X
  */
-/* Shared native in-hub module chrome (UninstX-grade) — no nested windows */
+/* Shared native in-hub module chrome (UninstX-grade) â€” no nested windows */
 
 .hub-inhub {
   display: flex;
@@ -39,7 +39,7 @@
   flex-shrink: 0;
 }
 
-/* Persistent module action bar (above body — survives segment swaps) */
+/* Persistent module action bar (above body â€” survives segment swaps) */
 .hub-inhub .hub-inhub-actions {
   flex-shrink: 0;
   position: sticky;
@@ -270,7 +270,7 @@
 .hub-inhub .confirm-overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 100001;
   background: rgba(7, 7, 8, 0.75);
   display: flex;
   align-items: center;
@@ -525,7 +525,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-/* Scrollbar dark theme — WebKit + Firefox */
+/* Scrollbar dark theme â€” WebKit + Firefox */
 .hub-main,
 #hubView,
 .hub-inhub-body,
