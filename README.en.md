@@ -1,44 +1,49 @@
 [Français](README.md) · [English](README.en.md)
 
-# Hub-Securite — PC Command
+# PC Command | Security
 
-**Read-only** distribution. No pull requests or issues (`CONTRIBUTING.md`).
+**Security** hub — files, certificates, repos, Windows audit. Posture Home (firewall / findings), native modules.  
+**Void Glow** · **local-first** (optional GitHub check) · PolyForm Noncommercial 1.0.0 · **Mr-Aurevo-X**
 
-**Security** hub. License: PolyForm Noncommercial 1.0.0. Publisher: **Mr-Aurevo-X**. Local-first, no publisher telemetry (`PRIVACY.md`).
+## Preview
 
-## Overview
-
-| Home | Module |
-|---------|--------|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![WinAudit](docs/screenshots/winaudit.png) |
+| Home | WinAudit |
+|------|----------|
+| ![Home](docs/screenshots/dashboard.png) | ![WinAudit](docs/screenshots/winaudit.png) |
 
 ## Modules
 
 | Module | Role |
 |--------|------|
-| FileGuard | File ownership / guard |
+| FileGuard | File integrity / guard |
 | CertView | Certificates |
-| RepoRadar | Local repo scan |
-| WinAudit | Read-only OS audit |
+| RepoRadar | Repos & surfaces |
+| **WinAudit** | Windows audit · findings · ConfirmGate |
 
-## Where it installs
+## Why this hub
+
+- **Read-only** posture Home — no dashboard mutators
+- ConfirmGate on system-touching actions
+- FR | EN · support · About (Terms / Privacy / Legal notice / Notices)
+
+## Where it lives
 
 | Mode | Location |
 |------|----------|
-| **Release** (`Launch-Hub-Securite.zip`) | **Portable** folder: extract anywhere, run `Launch-Hub-Securite.exe` from that folder. |
-| **Version / stamp** | `%LOCALAPPDATA%\PCCommand\` |
-| **Accent / language prefs** | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (if present) |
-| **Dev (sources)** | Repo clone + `Lancer.cmd` |
+| **Release** (`Launch-Hub-Securite.zip`) | **Portable** folder — `Launch-Hub-Securite.exe` |
+| Metadata / version | `%LOCALAPPDATA%\PCCommand\` |
+| Prefs | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (shared) |
+| Dev | Clone + `Lancer.cmd` |
 
-Download: [Hub-Securite Releases](https://github.com/Mr-Aurevo-X/Hub-Securite/releases).
+Download: [Hub-Securite Releases](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · tag **v2.0.0**
+
+## Launch
 
 ```bat
 Lancer.cmd
 ```
 
-Windows may flag the app as potentially unsafe: binaries are not Authenticode-signed (no paid publisher certificate). That is a SmartScreen reputation warning, not an antivirus verdict.
-
-HWND titles: `PC Command | Security`. Isolation: `ISOLATION.md`.
+SmartScreen possible (unsigned binaries). Title: `PC Command | Security` / `[Module]`. See `PRIVACY.md` · `ISOLATION.md` · `LICENSE`.
 
 ---
 

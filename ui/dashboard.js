@@ -6,18 +6,22 @@
 /**
  * Hub Accueil Sécurité — Filament Void Glow (dash-prop · gauge-card).
  * Firewall · findings · âge audit — lecture seule, zéro scan auto.
+ * Pas de kicker « · Void Glow » (chrome only).
  */
-const HUB_LABEL = "Security";
-const HUB_BLURB = "PC Command — lecture seule · zéro mutator";
+import { locale, t } from "./i18n.js";
+
 const SHOW_VIEW = () => window.HubSecurite?.showView || window.HubShell?.showView;
 
-const FALLBACK_MODULES = [
-  { id: "fileguard", label: "FileGuard", desc: "Verrous de fichiers, audit ACL NTFS, prise de possession", ico: "FG" },
-  { id: "certview", label: "CertView", desc: "Certificats locaux — sujets, émetteurs, expirations", ico: "CV" },
-  { id: "reporadar", label: "RepoRadar", desc: "Scan repos Git locaux : branches, dirty, ahead/behind", ico: "RR" },
-  { id: "winaudit", label: "WinAudit", desc: "Audit OS heuristique lecture seule — score, findings", ico: "WA" },
-];
-const ICO = Object.fromEntries(FALLBACK_MODULES.map((m) => [m.id, m.ico]));
+function moduleCatalog() {
+  return [
+    { id: "fileguard", label: "FileGuard", desc: t("modFileGuardDesc"), ico: "FG" },
+    { id: "certview", label: "CertView", desc: t("modCertViewDesc"), ico: "CV" },
+    { id: "reporadar", label: "RepoRadar", desc: t("modRepoRadarDesc"), ico: "RR" },
+    { id: "winaudit", label: "WinAudit", desc: t("modWinAuditDesc"), ico: "WA" },
+  ];
+}
+
+const ICO = Object.fromEntries(moduleCatalog().map((m) => [m.id, m.ico]));
 
 const HISTORY = 60;
 const ARC_LEN = 141.37;
@@ -72,39 +76,38 @@ function metricsMarkup() {
   <div class="hub-dash-root">
     <header class="hub-page-header hub-dash-head">
       <div>
-        <p class="kicker">Hub ${esc(HUB_LABEL)} · Void Glow</p>
-        <h1>Accueil</h1>
-        <p>${esc(HUB_BLURB)}</p>
+        <h1>${esc(t("dashTitle"))}</h1>
+        <p>${esc(t("dashBlurb"))}</p>
       </div>
       <div class="hub-dash-live">
         <time id="clock">—</time>
-        <span class="live-pill off" id="livePill"><i></i> OFF</span>
+        <span class="live-pill off" id="livePill"><i></i> ${esc(t("dashOff"))}</span>
       </div>
     </header>
 
     <div class="dash-prop">
-      <section class="gauges-block" aria-label="Posture sécurité">
+      <section class="gauges-block" aria-label="${esc(t("dashGaugesAria"))}">
         <div class="gauges">
-          ${gaugeCard("firewall", "Firewall")}
-          ${gaugeCard("findings", "Findings")}
-          ${gaugeCard("audit", "Audit")}
+          ${gaugeCard("firewall", esc(t("dashFirewall")))}
+          ${gaugeCard("findings", esc(t("dashFindings")))}
+          ${gaugeCard("audit", esc(t("dashAudit")))}
         </div>
       </section>
-      <section class="mid-row" aria-label="Certificats et contexte">
+      <section class="mid-row" aria-label="${esc(t("dashMidAria"))}">
         <article class="kpi">
-          <small>Certs · expire &lt;30j</small>
+          <small>${esc(t("dashCertsSoon"))}</small>
           <b id="certsSoon">—</b>
-          <em id="certsHint">CurrentUser\\My</em>
+          <em id="certsHint">${esc(t("dashCertsHint"))}</em>
         </article>
         <article class="kpi">
-          <small>Contexte</small>
+          <small>${esc(t("dashContext"))}</small>
           <b id="adminCtx">—</b>
-          <em>UAC hérité · lecture seule</em>
+          <em>${esc(t("dashContextEm"))}</em>
         </article>
       </section>
-      <section class="bottom-row" aria-label="État audit">
+      <section class="bottom-row" aria-label="${esc(t("dashBottomAria"))}">
         <article class="kpi status-banner" id="auditBanner">
-          <small>État audit</small>
+          <small>${esc(t("dashAuditState"))}</small>
           <b id="auditTitle">—</b>
           <em id="auditHint">—</em>
           <div class="chip-row" id="auditChips"></div>
@@ -112,8 +115,8 @@ function metricsMarkup() {
       </section>
     </div>
 
-    <section class="hub-dash-modules" aria-label="Accès rapide">
-      <h2 class="hub-section-title sec">Modules</h2>
+    <section class="hub-dash-modules" aria-label="${esc(t("dashQuickAria"))}">
+      <h2 class="hub-section-title sec">${esc(t("dashModules"))}</h2>
       <div class="mods" id="tileGrid"></div>
       <p class="hub-status" id="dashStatus"></p>
     </section>
@@ -187,10 +190,10 @@ function setLive(on) {
   if (!pill) return;
   if (on) {
     pill.classList.remove("off");
-    pill.innerHTML = "<i></i> LIVE";
+    pill.innerHTML = `<i></i> ${esc(t("dashLive"))}`;
   } else {
     pill.classList.add("off");
-    pill.innerHTML = "<i></i> OFF";
+    pill.innerHTML = `<i></i> ${esc(t("dashOff"))}`;
   }
 }
 
@@ -209,8 +212,10 @@ function applyKpis(k) {
   setGauge(
     "firewall",
     fwPct,
-    fwProfiles ? `${fwEnabled} / ${fwProfiles} profils` : "profils",
-    "Domain · Private · Public",
+    fwProfiles
+      ? t("dashFwProfiles", { on: fwEnabled, total: fwProfiles })
+      : t("dashFwProfilesShort"),
+    t("dashFwDomain"),
     null,
     fwOn ? "On" : "Off"
   );
@@ -222,8 +227,8 @@ function applyKpis(k) {
   setGauge(
     "findings",
     findPct,
-    hasAudit ? "dernier audit" : "pas de cache",
-    "lecture seule · pas de scan",
+    hasAudit ? t("dashFindingsLast") : t("dashFindingsNone"),
+    t("dashFindingsSub"),
     null,
     findings == null ? "—" : String(findings)
   );
@@ -233,15 +238,15 @@ function applyKpis(k) {
   let auditVal = "—";
   if (hasAudit && age != null && Number.isFinite(Number(age))) {
     const days = Math.max(0, Math.round(Number(age)));
-    auditVal = days === 0 ? "<1j" : `${days}j`;
+    auditVal = days === 0 ? t("dashAuditAgeLt1") : t("dashAuditAgeDays", { n: days });
     auditPct = Math.min(100, Math.max(8, days * 12));
   }
   push("audit", auditPct);
   setGauge(
     "audit",
     auditPct,
-    hasAudit ? "dernier WinAudit" : "aucun audit",
-    "pas de scan au load",
+    hasAudit ? t("dashAuditLast") : t("dashAuditNone"),
+    t("dashAuditSub"),
     null,
     auditVal
   );
@@ -257,7 +262,7 @@ function applyKpis(k) {
   }
   if (el("certsHint")) {
     el("certsHint").textContent =
-      certCount != null ? `sur ${certCount} dans CurrentUser\\My` : "CurrentUser\\My";
+      certCount != null ? t("dashCertsOf", { n: certCount }) : t("dashCertsHint");
   }
 
   const adminEl = el("adminCtx");
@@ -272,33 +277,39 @@ function applyKpis(k) {
   const chips = el("auditChips");
   if (hasAudit) {
     if (title) {
-      title.textContent = `Cache présent · ${findings ?? 0} findings${
-        age != null ? ` · il y a ${Math.round(Number(age))} j` : ""
-      }`;
+      let line = t("dashCachePresent", { n: findings ?? 0 });
+      if (age != null) line += t("dashCacheAge", { n: Math.round(Number(age)) });
+      title.textContent = line;
     }
-    if (hint) hint.textContent = "L’Accueil n’exécute aucun scan — ouvre WinAudit pour rafraîchir.";
+    if (hint) hint.textContent = t("dashCacheHint");
     if (chips) {
       const parts = [];
-      parts.push(`<span class="mini-chip ${fwOn ? "on" : "warn"}">Firewall ${fwOn ? "On" : "Off"}</span>`);
+      parts.push(
+        `<span class="mini-chip ${fwOn ? "on" : "warn"}">${esc(
+          t("dashChipFw", { state: fwOn ? "On" : "Off" })
+        )}</span>`
+      );
       if (findings != null) {
         parts.push(
-          `<span class="mini-chip ${findings > 0 ? "warn" : "on"}">${findings} findings</span>`
+          `<span class="mini-chip ${findings > 0 ? "warn" : "on"}">${esc(
+            t("dashChipFindings", { n: findings })
+          )}</span>`
         );
       }
       if (soon != null && Number(soon) > 0) {
-        parts.push(`<span class="mini-chip warn">${soon} certs bientôt</span>`);
+        parts.push(
+          `<span class="mini-chip warn">${esc(t("dashChipCerts", { n: soon }))}</span>`
+        );
       }
       chips.innerHTML = parts.join("");
     }
   } else {
-    if (title) title.textContent = "Aucun audit en cache";
-    if (hint) {
-      hint.textContent = "Ouvre WinAudit pour un premier scan. L’Accueil n’exécute aucun scan.";
-    }
+    if (title) title.textContent = t("dashNoCache");
+    if (hint) hint.textContent = t("dashNoCacheHint");
     if (chips) {
-      chips.innerHTML = `<span class="mini-chip ${fwOn ? "on" : "warn"}">Firewall ${
-        fwOn ? "On" : "Off"
-      }</span>`;
+      chips.innerHTML = `<span class="mini-chip ${fwOn ? "on" : "warn"}">${esc(
+        t("dashChipFw", { state: fwOn ? "On" : "Off" })
+      )}</span>`;
     }
   }
 }
@@ -316,11 +327,12 @@ async function tick() {
 
 function clock() {
   const c = el("clock");
-  if (c) c.textContent = new Date().toLocaleTimeString("fr-FR", { hour12: false });
+  if (c) c.textContent = new Date().toLocaleTimeString(locale(), { hour12: false });
 }
 
 async function mountTiles() {
   const a = api();
+  const fallback = moduleCatalog();
   let modules = [];
   try {
     if (a?.dashboard?.list_modules) {
@@ -328,12 +340,13 @@ async function mountTiles() {
       modules = (res && res.modules) || [];
     }
   } catch (_) {}
-  if (!modules.length) modules = FALLBACK_MODULES;
+  if (!modules.length) modules = fallback;
   else {
     modules = modules.map((m) => ({
       ...m,
       ico: ICO[m.id] || m.ico || "▪",
-      desc: m.desc || FALLBACK_MODULES.find((f) => f.id === m.id)?.desc || "",
+      desc: fallback.find((f) => f.id === m.id)?.desc || m.desc || "",
+      label: fallback.find((f) => f.id === m.id)?.label || m.label,
     }));
   }
   const tiles = el("tileGrid");
@@ -345,7 +358,7 @@ async function mountTiles() {
         <span class="tile-k">${esc(m.ico || "▪")}</span>
         <strong>${esc(m.label)}</strong>
         <span class="tile-b">${esc(m.desc || "")}</span>
-        <span class="go">Ouvrir →</span>
+        <span class="go">${esc(t("dashOpen"))}</span>
         <span class="fil"></span>
       </button>`
     )
@@ -375,12 +388,11 @@ export async function mount(root) {
   unmount();
   root.innerHTML = metricsMarkup();
   const status = el("dashStatus");
-  if (status) {
-    status.textContent = "Lecture locale sécurité · zéro mutator · aucun scan automatique.";
-  }
+  if (status) status.textContent = t("dashStatus");
   await mountTiles();
   clock();
   clockTimer = setInterval(clock, 1000);
-  await tick();
+  /* Non-blocking KPI fetch — awaiting PowerShell/bridge must not stall i18n remount */
+  void tick();
   tickTimer = setInterval(tick, KPI_MS);
 }

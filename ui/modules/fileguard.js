@@ -6,17 +6,18 @@
 /**
  * FileGuard — native in-hub (no iframe).
  * Bridge: pywebview.api.fileguard.*
- * Segments: Verrous / Permissions
+ * Segments: Locks / Permissions
  */
 import { mountModuleShell, waitNs, esc } from "./_in_hub.js";
+import { t } from "../i18n.js";
 
 export async function mount(root) {
   const { body, setStatus, setSegment, askConfirm } = mountModuleShell(root, {
     title: "FileGuard",
-    subtitle: "Verrous · ACL NTFS · ownership",
+    subtitle: t("fgSubtitle"),
     segments: [
-      { id: "locks", label: "Verrous" },
-      { id: "perms", label: "Permissions" },
+      { id: "locks", label: t("fgSegLocks") },
+      { id: "perms", label: t("fgSegPerms") },
     ],
     initialSegment: "locks",
     onSegment: renderSeg,
@@ -24,46 +25,44 @@ export async function mount(root) {
 
   const api = await waitNs("fileguard", "find_locks");
 
-  // ── Shared state ────────────────────────────────────────────────────────────
   let locksData = { processes: [], method: "" };
-  let permsData  = { entries: [], owner: "" };
+  let permsData = { entries: [], owner: "" };
 
-  // ── Render helpers ──────────────────────────────────────────────────────────
   function renderLocks(b) {
     b.innerHTML = `
       <div class="panel">
         <div class="toolbar-row">
           <div class="search-wrap">
-            <input type="text" id="fgFilePath" placeholder="C:\\…\\fichier" autocomplete="off" />
+            <input type="text" id="fgFilePath" placeholder="${esc(t("fgFilePh"))}" autocomplete="off" />
           </div>
-          <button type="button" class="btn ghost" id="fgFileBrowse">Parcourir</button>
-          <button type="button" class="btn accent" id="fgLockScan">Analyser</button>
+          <button type="button" class="btn ghost" id="fgFileBrowse">${esc(t("fgBrowse"))}</button>
+          <button type="button" class="btn accent" id="fgLockScan">${esc(t("fgAnalyze"))}</button>
         </div>
         <p class="meta" id="fgLockMeta"></p>
       </div>
       <div class="panel flex-fill">
         <div class="table-wrap">
           <table class="data">
-            <thead><tr><th>PID</th><th>Processus</th><th>Source</th></tr></thead>
+            <thead><tr><th>PID</th><th>${esc(t("fgThProcess"))}</th><th>${esc(t("fgThSource"))}</th></tr></thead>
             <tbody id="fgLockBody"></tbody>
           </table>
-          <p class="empty-state" id="fgLockEmpty" hidden>Aucun verrou détecté.</p>
+          <p class="empty-state" id="fgLockEmpty" hidden>${esc(t("fgLockEmpty"))}</p>
         </div>
       </div>`;
 
     const fileInput = b.querySelector("#fgFilePath");
     const btnBrowse = b.querySelector("#fgFileBrowse");
-    const btnScan   = b.querySelector("#fgLockScan");
-    const tbody     = b.querySelector("#fgLockBody");
-    const empty     = b.querySelector("#fgLockEmpty");
-    const meta      = b.querySelector("#fgLockMeta");
+    const btnScan = b.querySelector("#fgLockScan");
+    const tbody = b.querySelector("#fgLockBody");
+    const empty = b.querySelector("#fgLockEmpty");
+    const meta = b.querySelector("#fgLockMeta");
 
     function renderTable() {
       const { processes, method } = locksData;
       tbody.innerHTML = "";
       empty.hidden = processes.length > 0;
       meta.textContent = processes.length
-        ? `${processes.length} processus · ${method || "—"}`
+        ? t("fgLockMeta", { n: processes.length, method: method || "—" })
         : "";
       processes.forEach((p) => {
         const tr = document.createElement("tr");
@@ -81,16 +80,25 @@ export async function mount(root) {
 
     btnScan.addEventListener("click", async () => {
       const path = fileInput.value.trim();
-      if (!path) { setStatus("Chemin requis.", "error"); return; }
-      if (!api?.find_locks) { setStatus("API fileguard indisponible.", "error"); return; }
-      setStatus("Analyse…");
+      if (!path) {
+        setStatus(t("commonPathRequired"), "error");
+        return;
+      }
+      if (!api?.find_locks) {
+        setStatus(t("fgApiMissing"), "error");
+        return;
+      }
+      setStatus(t("commonAnalyzing"));
       btnScan.disabled = true;
       try {
         const res = await api.find_locks(path);
-        if (!res?.ok) { setStatus((res?.error) || "Échec", "error"); return; }
+        if (!res?.ok) {
+          setStatus(res?.error || t("commonFail"), "error");
+          return;
+        }
         locksData = { processes: res.processes || [], method: res.method || "" };
         renderTable();
-        setStatus("Prêt");
+        setStatus(t("commonReady"));
       } catch (e) {
         setStatus(String(e), "error");
       } finally {
@@ -104,44 +112,49 @@ export async function mount(root) {
       <div class="panel">
         <div class="toolbar-row">
           <div class="search-wrap">
-            <input type="text" id="fgFolderPath" placeholder="C:\\…\\dossier" autocomplete="off" />
+            <input type="text" id="fgFolderPath" placeholder="${esc(t("fgFolderPh"))}" autocomplete="off" />
           </div>
-          <button type="button" class="btn ghost" id="fgFolderBrowse">Parcourir</button>
-          <button type="button" class="btn accent" id="fgPermScan">Analyser</button>
-          <button type="button" class="btn danger" id="fgTakeown">Prendre possession</button>
+          <button type="button" class="btn ghost" id="fgFolderBrowse">${esc(t("fgBrowse"))}</button>
+          <button type="button" class="btn accent" id="fgPermScan">${esc(t("fgAnalyze"))}</button>
+          <button type="button" class="btn danger" id="fgTakeown">${esc(t("fgTakeown"))}</button>
         </div>
         <p class="meta" id="fgOwnerMeta"></p>
       </div>
       <div class="panel flex-fill">
         <div class="table-wrap">
           <table class="data">
-            <thead><tr><th>Identité</th><th>Droits</th><th>Type</th><th>Hérité</th></tr></thead>
+            <thead><tr>
+              <th>${esc(t("fgThIdentity"))}</th>
+              <th>${esc(t("fgThRights"))}</th>
+              <th>${esc(t("fgThType"))}</th>
+              <th>${esc(t("fgThInherited"))}</th>
+            </tr></thead>
             <tbody id="fgPermBody"></tbody>
           </table>
-          <p class="empty-state" id="fgPermEmpty" hidden>Aucune entrée ACL.</p>
+          <p class="empty-state" id="fgPermEmpty" hidden>${esc(t("fgPermEmpty"))}</p>
         </div>
       </div>`;
 
     const folderInput = b.querySelector("#fgFolderPath");
-    const btnBrowse   = b.querySelector("#fgFolderBrowse");
-    const btnScan     = b.querySelector("#fgPermScan");
-    const btnTakeown  = b.querySelector("#fgTakeown");
-    const tbody       = b.querySelector("#fgPermBody");
-    const empty       = b.querySelector("#fgPermEmpty");
-    const ownerMeta   = b.querySelector("#fgOwnerMeta");
+    const btnBrowse = b.querySelector("#fgFolderBrowse");
+    const btnScan = b.querySelector("#fgPermScan");
+    const btnTakeown = b.querySelector("#fgTakeown");
+    const tbody = b.querySelector("#fgPermBody");
+    const empty = b.querySelector("#fgPermEmpty");
+    const ownerMeta = b.querySelector("#fgOwnerMeta");
 
     function renderTable() {
       const { entries, owner } = permsData;
       tbody.innerHTML = "";
       empty.hidden = entries.length > 0;
-      ownerMeta.textContent = owner ? `Propriétaire : ${owner}` : "—";
+      ownerMeta.textContent = owner ? t("fgOwner", { owner }) : "—";
       entries.forEach((e) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${esc(e.identity || "")}</td>
           <td class="meta">${esc(e.rights || "")}</td>
           <td>${esc(e.type || "")}</td>
-          <td>${e.inherited ? "Oui" : "Non"}</td>`;
+          <td>${e.inherited ? esc(t("commonYes")) : esc(t("commonNo"))}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -149,16 +162,25 @@ export async function mount(root) {
 
     async function doScan() {
       const path = folderInput.value.trim();
-      if (!path) { setStatus("Chemin requis.", "error"); return; }
-      if (!api?.get_acl) { setStatus("API fileguard indisponible.", "error"); return; }
-      setStatus("Analyse…");
+      if (!path) {
+        setStatus(t("commonPathRequired"), "error");
+        return;
+      }
+      if (!api?.get_acl) {
+        setStatus(t("fgApiMissing"), "error");
+        return;
+      }
+      setStatus(t("commonAnalyzing"));
       btnScan.disabled = true;
       try {
         const res = await api.get_acl(path);
-        if (!res?.ok) { setStatus((res?.error) || "Échec", "error"); return; }
+        if (!res?.ok) {
+          setStatus(res?.error || t("commonFail"), "error");
+          return;
+        }
         permsData = { entries: res.entries || [], owner: res.owner || "" };
         renderTable();
-        setStatus("Prêt");
+        setStatus(t("commonReady"));
       } catch (e) {
         setStatus(String(e), "error");
       } finally {
@@ -176,27 +198,30 @@ export async function mount(root) {
 
     btnTakeown.addEventListener("click", async () => {
       const path = folderInput.value.trim();
-      if (!path) { setStatus("Chemin requis.", "error"); return; }
-      if (!api?.prepare_take_ownership || !api?.take_ownership) {
-        setStatus("API fileguard indisponible.", "error");
+      if (!path) {
+        setStatus(t("commonPathRequired"), "error");
         return;
       }
-      const ok = await askConfirm(
-        "Prendre possession récursivement ? Cette opération remplace les ACL actuelles par votre compte.",
-        "Prendre possession"
-      );
+      if (!api?.prepare_take_ownership || !api?.take_ownership) {
+        setStatus(t("fgApiMissing"), "error");
+        return;
+      }
+      const ok = await askConfirm(t("fgTakeownConfirm"), t("fgTakeown"));
       if (!ok) return;
-      setStatus("Préparation…");
+      setStatus(t("commonPreparing"));
       btnTakeown.disabled = true;
       try {
         const prep = await api.prepare_take_ownership(path);
         if (!prep?.ok || !prep.token) {
-          setStatus((prep?.error) || "Confirmation refusée", "error");
+          setStatus(prep?.error || t("fgConfirmDenied"), "error");
           return;
         }
         const res = await api.take_ownership(path, prep.token);
-        if (!res?.ok) { setStatus((res?.error) || "Échec", "error"); return; }
-        setStatus("Possession prise.", "ok");
+        if (!res?.ok) {
+          setStatus(res?.error || t("commonFail"), "error");
+          return;
+        }
+        setStatus(t("fgTakeownOk"), "ok");
         await doScan();
       } catch (e) {
         setStatus(String(e), "error");

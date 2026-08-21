@@ -1,44 +1,49 @@
 ﻿[Français](README.md) · [English](README.en.md)
 
-# Hub-Securite — PC Command
+# PC Command | Security
 
-Distribution **lecture seule**. Pas de pull requests ni d’issues (`CONTRIBUTING.md`).
-
-Hub **Sécurité**. Licence PolyForm Noncommercial 1.0.0. Éditeur : **Mr-Aurevo-X**. Local-first, pas de télémétrie éditeur (`PRIVACY.md`).
+Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil posture (firewall / findings), modules natifs.  
+**Void Glow** · **local-first** (vérif. GitHub optionnelle) · PolyForm Noncommercial 1.0.0 · **Mr-Aurevo-X**
 
 ## Aperçu
 
-| Accueil | Module |
-|---------|--------|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![WinAudit](docs/screenshots/winaudit.png) |
+| Accueil | WinAudit |
+|---------|----------|
+| ![Accueil](docs/screenshots/dashboard.png) | ![WinAudit](docs/screenshots/winaudit.png) |
 
 ## Modules
 
 | Module | Rôle |
 |--------|------|
-| FileGuard | Ownership / garde fichiers |
+| FileGuard | Garde-fichiers / intégrité |
 | CertView | Certificats |
-| RepoRadar | Scan repos locaux |
-| WinAudit | Audit OS lecture seule |
+| RepoRadar | Repos & surfaces |
+| **WinAudit** | Audit Windows · findings · ConfirmGate |
 
-## Où s’installe
+## Pourquoi ce hub
+
+- Accueil **posture** lecture seule — pas de mutator sur le dashboard
+- ConfirmGate sur les actions qui touchent le système
+- FR | EN · dons · À propos (CGU / Confidentialité / Mentions / Notices)
+
+## Où ça vit sur le PC
 
 | Mode | Emplacement |
 |------|-------------|
-| **Release** (`Launch-Hub-Securite.zip`) | Dossier **portable** : extrayez le zip où vous voulez, lancez `Launch-Hub-Securite.exe` depuis ce dossier. |
-| **Métadonnées / version** | `%LOCALAPPDATA%\PCCommand\` |
-| **Préférences accent / langue** | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (si présent) |
-| **Dev (sources)** | Clone du repo + `Lancer.cmd` |
+| **Release** (`Launch-Hub-Securite.zip`) | Dossier **portable** — `Launch-Hub-Securite.exe` |
+| Métadonnées / version | `%LOCALAPPDATA%\PCCommand\` |
+| Préférences | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (partagé) |
+| Dev | Clone + `Lancer.cmd` |
 
-Téléchargement : [Releases Hub-Securite](https://github.com/Mr-Aurevo-X/Hub-Securite/releases).
+Téléchargement : [Releases Hub-Securite](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · tag **v2.0.0**
+
+## Lancer
 
 ```bat
 Lancer.cmd
 ```
 
-Windows peut afficher « potentiellement dangereux » : les binaires ne sont pas signés Authenticode (pas de certificat éditeur payant). C’est un avertissement de réputation SmartScreen, pas un verdict antivirus.
-
-Titres HWND : `PC Command | Security`. Isolation : `ISOLATION.md`.
+SmartScreen possible (binaires non signés). Titre : `PC Command | Security` / `[Module]`. Voir `PRIVACY.md` · `ISOLATION.md` · `LICENSE`.
 
 ---
 

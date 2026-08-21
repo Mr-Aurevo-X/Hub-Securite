@@ -1,11 +1,7 @@
-# Release channels
+﻿# Releases — Hub-Securite
 
-Binaries ship through **this repository's** GitHub Releases (same remote as sources).
+Tag courant : **v2.0.0**
 
-Example: `https://github.com/Mr-Aurevo-X/Hub-Securite/releases`
+Asset : `Launch-Hub-Securite.zip` sur le remote `Mr-Aurevo-X/Hub-Securite`.
 
-Asset: `Launch-Hub-Securite.zip` (one zip per hub — no monolithic Hubs.zip).
-
-## Stable
-
-Production tags on the default branch. GitHub “Latest” non-prerelease.
+No central PCCommand-Releases / Install-Easy channel.

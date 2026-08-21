@@ -406,6 +406,17 @@ class Api(WindowChromeMixin):
     def get_suite_language(self) -> dict:
         return {"ok": True, "language": resolve_suite_language()}
 
+    def set_suite_language(self, language: str = "fr") -> dict:
+        lang = str(language or "").strip().lower()
+        if lang not in ("fr", "en"):
+            return {"ok": False, "error": "language must be fr or en"}
+        hub_update.write_user_settings_merge({"language": lang})
+        return {
+            "ok": True,
+            "language": lang,
+            "path": str(hub_update.user_settings_path()),
+        }
+
     def is_admin(self) -> dict:
         return {"ok": True, "admin": is_admin()}
 
@@ -438,6 +449,21 @@ class Api(WindowChromeMixin):
 
     def open_support_url(self, kind: str = "") -> dict:
         return hub_update.open_support_url(kind)
+
+
+    def get_update_check_pref(self) -> dict:
+        enabled = hub_update.is_github_update_check_enabled()
+        return {
+            "ok": True,
+            "checkGithubUpdates": enabled,
+            "path": str(hub_update.user_settings_path()),
+        }
+
+    def set_update_check_pref(self, enabled: bool = True) -> dict:
+        return hub_update.set_github_update_check(bool(enabled))
+
+    def get_about_local_paths(self) -> dict:
+        return hub_update.about_local_paths(_HUB_ROOT, hub_id=HUB_ID)
 
     def check_latest_release(self) -> dict:
         return hub_update.check_hub_release(HUB_ID, _HUB_ROOT)
