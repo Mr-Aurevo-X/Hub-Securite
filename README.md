@@ -3,7 +3,7 @@
 # PC Command | Security
 
 Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil posture (firewall / findings), modules natifs.  
-**Void Glow** · **local-first** (vérif. GitHub optionnelle) · PolyForm Noncommercial 1.0.0 · **Mr-Aurevo-X**
+**Gratuit à vie** · **autant local que possible** · PolyForm Noncommercial 1.0.0 · **Mr-Aurevo-X**
 
 ## Aperçu
 
@@ -17,40 +17,59 @@ Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil post
 |--------|------|
 | FileGuard | Garde-fichiers / intégrité |
 | CertView | Certificats |
-| RepoRadar | Repos & surfaces |
-| **WinAudit** | Audit Windows · findings · ConfirmGate |
+| RepoRadar | Repos locaux · inspect · Fetch git (si tu lances) |
+| **WinAudit** | Audit Windows · score · findings |
 
 ## Pourquoi ce hub
 
-- Accueil **posture** lecture seule — pas de mutator sur le dashboard
-- ConfirmGate sur les actions qui touchent le système
-- FR | EN · dons · À propos (CGU / Confidentialité / Mentions / Notices)
+- **Gratuit à vie** — pas d’abonnement, pas de compte
+- **Autant local que possible** — FileGuard, CertView et WinAudit restent sur ta machine
+- **Module pas utilisé = pas de sortie** ; seule sortie module volontaire : **RepoRadar → Fetch** vers les remotes git **de tes repos** (si tu cliques)
+- Seule option « suite » : vérif. GitHub **désactivable** dans À propos
+- Confirmation avant action système · FR | EN · Accueil posture lecture seule
 
-## Où ça vit sur le PC
+## Sur ton PC
 
-| Mode | Emplacement |
-|------|-------------|
-| **Release** (`Launch-Hub-Securite.zip`) | Dossier **portable** — `Launch-Hub-Securite.exe` |
+| Quoi | Où |
+|------|-----|
+| **App** (`Launch-Hub-Securite.zip`) | Dossier portable — extrais, lance `Launch-Hub-Securite.exe` |
 | Métadonnées / version | `%LOCALAPPDATA%\PCCommand\` |
-| Préférences | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (partagé) |
-| Dev | Clone + `Lancer.cmd` |
+| Préférences (langue, maj…) | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (partagé entre apps) |
 
 Téléchargement : [Releases Hub-Securite](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · tag **v2.0.0**
 
 ## Lancer
 
-```bat
-Lancer.cmd
-```
+1. Télécharge le zip de la **Release** officielle  
+2. Extrais où tu veux  
+3. Lance `Launch-Hub-Securite.exe` (UAC admin)
 
-Windows peut afficher « potentiellement dangereux » : binaires **non signés** Authenticode (pas de certificat éditeur payant). C’est un avertissement **SmartScreen** (réputation), pas un verdict antivirus.
+Windows peut afficher « potentiellement dangereux » : binaires **non signés** Authenticode. C’est **SmartScreen** (réputation), pas un verdict antivirus.
 
-Titre HWND : `PC Command | Security` / `[Module]`. Voir `PRIVACY.md` · `ISOLATION.md` · `LICENSE`.
+## Avertissement — builds officiels uniquement
 
----
+Les binaires et sources **faisant foi** sont uniquement ceux publiés sur :
 
-Rêvée par **Mr-Aurevo-X**. Cursor a réalisé le rêve.
+**https://github.com/Mr-Aurevo-X/Hub-Securite** (Releases / tags de ce dépôt).
+
+Tout **fork**, copie, rebuild ou redistribution **modifiée** par un tiers n’est **pas** une version Mr-Aurevo-X, n’est **pas** vérifiée, et peut contenir des changements (y compris des URL ou comportements réseau) **hors de mon contrôle**.
+
+Je décline toute responsabilité quant aux dommages, pertes de données ou incidents liés à une version **non officielle**, à une mauvaise utilisation, ou à un environnement compromis.
+
+Logiciel fourni **tel quel**, sans garantie — voir `LICENSE` (PolyForm Noncommercial 1.0.0). Utilisation à tes risques.
+
+## Legal
+
+`PRIVACY.md` · `LICENSE`
+
+## Soutien (optionnel)
+
+Si le boulot te plaît, un café — sinon profite.
 
 [![Discord](https://img.shields.io/badge/Discord-Mr--Aurevo--X-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=050807)](https://discord.com/users/406891052516114442)
 [![PayPal](https://img.shields.io/badge/PayPal-Donate-39ff14?style=for-the-badge&logo=paypal&logoColor=00f0ff&labelColor=050807)](https://www.paypal.com/paypalme/aurevo1)
 [![Revolut](https://img.shields.io/badge/Revolut-mr__aurevo__x-00f0ff?style=for-the-badge&logo=revolut&logoColor=39ff14&labelColor=050807)](https://revolut.me/mr_aurevo_x)
+
+---
+
+Rêvée par **Mr-Aurevo-X**. Cursor a réalisé le rêve.
