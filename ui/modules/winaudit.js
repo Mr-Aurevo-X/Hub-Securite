@@ -151,17 +151,18 @@ export async function mount(root) {
       if (bySev[k] != null) bySev[k]++;
       else bySev.Info++;
     });
+    /* Softened vs Critical*20 (pinned real noisy PCs at 0 forever). */
     let penalty =
-      Math.min(55, bySev.Critical * 20) +
-      Math.min(30, bySev.High * 5) +
-      Math.min(14, bySev.Medium * 0.4) +
-      Math.min(5,  bySev.Low * 0.05);
+      Math.min(35, bySev.Critical * 10) +
+      Math.min(22, bySev.High * 2) +
+      Math.min(12, bySev.Medium * 0.2) +
+      Math.min(5,  bySev.Low * 0.03);
     let chainPenalty = 0;
     chains.forEach((c) => {
       const conf = Number(c?.Confidence ?? c?.confidence) || 0;
-      if (conf >= 70) chainPenalty += Math.min(6, conf / 15);
+      if (conf >= 70) chainPenalty += Math.min(5, conf / 18);
     });
-    penalty += Math.min(10, chainPenalty);
+    penalty += Math.min(8, chainPenalty);
     const score = Math.max(0, Math.min(100, Math.round(100 - penalty)));
     let label =
       score >= 85 ? "Sain" : score >= 65 ? "Acceptable" : score >= 40 ? "Suspect" : "Critique";
@@ -185,8 +186,9 @@ export async function mount(root) {
     const findings = res.Findings || res.findings || [];
     if (findings.length) return computeScore(res);
     const s = res.Score || res.score || {};
+    const n = Number(s.Score ?? s.score);
     return {
-      Score: scoreOf(res),
+      Score: Number.isFinite(n) ? n : 0,
       Label: s.Label || s.label || "",
       BySeverity: s.BySeverity || {},
       Total: s.Total || 0,

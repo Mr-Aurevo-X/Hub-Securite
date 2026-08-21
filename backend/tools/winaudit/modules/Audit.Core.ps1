@@ -154,26 +154,26 @@ function Get-AuditScore {
         [object[]]$Findings,
         [object[]]$Chains = @()
     )
-    # Capped penalties so hundreds of Low/Info findings don't force Score=0,
-    # while Critical/High still dominate the health ring / label.
+    # Capped penalties: Low/Medium noise must not floor the score, but Critical/High
+    # still dominate. Softened vs Critical*20 (which pinned real PCs at 0 forever).
     $bySev = @{ Critical = 0; High = 0; Medium = 0; Low = 0; Info = 0 }
     foreach ($f in @($Findings)) {
         $sev = [string]$f.Severity
         if ($bySev.ContainsKey($sev)) { $bySev[$sev]++ }
     }
     $penalty = 0.0
-    # 1 Critical → −20 (never "Sain"); 2 → −40; cap 55.
-    $penalty += [Math]::Min(55.0, [double]$bySev.Critical * 20.0)
-    $penalty += [Math]::Min(30.0, [double]$bySev.High * 5.0)
-    $penalty += [Math]::Min(14.0, [double]$bySev.Medium * 0.4)
-    $penalty += [Math]::Min(5.0,  [double]$bySev.Low * 0.05)
+    # 1 Critical → −10; 2 → −20; 3 → −30; cap 35.
+    $penalty += [Math]::Min(35.0, [double]$bySev.Critical * 10.0)
+    $penalty += [Math]::Min(22.0, [double]$bySev.High * 2.0)
+    $penalty += [Math]::Min(12.0, [double]$bySev.Medium * 0.2)
+    $penalty += [Math]::Min(5.0,  [double]$bySev.Low * 0.03)
     $chainPenalty = 0.0
     foreach ($c in @($Chains)) {
         if ([int]$c.Confidence -ge 70) {
-            $chainPenalty += [Math]::Min(6.0, [double]([int]$c.Confidence) / 15.0)
+            $chainPenalty += [Math]::Min(5.0, [double]([int]$c.Confidence) / 18.0)
         }
     }
-    $penalty += [Math]::Min(10.0, $chainPenalty)
+    $penalty += [Math]::Min(8.0, $chainPenalty)
     $score = [int][Math]::Round(100.0 - $penalty)
     if ($score -lt 0) { $score = 0 }
     if ($score -gt 100) { $score = 100 }
