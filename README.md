@@ -2,8 +2,8 @@
 
 # PC Command | Security
 
-Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil posture (firewall / findings), modules natifs.  
-**Gratuit à vie** · **autant local que possible** · PolyForm Noncommercial 1.0.0 · **Mr-Aurevo-X**
+Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil posture (pare-feu / findings).  
+**Gratuit à vie** · **autant local que possible** · **Mr-Aurevo-X**
 
 ## Aperçu
 
@@ -17,50 +17,46 @@ Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil post
 |--------|------|
 | FileGuard | Garde-fichiers / intégrité |
 | CertView | Certificats |
-| RepoRadar | Repos locaux · inspect · Fetch git (si tu lances) |
+| RepoRadar | Repos sur ton PC · Fetch git seulement si tu cliques |
 | **WinAudit** | Audit Windows · score · findings |
 
 ## Pourquoi ce hub
 
-- **Gratuit à vie** — pas d’abonnement, pas de compte
-- **Autant local que possible** — FileGuard, CertView et WinAudit restent sur ta machine
-- **Module pas utilisé = pas de sortie** ; seule sortie module volontaire : **RepoRadar → Fetch** vers les remotes git **de tes repos** (si tu cliques)
-- Seule option « suite » : vérif. GitHub **désactivable** dans À propos
-- Confirmation avant action système · FR | EN · Accueil posture lecture seule
+- Gratuit à vie — pas d’abonnement, pas de compte
+- Autant local que possible — FileGuard, CertView et WinAudit restent sur ta machine
+- **Module pas utilisé = pas de sortie réseau**
+- Seule sortie volontaire : **RepoRadar → Fetch** vers les remotes git **de tes repos** (si tu cliques)
+- Vérif. de mise à jour GitHub **désactivable** dans À propos
+- Confirmation avant action système
+- Interface FR | EN
+- Accueil posture en lecture seule
 
 ## Sur ton PC
 
 | Quoi | Où |
 |------|-----|
-| **App** (`Launch-Hub-Securite.zip`) | Dossier portable — extrais, lance `Launch-Hub-Securite.exe` |
-| Métadonnées / version | `%LOCALAPPDATA%\PCCommand\` |
-| Préférences (langue, maj…) | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (partagé entre apps) |
+| **App** | Extrais `Launch-Hub-Securite.zip`, lance `Launch-Hub-Securite.exe` |
+| Métadonnées | `%LOCALAPPDATA%\PCCommand\` |
+| Préférences | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (partagé) |
 
-Téléchargement : [Releases Hub-Securite](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · tag **v2.0.0**
+[Télécharger la release](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · **v2.0.0**
 
 ## Lancer
 
-1. Télécharge le zip de la **Release** officielle  
+1. Télécharge le zip sur la page Releases ci-dessus  
 2. Extrais où tu veux  
-3. Lance `Launch-Hub-Securite.exe` (UAC admin)
+3. Lance `Launch-Hub-Securite.exe` (Windows demandera l’admin)
 
-Windows peut afficher « potentiellement dangereux » : binaires **non signés** Authenticode. C’est **SmartScreen** (réputation), pas un verdict antivirus.
+Windows peut afficher un avertissement : les binaires ne sont **pas signés**. C’est **SmartScreen**, pas un antivirus qui dit « virus ».
 
-## Avertissement — builds officiels uniquement
+## Version officielle uniquement
 
-Les binaires et sources **faisant foi** sont uniquement ceux publiés sur :
+La seule version que je cautionne :
 
-**https://github.com/Mr-Aurevo-X/Hub-Securite** (Releases / tags de ce dépôt).
+**https://github.com/Mr-Aurevo-X/Hub-Securite**
 
-Tout **fork**, copie, rebuild ou redistribution **modifiée** par un tiers n’est **pas** une version Mr-Aurevo-X, n’est **pas** vérifiée, et peut contenir des changements (y compris des URL ou comportements réseau) **hors de mon contrôle**.
-
-Je décline toute responsabilité quant aux dommages, pertes de données ou incidents liés à une version **non officielle**, à une mauvaise utilisation, ou à un environnement compromis.
-
-Logiciel fourni **tel quel**, sans garantie — voir `LICENSE` (PolyForm Noncommercial 1.0.0). Utilisation à tes risques.
-
-## Legal
-
-`PRIVACY.md` · `LICENSE`
+Un fork ou une copie modifiée ailleurs **n’est pas** ma version — je n’en suis pas responsable.  
+Logiciel **tel quel**, sans garantie — détails dans `LICENSE` et `PRIVACY.md`.
 
 ## Soutien (optionnel)
 

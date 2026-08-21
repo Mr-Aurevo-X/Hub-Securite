@@ -2,8 +2,8 @@
 
 # PC Command | Security
 
-**Security** hub — files, certificates, repos, Windows audit. Posture Home (firewall / findings), native modules.  
-**Free for life** · **as local as possible** · PolyForm Noncommercial 1.0.0 · **Mr-Aurevo-X**
+**Security** hub — files, certificates, repos, Windows audit. Posture Home (firewall / findings).  
+**Free for life** · **as local as possible** · **Mr-Aurevo-X**
 
 ## Preview
 
@@ -17,50 +17,46 @@
 |--------|------|
 | FileGuard | File integrity / guard |
 | CertView | Certificates |
-| RepoRadar | Local repos · inspect · git Fetch (when you run it) |
+| RepoRadar | Repos on your PC · git Fetch only if you click |
 | **WinAudit** | Windows audit · score · findings |
 
 ## Why this hub
 
-- **Free for life** — no subscription, no account
-- **As local as possible** — FileGuard, CertView and WinAudit stay on your machine
-- **Unused module = no egress** ; only voluntary module egress: **RepoRadar → Fetch** to **your repos’** git remotes (if you click)
-- Only suite option: GitHub version check — **opt-out** in About
-- Confirmation before system actions · FR | EN · read-only posture Home
+- Free for life — no subscription, no account
+- As local as possible — FileGuard, CertView and WinAudit stay on your machine
+- **Unused module = no network egress**
+- Only voluntary egress: **RepoRadar → Fetch** to **your repos’** git remotes (if you click)
+- GitHub update check **opt-out** in About
+- Confirmation before system actions
+- UI FR | EN
+- Read-only posture Home
 
 ## On your PC
 
 | What | Where |
 |------|-------|
-| **App** (`Launch-Hub-Securite.zip`) | Portable folder — extract, run `Launch-Hub-Securite.exe` |
-| Metadata / version | `%LOCALAPPDATA%\PCCommand\` |
-| Prefs (language, updates…) | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (shared across apps) |
+| **App** | Extract `Launch-Hub-Securite.zip`, run `Launch-Hub-Securite.exe` |
+| Metadata | `%LOCALAPPDATA%\PCCommand\` |
+| Prefs | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (shared) |
 
-Download: [Hub-Securite Releases](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · tag **v2.0.0**
+[Download the release](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · **v2.0.0**
 
 ## Launch
 
-1. Download the zip from the official **Release**  
+1. Download the zip from the Releases page above  
 2. Extract anywhere  
-3. Run `Launch-Hub-Securite.exe` (UAC admin)
+3. Run `Launch-Hub-Securite.exe` (Windows will ask for admin)
 
-Windows may show “potentially unwanted”: binaries are **not** Authenticode-signed. That is **SmartScreen** (reputation), not an antivirus verdict.
+Windows may show a warning: binaries are **not signed**. That is **SmartScreen**, not an antivirus “virus” verdict.
 
-## Disclaimer — official builds only
+## Official version only
 
-The **only** sources and binaries I stand behind are those published at:
+The only build I stand behind:
 
-**https://github.com/Mr-Aurevo-X/Hub-Securite** (this repository’s Releases / tags).
+**https://github.com/Mr-Aurevo-X/Hub-Securite**
 
-Any **fork**, copy, rebuild, or third-party modified redistribution is **not** an official Mr-Aurevo-X build, is **not** reviewed, and may include changes (including URLs or network behavior) **outside my control**.
-
-I accept **no liability** for damage, data loss, or incidents arising from unofficial builds, misuse, or a compromised machine.
-
-Software provided **as is**, without warranty — see `LICENSE` (PolyForm Noncommercial 1.0.0). Use at your own risk.
-
-## Legal
-
-`PRIVACY.md` · `LICENSE`
+A fork or modified copy elsewhere is **not** my version — I am not responsible for it.  
+Software **as is**, without warranty — see `LICENSE` and `PRIVACY.md`.
 
 ## Support (optional)
 
