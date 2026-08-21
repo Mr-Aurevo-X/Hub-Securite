@@ -4,7 +4,7 @@
  * Author: Mr-Aurevo-X | https://github.com/Mr-Aurevo-X
  */
 /**
- * Hub-Securite Accueil — Atelier live metrics + tuiles modules (zéro mutator).
+ * Hub-Securite Accueil — Void Glow live metrics + tuiles modules (zéro mutator).
  */
 
 const HUB_LABEL = "Security";
@@ -18,7 +18,6 @@ const FALLBACK_MODULES = [
   { id: "reporadar", label: "RepoRadar", desc: "Scan repos Git locaux : branches, dirty, ahead/behind", ico: "RR" },
   { id: "winaudit", label: "WinAudit", desc: "Audit OS heuristique lecture seule — score, findings", ico: "WA" },
 ];
-
 const ICO = Object.fromEntries(FALLBACK_MODULES.map((m) => [m.id, m.ico]));
 
 const HISTORY = 60;
