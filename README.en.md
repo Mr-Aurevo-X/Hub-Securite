@@ -43,7 +43,9 @@ Download: [Hub-Securite Releases](https://github.com/Mr-Aurevo-X/Hub-Securite/re
 Lancer.cmd
 ```
 
-SmartScreen possible (unsigned binaries). Title: `PC Command | Security` / `[Module]`. See `PRIVACY.md` · `ISOLATION.md` · `LICENSE`.
+Windows may show “potentially unwanted”: binaries are **not** Authenticode-signed (no paid publisher cert). That is a **SmartScreen** reputation warning, not an antivirus verdict.
+
+HWND title: `PC Command | Security` / `[Module]`. See `PRIVACY.md` · `ISOLATION.md` · `LICENSE`.
 
 ---
 
