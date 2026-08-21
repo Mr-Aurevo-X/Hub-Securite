@@ -1,9 +1,9 @@
 {
-  "suiteVersion": "v1.4.9",
-  "tag": "v1.4.9",
+  "suiteVersion": "v1.5.0",
+  "tag": "v1.5.0",
   "hub": "securite",
   "repo": "Mr-Aurevo-X/Hub-Securite",
   "packs": {
-    "hub-securite": "v1.4.9"
+    "hub-securite": "v1.5.0"
   }
 }
