@@ -16,7 +16,9 @@ if str(_BACKEND) not in sys.path:
 
 
 import ctypes
+import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -250,21 +252,100 @@ class DashboardApi:
 
 
     def get_kpis(self) -> dict:
-        base = {"ok": True, "admin": is_admin(), "partial": False, "modules": 4, "status": "ready"}
+        base: dict[str, Any] = {
+            "ok": True,
+            "admin": is_admin(),
+            "partial": False,
+            "modules": 4,
+            "status": "ready",
+            "firewallOn": None,
+            "firewallProfiles": None,
+            "firewallEnabled": None,
+            "certCount": None,
+            "certsExpiringSoon": None,
+            "findingsCount": None,
+            "auditAgeDays": None,
+            "hasAudit": False,
+        }
         try:
             data = _ps_json(
-                "$ErrorActionPreference='SilentlyContinue'\n"
-                "[pscustomobject]@{ status = 'ready'; modules = 4 } | ConvertTo-Json -Compress\n"
+                r"""
+$ErrorActionPreference='SilentlyContinue'
+$profiles = @(Get-NetFirewallProfile -ErrorAction SilentlyContinue)
+$enabled = @($profiles | Where-Object { $_.Enabled }).Count
+$now = Get-Date
+$certs = @(Get-ChildItem Cert:\CurrentUser\My -ErrorAction SilentlyContinue)
+$soon = @($certs | Where-Object { $_.NotAfter -lt $now.AddDays(30) -and $_.NotAfter -ge $now })
+[pscustomobject]@{
+  firewallProfiles = $profiles.Count
+  firewallEnabled = $enabled
+  firewallOn = ($profiles.Count -gt 0 -and $enabled -eq $profiles.Count)
+  certCount = $certs.Count
+  certsExpiringSoon = $soon.Count
+} | ConvertTo-Json -Compress
+"""
             )
             if isinstance(data, dict):
                 base.update(data)
         except Exception as exc:  # noqa: BLE001
             base["partial"] = True
             base["error"] = str(exc)
+
+        try:
+            scan = self._hub.winaudit.get_scan_result()
+            payload = scan.get("data") if isinstance(scan, dict) else None
+            result: Any = None
+            if isinstance(payload, dict):
+                if isinstance(payload.get("result"), dict):
+                    result = payload["result"]
+                elif payload.get("Findings") is not None or payload.get("GeneratedAt"):
+                    result = payload
+            if scan.get("ok") and isinstance(result, dict):
+                findings = result.get("Findings") or result.get("findings") or []
+                base["hasAudit"] = True
+                base["findingsCount"] = len(findings) if isinstance(findings, list) else 0
+                gen = result.get("GeneratedAt") or result.get("generatedAt")
+                age = _audit_age_days(gen)
+                if age is not None:
+                    base["auditAgeDays"] = age
+        except Exception as exc:  # noqa: BLE001
+            base["partial"] = True
+            if not base.get("error"):
+                base["error"] = str(exc)
         return base
 
     def list_modules(self) -> dict:
         return {"ok": True, "modules": self._hub.module_catalog()}
+
+
+def _audit_age_days(gen: Any) -> float | None:
+    if gen is None:
+        return None
+    dt: datetime | None = None
+    if isinstance(gen, (int, float)):
+        try:
+            dt = datetime.fromtimestamp(float(gen), tz=timezone.utc)
+        except (OSError, OverflowError, ValueError):
+            dt = None
+    else:
+        s = str(gen).strip()
+        m = re.search(r"/Date\((-?\d+)\)/", s)
+        if m:
+            try:
+                dt = datetime.fromtimestamp(int(m.group(1)) / 1000.0, tz=timezone.utc)
+            except (OSError, OverflowError, ValueError):
+                dt = None
+        else:
+            try:
+                dt = datetime.fromisoformat(s.replace("Z", "+00:00"))
+            except ValueError:
+                dt = None
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    now = datetime.now(timezone.utc)
+    return max(0.0, (now - dt.astimezone(timezone.utc)).total_seconds() / 86400.0)
 
 
 class Api(WindowChromeMixin):
