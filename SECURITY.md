@@ -7,7 +7,7 @@ There is **no** Mr-Aurevo-X backend and **no** telemetry.
 
 Outbound network (when it happens):
 - **Optional** read-only GitHub **Latest release** check (opt-out in About)
-- **Support links** (Discord / PayPal / Revolut) only when the user clicks
+- **Support links** (Discord / dons crypto) only when the user clicks
 - **Module actions the user starts**, for example:
   - RepoRadar **git Fetch** → remotes of *your* local repos
   - FileGuard / CertView / WinAudit stay on-machine

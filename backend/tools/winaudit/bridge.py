@@ -16,10 +16,8 @@ from typing import Any
 
 from security import safe_open_path
 
-
 def assets_root() -> Path:
     return Path(__file__).resolve().parent
-
 
 def _decode_cli(data: bytes | str | None) -> str:
     if data is None:
@@ -36,7 +34,6 @@ def _decode_cli(data: bytes | str | None) -> str:
         return data.decode("utf-8")
     except UnicodeDecodeError:
         return data.decode("oem", errors="replace")
-
 
 class WinAuditBridge:
     def __init__(self, root: Path | None = None) -> None:

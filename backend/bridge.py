@@ -14,7 +14,6 @@ _BACKEND = Path(__file__).resolve().parent
 if str(_BACKEND) not in sys.path:
     sys.path.insert(0, str(_BACKEND))
 
-
 import ctypes
 import re
 import sys
@@ -34,16 +33,13 @@ from suite_launch import launch_suite_app, resolve_suite_accent, resolve_suite_l
 
 # _BACKEND already on sys.path (tools.* imports). No legacy modules/ path.
 
-
 def _is_admin() -> bool:
     try:
         return bool(ctypes.windll.shell32.IsUserAnAdmin())
     except Exception:
         return False
 
-
 # ── FileGuard ────────────────────────────────────────────────────────────────
-
 
 class FileGuardApi:
     """Locks + ACL audit; ConfirmGate on take_ownership."""
@@ -131,9 +127,7 @@ class FileGuardApi:
     def open_dedicated(self) -> dict:
         return launch_suite_app("FileGuard")
 
-
 # ── CertView ─────────────────────────────────────────────────────────────────
-
 
 class CertViewApi:
     def list_certs(self) -> dict:
@@ -145,9 +139,7 @@ class CertViewApi:
     def open_dedicated(self) -> dict:
         return launch_suite_app("CertView")
 
-
 # ── RepoRadar ────────────────────────────────────────────────────────────────
-
 
 class RepoRadarApi:
     def get_default_roots(self) -> dict:
@@ -168,9 +160,7 @@ class RepoRadarApi:
     def open_dedicated(self) -> dict:
         return launch_suite_app("RepoRadar")
 
-
 # ── WinAudit ─────────────────────────────────────────────────────────────────
-
 
 class WinAuditApi:
     """Read-only OS audit — no ConfirmGate mutators."""
@@ -201,7 +191,6 @@ class WinAuditApi:
 
     def open_dedicated(self) -> dict:
         return launch_suite_app("WinAudit")
-
 
 HUB_TITLE = "PC Command | Security"
 HUB_ID = "securite"
@@ -249,7 +238,6 @@ class DashboardApi:
         if port <= 0:
             return {"ok": False, "url": "", "error": "metrics offline"}
         return {"ok": True, "url": f"http://{host}:{port}/api/metrics"}
-
 
     def get_kpis(self) -> dict:
         base: dict[str, Any] = {
@@ -317,7 +305,6 @@ $soon = @($certs | Where-Object { $_.NotAfter -lt $now.AddDays(30) -and $_.NotAf
     def list_modules(self) -> dict:
         return {"ok": True, "modules": self._hub.module_catalog()}
 
-
 def _audit_age_days(gen: Any) -> float | None:
     if gen is None:
         return None
@@ -346,7 +333,6 @@ def _audit_age_days(gen: Any) -> float | None:
         dt = dt.replace(tzinfo=timezone.utc)
     now = datetime.now(timezone.utc)
     return max(0.0, (now - dt.astimezone(timezone.utc)).total_seconds() / 86400.0)
-
 
 class Api(WindowChromeMixin):
     def __init__(self) -> None:
@@ -420,7 +406,6 @@ class Api(WindowChromeMixin):
     def is_admin(self) -> dict:
         return {"ok": True, "admin": is_admin()}
 
-
     def set_metrics_endpoint(self, host: str = "127.0.0.1", port: int = 0) -> dict:
         h = (host or "127.0.0.1").strip().lower()
         if h not in ("127.0.0.1", "localhost", "::1"):
@@ -447,9 +432,14 @@ class Api(WindowChromeMixin):
             "title": hub_update.title_with_version(HUB_TITLE, ver),
         }
 
+        def list_crypto_donations(self) -> dict:
+        return hub_update.list_crypto_donations()
+
+    def copy_crypto_address(self, asset_id: str = "") -> dict:
+        return hub_update.copy_crypto_address(asset_id)
+
     def open_support_url(self, kind: str = "") -> dict:
         return hub_update.open_support_url(kind)
-
 
     def get_update_check_pref(self) -> dict:
         enabled = hub_update.is_github_update_check_enabled()
