@@ -1,4 +1,4 @@
-﻿[Français](README.md) · [English](README.en.md)
+[Français](README.md) · [English](README.en.md)
 
 # PC Command | Security
 
@@ -39,7 +39,7 @@ Hub **Sécurité** — fichiers, certificats, repos, audit Windows. Accueil post
 | Métadonnées | `%LOCALAPPDATA%\PCCommand\` |
 | Préférences | `%LOCALAPPDATA%\Mr-Aurevo-X\user-settings.json` (partagé) |
 
-[Télécharger la release](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · **v2.0.1**
+[Télécharger la release](https://github.com/Mr-Aurevo-X/Hub-Securite/releases) · **v2.0.2**
 
 ## Lancer
 
